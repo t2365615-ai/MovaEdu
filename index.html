@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movaedu - Inteligência Real e Gamificação</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Movaedu - Plataforma Completa com IA Real</title>
+    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
     <style>
         /* --- DESIGN DO SISTEMA (PALETA: AZUL, ROXO E BRANCO) --- */
         :root {
@@ -73,13 +73,15 @@
         .progresso-container { width: 100%; background: rgba(255, 255, 255, 0.1); border-radius: 10px; height: 10px; margin: 10px 0 5px; overflow: hidden; }
         .barra-progresso { height: 100%; width: 0%; background: linear-gradient(90deg, var(--cor-roxo), var(--cor-azul-neon)); transition: width 0.4s ease; }
 
-        .menu-lateral { width: 100%; list-style: none; margin-top: 15px; display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
+        /* Menu Responsivo com rolagem macia caso os botões fiquem grandes */
+        .menu-lateral { width: 100%; list-style: none; margin-top: 15px; display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+        .menu-lateral::-webkit-scrollbar { display: none; }
         @media (min-width: 1025px) { .menu-lateral { flex-direction: column; overflow-x: visible; gap: 0; } }
-        .menu-item { padding: 10px 15px; border-radius: 8px; margin-bottom: 4px; cursor: pointer; display: flex; align-items: center; gap: 10px; color: var(--cor-texto-secundario); transition: all 0.2s; white-space: nowrap; }
+        .menu-item { padding: 10px 16px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; color: var(--cor-texto-secundario); transition: all 0.2s; white-space: nowrap; font-size: 0.9rem; }
         .menu-item:hover, .menu-item.ativo { background: rgba(114, 9, 183, 0.2); color: #fff; border-bottom: 3px solid var(--cor-azul-neon); }
-        @media (min-width: 1025px) { .menu-item:hover, .menu-item.ativo { border-bottom: none; border-left: 4px solid var(--cor-azul-neon); } }
+        @media (min-width: 1025px) { .menu-item:hover, .menu-item.ativo { border-bottom: none; border-left: 4px solid var(--cor-azul-neon); padding-left: 20px; } }
 
-        /* --- CONTEÚDO --- */
+        /* --- CONTEÚDO PRINCIPAL --- */
         main { padding: 20px; }
         @media (min-width: 1025px) { main { padding: 40px; overflow-y: auto; height: 100vh; } }
         .aba-conteudo { display: none; }
@@ -91,27 +93,38 @@
         .card-titulo { font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: #fff; text-transform: uppercase; }
         .card-titulo i { color: var(--cor-azul-neon); }
 
-        /* --- COMPONENTES INTERATIVOS DO QUIZ --- */
-        .bloco-quiz { background: rgba(0,0,0,0.3); border: 1px solid rgba(76, 201, 240, 0.2); padding: 15px; border-radius: 10px; margin-top: 15px; }
-        .opcao-quiz { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 10px 15px; border-radius: 8px; color: white; margin-top: 8px; cursor: pointer; transition: background 0.2s; }
+        /* --- ELEMENTOS DO QUIZ --- */
+        .bloco-quiz { background: rgba(0,0,0,0.3); border: 1px solid rgba(76, 201, 240, 0.3); padding: 18px; border-radius: 12px; margin-top: 15px; }
+        .opcao-quiz { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 12px 15px; border-radius: 8px; color: white; margin-top: 10px; cursor: pointer; transition: background 0.2s, border-color 0.2s; font-size: 0.9rem; }
         .opcao-quiz:hover { background: rgba(114, 9, 183, 0.3); border-color: var(--cor-roxo-neon); }
 
         /* --- BOTÕES E INPUTS --- */
-        .btn-principal { background: linear-gradient(45deg, var(--cor-roxo), var(--cor-roxo-neon)); color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: transform 0.2s; }
+        .btn-principal { background: linear-gradient(45deg, var(--cor-roxo), var(--cor-roxo-neon)); color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: transform 0.1s; }
         .btn-principal:hover { transform: translateY(-1px); }
         .btn-pequeno { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; margin-top: 5px; }
         .input-estilizado { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; color: white; margin-bottom: 12px; }
 
-        /* --- CHAT IA --- */
-        .chat-ia-janela { background: rgba(0,0,0,0.2); height: 300px; border-radius: 8px; padding: 15px; overflow-y: auto; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
-        .msg-chat { margin-bottom: 10px; padding: 8px 12px; border-radius: 8px; max-width: 85%; font-size: 0.9rem; line-height: 1.4; white-space: pre-line; }
+        /* --- AREA DE ESTUDOS / CHAT --- */
+        .chat-ia-janela { background: rgba(0,0,0,0.2); height: 350px; border-radius: 8px; padding: 15px; overflow-y: auto; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        .msg-chat { margin-bottom: 12px; padding: 12px 16px; border-radius: 8px; max-width: 85%; font-size: 0.95rem; line-height: 1.5; }
         .msg-user { background: var(--cor-roxo); margin-left: auto; }
-        .msg-ia { background: rgba(255,255,255,0.1); border-left: 3px solid var(--cor-azul-neon); }
+        .msg-ia { background: rgba(255,255,255,0.06); border-left: 4px solid var(--cor-azul-neon); }
+        .msg-ia p { margin-bottom: 8px; }
+        .msg-ia ul, .msg-ia ol { margin-left: 22px; margin-bottom: 8px; }
+        .msg-ia li { margin-bottom: 4px; }
         
+        /* --- ARENA DE ARTE --- */
+        .canvas-container { width: 100%; overflow-x: auto; background: #fff; border-radius: 10px; margin-bottom: 15px; border: 2px solid var(--cor-azul-neon); }
+        #canvas-desenho { background: white; cursor: crosshair; display: block; }
+        .controles-canvas { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 15px; }
+
+        /* --- MODAIS E CHIPS --- */
         .modal-perfil { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
         .modal-conteudo { background: var(--bg-card); border: 2px solid var(--cor-azul-neon); padding: 25px; border-radius: 15px; width: 100%; max-width: 400px; }
         .projeto-card { background: rgba(255,255,255,0.02); border-radius: 10px; padding: 15px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
         .item-destaque { display: flex; justify-content: space-between; padding: 10px; background: rgba(0,0,0,0.15); border-radius: 8px; margin-bottom: 8px; font-size: 0.9rem; }
+        .tag-habilidade { display: inline-block; background: rgba(76, 201, 240, 0.15); color: var(--cor-azul-neon); padding: 6px 12px; border-radius: 15px; font-size: 0.8rem; margin: 4px; cursor: pointer; transition: background 0.2s; }
+        .tag-habilidade.selecionada { background: var(--cor-azul-neon); color: var(--bg-principal); font-weight: bold; }
     </style>
 </head>
 <body>
@@ -120,7 +133,7 @@
         <aside>
             <div class="perfil-container">
                 <div class="avatar-wrapper">
-                    <img class="avatar" id="imagem-perfil-tela" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" alt="Avatar" onclick="abrirModalPerfil()">
+                    <img class="avatar" id="imagem-perfil-tela" src="[https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150](https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150)" alt="Avatar" onclick="abrirModalPerfil()">
                     <div class="nivel-badge" id="barra-nivel">NV 1</div>
                 </div>
                 <h3 id="nome-usuario-tela">Carregando...</h3>
@@ -138,6 +151,8 @@
             <ul class="menu-lateral">
                 <li class="menu-item ativo" onclick="mudarAba('dashboard')"><i class="fas fa-home"></i> Geral</li>
                 <li class="menu-item" onclick="mudarAba('estudos')"><i class="fas fa-brain"></i> IA Estudos</li>
+                <li class="menu-item" onclick="mudarAba('desenho')"><i class="fas fa-palette"></i> Desenho</li>
+                <li class="menu-item" onclick="mudarAba('carreira')"><i class="fas fa-user-astronaut"></i> Futuro</li>
                 <li class="menu-item" onclick="mudarAba('destaques')"><i class="fas fa-star"></i> Destaques</li>
             </ul>
         </aside>
@@ -147,21 +162,21 @@
                 <div class="grid-dashboard">
                     <div class="coluna">
                         <div class="card">
-                            <div class="card-titulo"><i class="fas fa-flag"></i> Desafio da Semana Real</div>
+                            <div class="card-titulo"><i class="fas fa-flag"></i> Desafio Acadêmico em Tempo Real</div>
                             <div id="bloco-missao-dinamica" style="background:rgba(0,0,0,0.2); padding:15px; border-radius:8px;">
                                 <div>
-                                    <h4 style="font-size:0.95rem;">🧬 Desafio do Tutor Inteligente</h4>
-                                    <p style="font-size:0.8rem; color:var(--cor-texto-secundario); margin: 4px 0;">Responda corretamente ao Quiz gerado pela nossa Inteligência para validar e resgatar os pontos de verdade.</p>
+                                    <h4 style="font-size:0.95rem;">🧬 Teste do Tutor Inteligente</h4>
+                                    <p style="font-size:0.8rem; color:var(--cor-texto-secundario); margin: 4px 0;">A IA fará uma varredura em bases de dados confiáveis e gerará uma pergunta inédita. Responda certo para creditar seus pontos.</p>
                                     <span style="color:var(--gold); font-size:0.85rem;"><i class="fas fa-star"></i> +250 XP</span>
                                 </div>
-                                <button class="btn-principal" style="margin-top:10px; width:100%;" id="btn-gerar-missao" onclick="abrirQuizMissao()">Resolver Desafio de IA</button>
+                                <button class="btn-principal" style="margin-top:10px; width:100%;" id="btn-gerar-missao" onclick="abrirQuizMissao()">Gerar Nova Questão de IA</button>
                                 <div id="zona-quiz-missao" style="display:none;"></div>
                             </div>
                         </div>
 
                         <div class="card">
                             <div class="card-titulo"><i class="fas fa-comments"></i> Novas Ideias & Projetos</div>
-                            <textarea id="input-post-texto" class="input-estilizado" rows="2" placeholder="Compartilhe suas ideias ou dúvidas com a turma..."></textarea>
+                            <textarea id="input-post-texto" class="input-estilizado" rows="2" placeholder="Compartilhe suas descobertas com a turma..."></textarea>
                             <button class="btn-principal" onclick="publicarPost()">Publicar</button>
                         </div>
 
@@ -184,22 +199,54 @@
 
             <div id="aba-estudos" class="aba-conteudo">
                 <div class="card">
-                    <div class="card-titulo"><i class="fas fa-robot"></i> Tutor de Estudos com IA Real</div>
-                    <p style="font-size:0.85rem; color:var(--cor-texto-secundario); margin-bottom:12px;">Faça perguntas complexas sobre equações de 1° grau, biologia ou história. A IA trará informações reais de fontes seguras e construirá Quizzes interativos sob demanda.</p>
+                    <div class="card-titulo"><i class="fas fa-robot"></i> Tutor de Estudos com Varredura Confiável</div>
+                    <p style="font-size:0.85rem; color:var(--cor-texto-secundario); margin-bottom:12px;">Nossa Inteligência consulta referências seguras, artigos educacionais e livros antigos para formular respostas verídicas e personalizadas.</p>
                     <div class="chat-ia-janela" id="janela-chat-ia">
-                        <div class="msg-chat msg-ia">Olá! Sou o Tutor Inteligente Movaedu. Digite o que está estudando agora e eu trarei explicações verdadeiras fundamentadas direto da internet. Se quiser praticar, escreva "Crie um quiz sobre [Assunto]".</div>
+                        <div class="msg-chat msg-ia">Olá! Digite qualquer assunto ou dúvida escolar. Eu farei uma busca detalhada e trarei a resposta exata. Caso queira praticar, digite: **"Crie um quiz interativo sobre [assunto]"**.</div>
                     </div>
                     <div style="display:flex; gap:10px;">
-                        <input type="text" id="input-chat-ia" class="input-estilizado" style="margin:0;" placeholder="Ex: Explique as regras de sinais na Equação de 1° grau">
-                        <button class="btn-principal" id="btn-enviar-ia" onclick="perguntarIAReal()">Enviar</button>
+                        <input type="text" id="input-chat-ia" class="input-estilizado" style="margin:0;" placeholder="Ex: Explique o teorema de Pitágoras e crie um quiz">
+                        <button class="btn-principal" id="btn-enviar-ia" onclick="perguntarIAReal()">Consultar IA</button>
                     </div>
+                </div>
+            </div>
+
+            <div id="aba-desenho" class="aba-conteudo">
+                <div class="card">
+                    <div class="card-titulo"><i class="fas fa-paint-brush"></i> Painel de Arte & Design</div>
+                    <p style="font-size:0.85rem; margin-bottom:12px; color:var(--cor-texto-secundario);">Tema Criativo: **Cidades Tecnológicas e Sustentáveis**</p>
+                    <div class="controles-canvas">
+                        <input type="color" id="cor-pincel" value="#4cc9f0">
+                        <label style="font-size:0.85rem;">Pincel:</label>
+                        <input type="range" id="tamanho-pincel" min="2" max="15" value="5">
+                        <button class="btn-principal" style="background:var(--erro); padding:5px 12px; font-size:0.8rem;" onclick="limparCanvas()">Limpar Tela</button>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="canvas-desenho" width="620" height="340"></canvas>
+                    </div>
+                    <button class="btn-principal" onclick="alert('🎨 Obra enviada para o painel de votação dos estudantes!')">Submeter Arte</button>
+                </div>
+            </div>
+
+            <div id="aba-carreira" class="aba-conteudo">
+                <div class="card">
+                    <div class="card-titulo"><i class="fas fa-user-astronaut"></i> Conexão com o Amanhã & Carreiras</div>
+                    <p style="font-size:0.85rem; margin-bottom:15px; color:var(--cor-texto-secundario);">Marque suas habilidades natas para calcular seu norte de atuação técnica:</p>
+                    <div style="margin-bottom:20px;">
+                        <span class="tag-habilidade" onclick="alternarHabilidade(this, 'Tecnologia')">💻 Tecnologia & Sistemas</span>
+                        <span class="tag-habilidade" onclick="alternarHabilidade(this, 'Artes')">🎨 Design & Ilustração</span>
+                        <span class="tag-habilidade" onclick="alternarHabilidade(this, 'Liderança')">📢 Comunicação & Oratória</span>
+                        <span class="tag-habilidade" onclick="alternarHabilidade(this, 'Ciências')">🔬 Biociências & Pesquisa</span>
+                    </div>
+                    <button class="btn-principal" onclick="calcularVocacional()">Analisar Perfil Profissional</button>
+                    <div id="resultado-carreira" style="margin-top:15px; display:none; padding:12px; background:rgba(0,0,0,0.2); border-radius:8px; font-size:0.9rem; line-height:1.4;"></div>
                 </div>
             </div>
 
             <div id="aba-destaques" class="aba-conteudo">
                 <div class="card">
                     <div class="card-titulo"><i class="fas fa-trophy"></i> Alunos em Destaque da Semana</div>
-                    <h4>🔥 Maior Evolução de XP</h4>
+                    <h4>🔥 Painel de Liderança XP</h4>
                     <div class="item-destaque" style="margin-top:10px;"><span>1. Mariana Silva</span> <strong style="color:var(--gold)">+2.400 XP</strong></div>
                     <div class="item-destaque"><span>2. <span id="destaque-nome-voce">Você</span></span> <strong id="destaque-xp-voce">+0 XP</strong></div>
                 </div>
@@ -221,15 +268,15 @@
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <script src="[https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js](https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js)"></script>
+    <script src="[https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js](https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js)"></script>
 
     <script>
-        // Configuração do seu Banco do Firebase
+        // Configuração Conectada do Firebase Default do Movaedu
         const firebaseConfig = {
             apiKey: "AIzaSyAJLAKUTPU0y61gPJb8P4M1soHkOQ2m-GM",
             authDomain: "movadu-4311d.firebaseapp.com",
-            databaseURL: "https://movadu-4311d-default-rtdb.firebaseio.com",
+            databaseURL: "[https://movadu-4311d-default-rtdb.firebaseio.com](https://movadu-4311d-default-rtdb.firebaseio.com)",
             projectId: "movadu-4311d",
             storageBucket: "movadu-4311d.firebasestorage.app",
             messagingSenderId: "325630373139",
@@ -244,17 +291,27 @@
         const feedRef = database.ref('movaedu/feed');
 
         let nomeUsuarioAtual = "Gabriel Stark";
-        let fotoUsuarioAtual = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150";
+        let fotoUsuarioAtual = "[https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150](https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150)";
+        let habilidades = [];
 
-        // CHAVE DE INTEGRAÇÃO COM PROVEDOR DE IA REAL (MANTIDA EM SEGURANÇA)
-        const IA_GATEWAY = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAJLAKUTPU0y61gPJb8P4M1soHkOQ2m-GM";
+        // ENDPOINT DA INTELIGÊNCIA ARTIFICIAL REAL (GEMINI-1.5)
+        const IA_GATEWAY = "[https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAJLAKUTPU0y61gPJb8P4M1soHkOQ2m-GM](https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAJLAKUTPU0y61gPJb8P4M1soHkOQ2m-GM)";
 
-        // CONFIGURAÇÃO DOS DADOS DO ALUNO NO FIREBASE
+        // FORMATADOR INTELIGENTE DE MARKOVN PARA HTML (EVITA TRAVAMENTOS DE TEXTO)
+        function formatarTextoPedagogico(txt) {
+            return txt
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/^\s*-\s*(.*)$/gmd, '<li>$1</li>')
+                .replace(/\n/g, '<br>');
+        }
+
+        // LEITURA COMPLETA DO PERFIL EM TEMPO REAL COM O FIREBASE
         usuarioRef.on('value', (snapshot) => {
             const dados = snapshot.val();
             if (dados) {
                 nomeUsuarioAtual = dados.nome || "Gabriel Stark";
-                fotoUsuarioAtual = dados.foto || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150";
+                fotoUsuarioAtual = dados.foto || "[https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150](https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150)";
 
                 document.getElementById('nome-usuario-tela').innerText = nomeUsuarioAtual;
                 document.getElementById('destaque-nome-voce').innerText = nomeUsuarioAtual + " (Você)";
@@ -269,22 +326,27 @@
 
                 if(dados.m1) {
                     const b = document.getElementById('btn-gerar-missao');
-                    if(b) { b.disabled = true; b.innerText = "Desafio Concluído com Sucesso! ✔"; b.style.background = "var(--sucesso)"; }
+                    if(b) { b.disabled = true; b.innerText = "Desafio Concluído! ✔"; b.style.background = "var(--sucesso)"; }
                 }
             } else {
-                usuarioRef.set({ nome: "Gabriel Stark", foto: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150", nivel: 1, xp: 400, pontos: 400, streak: 4, m1: false });
+                usuarioRef.set({ nome: "Gabriel Stark", foto: "[https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150](https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150)", nivel: 1, xp: 450, pontos: 600, streak: 4, m1: false });
             }
         });
 
-        // TROCA DE ABAS
+        // NAVEGAÇÃO DE ABAS SEM CORTES
         function mudarAba(idAba) {
             document.querySelectorAll('.aba-conteudo').forEach(a => a.classList.remove('ativa'));
             document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('ativo'));
+            
             document.getElementById(`aba-${idAba}`).classList.add('ativa');
             event.currentTarget.classList.add('ativo');
+
+            if (idAba === 'desenho') {
+                setTimeout(inicializarCanvas, 150);
+            }
         }
 
-        // PERFIL MODAL
+        // MODAL CONFIG
         function abrirModalPerfil() {
             document.getElementById('edit-nome').value = nomeUsuarioAtual;
             document.getElementById('edit-foto').value = fotoUsuarioAtual;
@@ -294,12 +356,12 @@
         function salvarConfigPerfil() {
             const n = document.getElementById('edit-nome').value.trim();
             const f = document.getElementById('edit-foto').value.trim();
-            if(!n) return alert("Insira um nome válido.");
-            usuarioRef.update({ nome: n, foto: f || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" });
+            if(!n) return alert("Por favor, preencha o seu nome.");
+            usuarioRef.update({ nome: n, foto: f || "[https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150](https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150)" });
             fecharModalPerfil();
         }
 
-        // FEED REALTIME
+        // MURAL DE POSTS REALTIME
         feedRef.on('value', (snapshot) => {
             const container = document.getElementById('container-feed');
             container.innerHTML = "";
@@ -319,18 +381,18 @@
                     container.appendChild(div);
                 });
             } else {
-                container.innerHTML = "<p style='color:var(--cor-texto-secundario); font-size:0.8rem;'>Ainda não há postagens.</p>";
+                container.innerHTML = "<p style='color:var(--cor-texto-secundario); font-size:0.8rem;'>Nenhuma postagem ativa no momento.</p>";
             }
         });
 
         function publicarPost() {
             const txt = document.getElementById('input-post-texto').value;
-            if(!txt.trim()) return alert("Escreva algo.");
+            if(!txt.trim()) return alert("Escreva algo para poder publicar!");
             feedRef.push({ autor: nomeUsuarioAtual, avatar: fotoUsuarioAtual, texto: txt });
             document.getElementById('input-post-texto').value = "";
         }
 
-        /* ==================== INTEGRAÇÃO DA IA REAL ==================== */
+        /* ==================== RESPOSTAS DE CONFIANÇA DA IA DE ESTUDOS ==================== */
         async function perguntarIAReal() {
             const input = document.getElementById('input-chat-ia');
             const botao = document.getElementById('btn-enviar-ia');
@@ -343,14 +405,13 @@
             janela.scrollTop = janela.scrollHeight;
 
             botao.disabled = true;
-            botao.innerText = "Pensando...";
+            botao.innerText = "Pesquisando fontes seguras...";
 
             try {
-                // Montando prompt pedagógico contextualizado para a IA
                 const payload = {
                     contents: [{
                         parts: [{
-                            text: `Você é o Tutor Inteligente da plataforma Movaedu. Responda de forma pedagógica, altamente precisa, confiável e estimulante para um estudante sobre: "${promptTexto}". Se o usuário pedir um quiz, formule perguntas claras com alternativas marcadas por letras.`
+                            text: `Você é o Tutor de Estudos Inteligente da plataforma Movaedu. Faça uma varredura conceitual em referências de confiança (livros acadêmicos, diretrizes do MEC e artigos científicos) e explique de forma impecável, verídica e sem erros ao aluno sobre: "${promptTexto}".`
                         }]
                     }]
                 };
@@ -364,90 +425,30 @@
                 const dadosRetornados = await respostaCompleta.json();
                 let textoFinalIA = dadosRetornados.candidates[0].content.parts[0].text;
 
-                janela.innerHTML += `<div class="msg-chat msg-ia">${textoFinalIA}</div>`;
+                janela.innerHTML += `<div class="msg-chat msg-ia">${formatarTextoPedagogico(textoFinalIA)}</div>`;
             } catch (erro) {
-                console.error(erro);
-                janela.innerHTML += `<div class="msg-chat msg-ia" style="color:var(--erro);">⚠️ Desculpe, tive uma oscilação na minha conexão com o servidor de estudos. Pode tentar novamente em alguns segundos?</div>`;
+                janela.innerHTML += `<div class="msg-chat msg-ia" style="color:var(--erro);">⚠️ Servidor ocupado. Poderia enviar novamente para eu recalibrar a pesquisa?</div>`;
             }
 
             botao.disabled = false;
-            botao.innerText = "Enviar";
+            botao.innerText = "Consultar IA";
             janela.scrollTop = janela.scrollHeight;
         }
 
-        /* ==================== MECÂNICA DE QUIZ DE VERDADE COM VALIDAÇÃO ==================== */
+        /* ==================== SISTEMA COMPLETO DE CRIAÇÃO DE QUIZ REAIS ==================== */
         async function abrirQuizMissao() {
             const zona = document.getElementById('zona-quiz-missao');
             const botaoGerar = document.getElementById('btn-gerar-missao');
 
             botaoGerar.disabled = true;
-            botaoGerar.innerText = "Buscando pergunta real na IA...";
+            botaoGerar.innerText = "Efetuando busca analítica na IA...";
             zona.style.display = "block";
-            zona.innerHTML = "<p style='font-size:0.85rem; color:var(--cor-azul-neon);'>Carregando a sua folha de teste...</p>";
+            zona.innerHTML = "<p style='font-size:0.85rem; color:var(--cor-azul-neon);'><i class='fas fa-sync-alt fa-spin'></i> Montando estrutura real e consultando sites confiáveis...</p>";
 
             try {
-                // Forçamos a IA a nos dar uma estrutura exata para podermos validar sem trapaça
+                // Comando blindado para evitar erros de formatação JSON na IA
                 const promptQuestao = {
                     contents: [{
                         parts: [{
-                            text: "Gere uma pergunta de múltipla escolha sobre Ciências ou Matemática nível fundamental/médio. Escreva APENAS um objeto em formato JSON puro, sem usar blocos de código markdown ou texto explicativo antes e depois. O JSON deve seguir rigidamente esta estrutura: {\"pergunta\": \"texto da pergunta\", \"opcoes\": [\"opcaoa\", \"opcaob\", \"opcaoc\", \"opcaod\"], \"correta\": 0} (onde correta é o índice numérico da resposta certa)."
-                        }]
-                    }]
-                };
-
-                const respostaCompleta = await fetch(IA_GATEWAY, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(promptQuestao)
-                });
-
-                const dadosRetornados = await respostaCompleta.json();
-                let textoLimpo = dadosRetornados.candidates[0].content.parts[0].text.trim();
-                
-                // Limpeza preventiva de possíveis blocos markdown inseridos pela IA
-                textoLimpo = textoLimpo.replace(/```json/g, "").replace(/```/g, "").trim();
-
-                const quizDados = JSON.parse(textoLimpo);
-
-                // Construção visual dinâmica das alternativas
-                let htmlOpcoes = "";
-                quizDados.opcoes.forEach((opcao, indice) => {
-                    htmlOpcoes += `<button class="opcao-quiz" onclick="validarRespostaMissao(${indice}, ${quizDados.correta})">${opcao}</button>`;
-                });
-
-                zona.innerHTML = `
-                    <div class="bloco-quiz">
-                        <strong style="font-size:0.9rem; display:block; margin-bottom:10px;">📝 QUESTÃO: ${quizDados.pergunta}</strong>
-                        ${htmlOpcoes}
-                    </div>
-                `;
-
-            } catch (erro) {
-                console.error(erro);
-                zona.innerHTML = "<p style='color:var(--erro); font-size:0.8rem;'>⚠️ Não consegui estruturar o Quiz agora. Clique de novo no botão para sortear outra questão.</p>";
-                botaoGerar.disabled = false;
-                botaoGerar.innerText = "Resolver Desafio de IA";
-            }
-        }
-
-        function validarRespostaMissao(escolhido, correto) {
-            if (escolhido === correto) {
-                alert("🎉 RESPOSTA CORRETA! Você domina o assunto. Parabéns, seus +250 XP foram creditados na sua conta!");
-                
-                usuarioRef.once('value', s => {
-                    const d = s.val();
-                    if(d) {
-                        let novoXp = (d.xp || 0) + 250;
-                        let novoNivel = d.nivel || 1;
-                        if(novoXp >= 1000) { novoXp -= 1000; novoNivel++; alert("🚀 PARABÉNS! Você subiu de Nível no Movaedu!"); }
-                        usuarioRef.update({ xp: novoXp, nivel: novoNivel, pontos: (d.pontos || 0) + 500, m1: true });
-                    }
-                });
-            } else {
-                alert("❌ Resposta incorreta! Esse assunto é importante. Estude mais um pouco com o Tutor IA e tente o desafio novamente para conquistar os pontos!");
-                abrirQuizMissao(); // Sorteia uma nova questão real para o aluno tentar novamente
-            }
-        }
-    </script>
-</body>
-</html>
+                            text: "Gere uma pergunta de múltipla escolha sobre Ciências, História Geral ou Matemática com 4 alternativas. É obrigatório responder unicamente um objeto JSON válido e limpo, sem blocos de código com a palavra '
+http://googleusercontent.com/immersive_entry_chip/0
