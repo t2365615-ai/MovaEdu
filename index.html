@@ -3,45 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GamificaEscola - Conquiste o Seu Futuro</title>
+    <title>Movaedu - Plataforma Escolar Gamificada</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- ESTILOS GERAIS E VARIÁVEIS (DESIGN GAMER) --- */
+        /* --- DESIGN SISTEMA (PALETA: AZUL, ROXO E BRANCO) --- */
         :root {
-            --bg-principal: #0f0c1b;
-            --bg-card: #1d1833;
-            --cor-neon-roxo: #8a2be2;
-            --cor-neon-ciano: #00ffff;
-            --cor-texto: #f5f5f7;
-            --cor-texto-secundario: #a09cb0;
-            --gold: #ffd700;
+            --bg-principal: #0a1128;
+            --bg-card: #1c2541;
+            --cor-roxo: #7209b7;
+            --cor-roxo-neon: #b5179e;
+            --cor-azul-neon: #4cc9f0;
+            --cor-texto: #f8f9fa;
+            --cor-texto-secundario: #ced4da;
+            --gold: #ffbd00;
+            --sucesso: #38b000;
+            --erro: #e63946;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
             background-color: var(--bg-principal);
             color: var(--cor-texto);
+            display: flex;
+            min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* --- LAYOUT DA PÁGINA --- */
+        /* --- LAYOUT E SIDEBAR --- */
         .container {
             display: grid;
             grid-template-columns: 280px 1fr;
-            min-height: 100vh;
+            width: 100%;
         }
 
-        /* --- SIDEBAR (PERFIL DO ALUNO) --- */
         aside {
             background-color: var(--bg-card);
-            border-right: 2px solid rgba(138, 43, 226, 0.2);
-            padding: 30px 20px;
+            border-right: 2px solid rgba(76, 201, 240, 0.2);
+            padding: 25px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -50,805 +54,535 @@
         .perfil-container {
             text-align: center;
             width: 100%;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .avatar-wrapper {
             position: relative;
-            width: 110px;
-            height: 110px;
-            margin: 0 auto 15px;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 12px;
         }
 
         .avatar {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 3px solid var(--cor-neon-ciano);
+            border: 3px solid var(--cor-azul-neon);
             object-fit: cover;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+            box-shadow: 0 0 15px rgba(76, 201, 240, 0.4);
         }
 
         .nivel-badge {
             position: absolute;
             bottom: -5px;
             right: -5px;
-            background: linear-gradient(45deg, var(--cor-neon-roxo), var(--cor-neon-ciano));
+            background: linear-gradient(45deg, var(--cor-roxo), var(--cor-azul-neon));
             color: white;
             font-weight: bold;
-            padding: 5px 10px;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+        }
+
+        /* Streak Estilo Duolingo */
+        .streak-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 189, 0, 0.15);
+            color: var(--gold);
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 0.8rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .nome-aluno {
-            font-size: 1.2rem;
             font-weight: bold;
-            margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            border: 1px solid var(--gold);
         }
 
-        .subtitulo-aluno {
-            color: var(--cor-texto-secundario);
-            font-size: 0.85rem;
-            margin-bottom: 15px;
-        }
-
-        /* Barra de Progresso */
         .progresso-container {
             width: 100%;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            height: 12px;
-            margin-bottom: 8px;
+            height: 10px;
+            margin: 15px 0 5px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .barra-progresso {
             height: 100%;
-            width: 65%; /* Dinâmico */
-            background: linear-gradient(90deg, var(--cor-neon-roxo), var(--cor-neon-ciano));
-            box-shadow: 0 0 10px var(--cor-neon-ciano);
-            transition: width 0.5s ease;
+            width: 0%;
+            background: linear-gradient(90deg, var(--cor-roxo), var(--cor-azul-neon));
+            transition: width 0.4s ease;
         }
 
-        .xp-texto {
-            font-size: 0.8rem;
-            color: var(--cor-neon-ciano);
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin-bottom: 25px;
-        }
-
-        /* Pontuação e Equipe */
-        .status-mini {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px 10px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(138, 43, 226, 0.1);
-        }
-
-        .status-item {
-            text-align: center;
-        }
-
-        .status-item i {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
-
-        .status-item .valor {
-            font-weight: bold;
-            display: block;
-            font-size: 1.1rem;
-        }
-
-        .status-item .rotulo {
-            font-size: 0.75rem;
-            color: var(--cor-texto-secundario);
-        }
-
-        /* Menu de Navegação da Sidebar */
         .menu-lateral {
             width: 100%;
             list-style: none;
+            margin-top: 20px;
         }
 
         .menu-item {
             padding: 12px 15px;
             border-radius: 8px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 12px;
             color: var(--cor-texto-secundario);
-            transition: all 0.3s ease;
+            transition: all 0.2s;
         }
 
         .menu-item:hover, .menu-item.ativo {
-            background: rgba(138, 43, 226, 0.15);
-            color: var(--cor-texto);
-            border-left: 4px solid var(--cor-neon-ciano);
-            padding-left: 11px;
+            background: rgba(114, 9, 183, 0.2);
+            color: #fff;
+            border-left: 4px solid var(--cor-azul-neon);
         }
 
-        /* --- CONTEÚDO PRINCIPAL --- */
+        /* --- CONTEÚDO --- */
         main {
             padding: 40px;
             overflow-y: auto;
             max-height: 100vh;
         }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
+        .aba-conteudo {
+            display: none;
         }
 
-        h1 {
-            font-size: 2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background: linear-gradient(to right, #fff, var(--cor-texto-secundario));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .aba-conteudo.ativa {
+            display: block;
         }
 
-        /* Grid de Seções do Painel */
-        .dashboard-grid {
+        .grid-dashboard {
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 30px;
         }
 
-        .coluna-principal, .coluna-secundaria {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        /* Estilo dos Cards Base */
         .card {
             background-color: var(--bg-card);
             border-radius: 15px;
             padding: 25px;
+            margin-bottom: 25px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--cor-neon-roxo);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
 
         .card-titulo {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
+            color: #fff;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        .card-titulo i {
-            color: var(--cor-neon-ciano);
-        }
+        .card-titulo i { color: var(--cor-azul-neon); }
 
-        /* --- SEÇÃO: DESAFIOS DA SEMANA & MISSÕES --- */
-        .missao-item {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: transform 0.2s;
-        }
-
-        .missao-item:hover {
-            transform: translateX(5px);
-            border-color: rgba(138, 43, 226, 0.4);
-        }
-
-        .missao-info h4 {
-            margin-bottom: 5px;
-            font-size: 1rem;
-        }
-
-        .missao-info p {
-            font-size: 0.85rem;
-            color: var(--cor-texto-secundario);
-        }
-
-        .recompensa {
-            font-size: 0.8rem;
-            color: var(--gold);
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-top: 4px;
-        }
-
-        .btn-acao {
-            background: linear-gradient(45deg, var(--cor-neon-roxo), #b82be2);
+        /* --- BOTÕES E ENTRADAS --- */
+        .btn-principal {
+            background: linear-gradient(45deg, var(--cor-roxo), var(--cor-roxo-neon));
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-        }
-
-        .btn-acao:hover {
-            box-shadow: 0 0 15px var(--cor-neon-roxo);
-            transform: scale(1.05);
-        }
-
-        /* --- SEÇÃO: RANKING --- */
-        .ranking-lista {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .ranking-item {
-            display: flex;
-            align-items: center;
-            padding: 10px 15px;
-            background: rgba(0,0,0,0.15);
+            padding: 10px 20px;
             border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.02);
-        }
-
-        .ranking-posicao {
             font-weight: bold;
-            width: 30px;
-            font-size: 1.1rem;
-        }
-
-        .pos-1 { color: var(--gold); font-size: 1.3rem; }
-        .pos-2 { color: #c0c0c0; }
-        .pos-3 { color: #cd7f32; }
-
-        .ranking-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            margin-right: 15px;
-            border: 2px solid rgba(255,255,255,0.2);
-        }
-
-        .ranking-nome {
-            flex-grow: 1;
-            font-size: 0.95rem;
-        }
-
-        .ranking-pontos {
-            font-weight: bold;
-            color: var(--cor-neon-ciano);
-        }
-
-        /* --- SEÇÃO: PROJETOS E INTERAÇÃO --- */
-        .feed-projetos {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .projeto-card {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .projeto-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-
-        .autor-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-
-        .autor-info h5 {
-            font-size: 0.95rem;
-        }
-
-        .autor-info span {
-            font-size: 0.75rem;
-            color: var(--cor-texto-secundario);
-        }
-
-        .projeto-conteudo p {
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: #d1cfe0;
-            margin-bottom: 15px;
-        }
-
-        .projeto-tags {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        .tag {
-            background: rgba(138, 43, 226, 0.2);
-            color: #d6a3ff;
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-
-        /* Interações: Votar, Comentar */
-        .projeto-acoes {
-            display: flex;
-            gap: 20px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 12px;
-        }
-
-        .btn-interagir {
-            background: none;
-            border: none;
-            color: var(--cor-texto-secundario);
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.85rem;
-            transition: color 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .btn-interagir:hover, .btn-interagir.ativo {
-            color: var(--cor-neon-ciano);
+        .btn-principal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(114, 9, 183, 0.4);
         }
 
-        .btn-interagir.ativo i {
-            animation: bounce 0.3s ease;
-        }
-
-        /* --- SEÇÃO: MEDALHAS / CONQUISTAS --- */
-        .medalhas-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 15px;
-        }
-
-        .medalha {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .medalha-icone {
-            width: 55px;
-            height: 55px;
-            background: radial-gradient(circle, #2b214a 0%, #151026 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            transition: all 0.3s;
-        }
-
-        .medalha:hover .medalha-icone {
-            transform: scale(1.1) rotate(10deg);
-            border-color: var(--gold);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-        }
-
-        .medalha.bloqueada .medalha-icone {
-            filter: grayscale(100%);
-            opacity: 0.4;
-            border-color: gray;
-        }
-
-        .medalha-nome {
-            font-size: 0.7rem;
-            color: var(--cor-texto-secundario);
-        }
-
-        /* --- NOVO POST / ENVIAR IDEIA --- */
-        .postar-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        .postar-input {
+        .input-estilizado {
             width: 100%;
             background: rgba(0,0,0,0.2);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            padding: 15px;
+            padding: 12px;
+            border-radius: 8px;
             color: white;
-            resize: none;
-            font-size: 0.95rem;
+            margin-bottom: 15px;
         }
 
-        .postar-input:focus {
-            outline: none;
-            border-color: var(--cor-neon-ciano);
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+        /* --- ARENA DE DESENHO --- */
+        #canvas-desenho {
+            background: white;
+            border-radius: 8px;
+            cursor: crosshair;
+            display: block;
+            margin-bottom: 15px;
         }
 
-        .postar-footer {
+        .controles-canvas {
             display: flex;
-            justify-content: space-between;
+            gap: 15px;
             align-items: center;
+            margin-bottom: 15px;
         }
 
-        .seletor-tipo {
-            background: #151026;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
+        /* --- ASSISTENTE IA --- */
+        .chat-ia-janela {
+            background: rgba(0,0,0,0.2);
+            height: 250px;
+            border-radius: 8px;
+            padding: 15px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* --- ANIMAÇÕES --- */
-        @keyframes bounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-        }
+        .msg-chat { margin-bottom: 10px; padding: 8px 12px; border-radius: 8px; max-width: 80%; }
+        .msg-user { background: var(--cor-roxo); margin-left: auto; text-align: right; }
+        .msg-ia { background: rgba(255,255,255,0.1); }
 
-        /* Responsividade Básica */
-        @media (max-width: 1024px) {
-            .container { grid-template-columns: 1fr; }
-            aside { display: none; } /* Simplicidade mobile */
-            .dashboard-grid { grid-template-columns: 1fr; }
-        }
+        /* --- DESTAQUES DA SEMANA --- */
+        .lista-destaques { display: flex; flex-direction: column; gap: 10px; }
+        .item-destaque { display: flex; align-items: center; justify-content: space-between; padding: 12px; background: rgba(0,0,0,0.15); border-radius: 8px; }
+
+        /* --- PROJETOS E FEED --- */
+        .projeto-card { background: rgba(255,255,255,0.02); border-radius: 10px; padding: 18px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        .feed-acoes { display: flex; gap: 15px; margin-top: 10px; }
+        .btn-voto { background: none; border: none; color: var(--cor-azul-neon); cursor: pointer; display: flex; align-items: center; gap: 5px; }
+
+        /* --- PROFISSÕES --- */
+        .tag-habilidade { display: inline-block; background: rgba(76, 201, 240, 0.15); color: var(--cor-azul-neon); padding: 5px 12px; border-radius: 15px; font-size: 0.85rem; margin: 4px; cursor: pointer; }
+        .tag-habilidade.selecionada { background: var(--cor-azul-neon); color: var(--bg-principal); font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        
         <aside>
             <div class="perfil-container">
                 <div class="avatar-wrapper">
-                    <img class="avatar" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150" alt="Avatar do Aluno">
-                    <div class="nivel-badge" id="txt-nivel">NV 04</div>
+                    <img class="avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" alt="Aluno">
+                    <div class="nivel-badge" id="barra-nivel">NV 1</div>
                 </div>
-                <div class="nome-aluno">Gabriel Stark</div>
-                <div class="subtitulo-aluno">Mago dos Códigos</div>
-
+                <h3 id="nome-usuario">Gabriel Stark</h3>
+                <div class="streak-container" title="Sequência diária de estudos!">
+                    <i class="fas fa-fire"></i> <span id="valor-streak">3 Dias</span>
+                </div>
                 <div class="progresso-container">
-                    <div class="barra-progresso" id="barra-xp"></div>
+                    <div class="barra-progresso" id="progresso-xp"></div>
                 </div>
-                <div class="xp-texto">
-                    <span>XP</span>
-                    <span id="txt-xp">650 / 1000</span>
-                </div>
-            </div>
-
-            <div class="status-mini">
-                <div class="status-item">
-                    <i class="fas fa-trophy" style="color: var(--gold);"></i>
-                    <span class="valor" id="pts-total">2,450</span>
-                    <span class="rotulo">Pontos</span>
-                </div>
-                <div class="status-item">
-                    <i class="fas fa-shield-alt" style="color: var(--cor-neon-ciano);"></i>
-                    <span class="valor" style="color: #ff4500;">CyberFox</span>
-                    <span class="rotulo">Equipe</span>
-                </div>
+                <div style="font-size: 0.8rem; color: var(--cor-azul-neon);" id="texto-xp">XPs: 0 / 1000</div>
             </div>
 
             <ul class="menu-lateral">
-                <li class="menu-item ativo"><i class="fas fa-gamepad"></i> Painel Geral</li>
-                <li class="menu-item"><i class="fas fa-rocket"></i> Projetos</li>
-                <li class="menu-item"><i class="fas fa-comments"></i> Debates</li>
-                <li class="menu-item"><i class="fas fa-users"></i> Minha Equipe</li>
+                <li class="menu-item ativo" onclick="mudarAba('dashboard')"><i class="fas fa-home"></i> Arena Geral</li>
+                <li class="menu-item" onclick="mudarAba('estudos')"><i class="fas fa-brain"></i> Assistente IA</li>
+                <li class="menu-item" onclick="mudarAba('desenho')"><i class="fas fa-palette"></i> Artes & Desenho</li>
+                <li class="menu-item" onclick="mudarAba('carreira')"><i class="fas fa-user-astronaut"></i> Futuro & Carreira</li>
+                <li class="menu-item" onclick="mudarAba('destaques')"><i class="fas fa-star"></i> Mural de Destaques</li>
             </ul>
         </aside>
 
         <main>
-            <header>
-                <h1>Arena de Aprendizado</h1>
-                <div style="font-size: 0.9rem; color: var(--cor-texto-secundario)">Temporada 1: Hackathon Escolar</div>
-            </header>
-
-            <div class="dashboard-grid">
-                
-                <div class="coluna-principal">
-                    
-                    <div class="card">
-                        <div class="card-titulo">
-                            <i class="fas fa-bolt"></i> Desafios da Semana (Missões)
-                        </div>
-                        
-                        <div class="missao-item">
-                            <div class="missao-info">
-                                <h4>🚀 O Grande Lançamento</h4>
-                                <p>Poste o rascunho inicial do projeto da sua equipe na aba de Projetos.</p>
-                                <div class="recompensa"><i class="fas fa-star"></i> +200 XP</div>
+            
+            <div id="aba-dashboard" class="aba-conteudo ativa">
+                <div class="grid-dashboard">
+                    <div class="coluna">
+                        <div class="card">
+                            <div class="card-titulo"><i class="fas fa-flag"></i> Missões de Aprendizado</div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.2); padding:15px; border-radius:8px;">
+                                <div>
+                                    <h4>📚 Maratona de Conhecimento</h4>
+                                    <p style="font-size:0.85rem; color:var(--cor-texto-secundario);">Conclua um resumo ou quiz com o assistente inteligente.</p>
+                                    <span style="color:var(--gold); font-size:0.85rem;"><i class="fas fa-star"></i> +250 XP</span>
+                                </div>
+                                <button class="btn-principal" id="btn-m1" onclick="completarMissao('m1', 250)">Concluir</button>
                             </div>
-                            <button class="btn-acao" onclick="completarMissao(this, 200)">Entregar</button>
                         </div>
 
-                        <div class="missao-item">
-                            <div class="missao-info">
-                                <h4>💬 Opinião Crítica (Debate)</h4>
-                                <p>Comente em pelo menos 2 ideias de outras equipes dando feedbacks construtivos.</p>
-                                <div class="recompensa"><i class="fas fa-star"></i> +100 XP</div>
-                            </div>
-                            <button class="btn-acao" onclick="completarMissao(this, 100)">Entregar</button>
+                        <div class="card">
+                            <div class="card-titulo"><i class="fas fa-comments"></i> Compartilhar Ideia ou Projeto</div>
+                            <textarea id="input-post-texto" class="input-estilizado" rows="3" placeholder="Escreva aqui uma proposta de projeto ou tema para debate escolar..."></textarea>
+                            <button class="btn-principal" onclick="publicarPost()">Enviar para o Feed</button>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-titulo"><i class="fas fa-stream"></i> Feed da Comunidade Estudantil</div>
+                            <div id="container-feed"></div>
                         </div>
                     </div>
 
-                    <div class="card">
-                        <div class="card-titulo"><i class="fas fa-paper-plane"></i> Compartilhar com a Escola</div>
-                        <div class="postar-container">
-                            <textarea class="postar-input" rows="3" id="input-post" placeholder="Envie uma ideia, publique um projeto ou inicie um debate aqui..."></textarea>
-                            <div class="postar-footer">
-                                <select class="seletor-tipo" id="tipo-post">
-                                    <option value="💡 Ideia">💡 Sugerir Ideia</option>
-                                    <option value="🚀 Projeto">🚀 Postar Projeto</option>
-                                    <option value="🔥 Debate">🔥 Abrir Debate</option>
-                                </select>
-                                <button class="btn-acao" onclick="criarNovoPost()"><i class="fas fa-share"></i> Publicar</button>
+                    <div class="coluna">
+                        <div class="card">
+                            <div class="card-titulo"><i class="fas fa-crown"></i> Liga das Equipes</div>
+                            <div class="lista-destaques">
+                                <div class="item-destaque"><span>1º 🟦 CyberFox (Sua Equipe)</span> <strong style="color:var(--cor-azul-neon)" id="equipe-pts">0 pts</strong></div>
+                                <div class="item-destaque"><span>2º 🟪 AlphaTech</span> <span>2.850 pts</span></div>
+                                <div class="item-destaque"><span>3º ⬜ BioSquad</span> <span>2.100 pts</span></div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="card">
-                        <div class="card-titulo"><i class="fas fa-stream"></i> Feed de Projetos e Apresentações</div>
-                        
-                        <div class="feed-projetos" id="feed-container">
-                            
-                            <div class="projeto-card">
-                                <div class="projeto-header">
-                                    <img class="autor-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80" alt="Foto">
-                                    <div class="autor-info">
-                                        <h5>Beatriz Lima</h5>
-                                        <span>Equipe: EcoTech • Há 2 horas</span>
-                                    </div>
-                                </div>
-                                <div class="projeto-conteudo">
-                                    <p>Acabamos de carregar os slides da nossa apresentação sobre lixeiras inteligentes automatizadas com Arduino! Quem quiser ver o protótipo, vamos testar no intervalo.</p>
-                                    <div class="projeto-tags">
-                                        <span class="tag">🚀 Projeto</span>
-                                        <span class="tag">Apresentações</span>
-                                    </div>
-                                </div>
-                                <div class="projeto-acoes">
-                                    <button class="btn-interagir" onclick="votar(this)"><i class="fas fa-arrow-up"></i> <span class="votos-qtd">14</span> Votos</button>
-                                    <button class="btn-interagir"><i class="fas fa-comment"></i> 5 Comentários</button>
-                                </div>
-                            </div>
-
-                            <div class="projeto-card">
-                                <div class="projeto-header">
-                                    <img class="autor-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80" alt="Foto">
-                                    <div class="autor-info">
-                                        <h5>Lucas Rocha</h5>
-                                        <span>Equipe: CyberFox • Há 5 horas</span>
-                                    </div>
-                                </div>
-                                <div class="projeto-conteudo">
-                                    <p>Debate da semana: Vocês acham que o uso de IAs nas salas de aula deveria ser regulamentado ou livre para qualquer tarefa escolar?</p>
-                                    <div class="projeto-tags">
-                                        <span class="tag">🔥 Debates</span>
-                                    </div>
-                                </div>
-                                <div class="projeto-acoes">
-                                    <button class="btn-interagir" onclick="votar(this)"><i class="fas fa-arrow-up"></i> <span class="votos-qtd">32</span> Votos</button>
-                                    <button class="btn-interagir"><i class="fas fa-comment"></i> 18 Comentários</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
                 </div>
-
-                <div class="coluna-secundaria">
-                    
-                    <div class="card">
-                        <div class="card-titulo"><i class="fas fa-crown"></i> Ranking Top Equipes</div>
-                        <div class="ranking-lista">
-                            
-                            <div class="ranking-item">
-                                <span class="ranking-posicao pos-1"><i class="fas fa-medal"></i></span>
-                                <img class="ranking-avatar" src="https://images.unsplash.com/photo-1614680376593-902f74fa0d41?w=50" alt="EcoTech">
-                                <div class="ranking-nome">EcoTech</div>
-                                <span class="ranking-pontos">3,120 pts</span>
-                            </div>
-
-                            <div class="ranking-item">
-                                <span class="ranking-posicao pos-2">2º</span>
-                                <img class="ranking-avatar" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=50" alt="CyberFox">
-                                <div class="ranking-nome" style="color: #ff4500; font-weight: bold;">CyberFox (Você)</div>
-                                <span class="ranking-pontos">2,450 pts</span>
-                            </div>
-
-                            <div class="ranking-item">
-                                <span class="ranking-posicao pos-3">3º</span>
-                                <img class="ranking-avatar" src="https://images.unsplash.com/photo-1614680376739-414d95ff43df?w=50" alt="BioSquad">
-                                <div class="ranking-nome">BioSquad</div>
-                                <span class="ranking-pontos">2,100 pts</span>
-                            </div>
-
-                            <div class="ranking-item">
-                                <span class="ranking-posicao">4º</span>
-                                <img class="ranking-avatar" src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=50" alt="AlphaDevs">
-                                <div class="ranking-nome">AlphaDevs</div>
-                                <span class="ranking-pontos">1,890 pts</span>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-titulo"><i class="fas fa-award"></i> Minhas Medalhas</div>
-                        <div class="medalhas-grid">
-                            
-                            <div class="medalha" title="Pioneiro: Entrou na primeira semana da temporada">
-                                <div class="medalha-icone" style="color: var(--cor-neon-ciano);"><i class="fas fa-flag"></i></div>
-                                <span class="medalha-nome">Pioneiro</span>
-                            </div>
-
-                            <div class="medalha" title="Criativo: Teve um projeto votado mais de 10 vezes">
-                                <div class="medalha-icone" style="color: var(--gold);"><i class="fas fa-lightbulb"></i></div>
-                                <span class="medalha-nome">Criativo</span>
-                            </div>
-
-                            <div class="medalha" title="Falador: Participou ativamente de 5 debates">
-                                <div class="medalha-icone" style="color: #ff007f;"><i class="fas fa-fire"></i></div>
-                                <span class="medalha-nome">Orador</span>
-                            </div>
-
-                            <div class="medalha bloqueada" title="BLOQUEADO: Mestre dos Projetos - Ganhe o primeiro lugar geral">
-                                <div class="medalha-icone"><i class="fas fa-trophy"></i></div>
-                                <span class="medalha-nome">Campeão</span>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
             </div>
-        </main>
 
+            <div id="aba-estudos" class="aba-conteudo">
+                <div class="card">
+                    <div class="card-titulo"><i class="fas fa-robot"></i> Tutor de Estudos Inteligente</div>
+                    <p style="margin-bottom:15px; color:var(--cor-texto-secundario);">Peça explicações, resumos automáticos ou monte um quiz interativo sobre qualquer matéria escolar.</p>
+                    <div class="chat-ia-janela" id="janela-chat-ia">
+                        <div class="msg-chat msg-ia">Olá Gabriel! Qual assunto vamos desvendar hoje? Digite por exemplo "Resumo de Fotossíntese" ou "Crie um quiz de História".</div>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="input-chat-ia" class="input-estilizado" style="margin:0;" placeholder="Digite o tema do estudo...">
+                        <button class="btn-principal" onclick="perguntarIA()">Enviar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="aba-desenho" class="aba-conteudo">
+                <div class="card">
+                    <div class="card-titulo"><i class="fas fa-paint-brush"></i> Arena de Arte Digital</div>
+                    <p style="margin-bottom:10px;">Tema da Semana: **Cidades do Futuro Tecnológico**</p>
+                    
+                    <div class="controles-canvas">
+                        <input type="color" id="cor-pincel" value="#4cc9f0">
+                        <label style="font-size:0.9rem;">Espessura:</label>
+                        <input type="range" id="tamanho-pincel" min="2" max="20" value="5">
+                        <button class="btn-principal" style="background:var(--erro);" onclick="limparCanvas()">Limpar Tela</button>
+                    </div>
+
+                    <canvas id="canvas-desenho" width="600" height="350"></canvas>
+                    <button class="btn-principal" onclick="salvarDesenho()"><i class="fas fa-cloud-upload-alt"></i> Submeter Desenho para Galeria Pública</button>
+                </div>
+            </div>
+
+            <div id="aba-carreira" class="aba-conteudo">
+                <div class="card">
+                    <div class="card-titulo"><i class="fas fa-compass"></i> Mapeamento de Habilidades & Futuro</div>
+                    <p style="margin-bottom:15px;">Selecione abaixo as características e áreas com as quais você mais se identifica para calibrar o seu perfil:</p>
+                    
+                    <div style="margin-bottom:20px;">
+                        <span class="tag-habilidade" onclick="alternarHabilidade(this, 'Tecnologia')">💻 Tecnologia & Códigos</span>
+                        <span class="tag-habilidade" onclick="alternarHabilidade(this, 'Artes')">🎨 Desenho & Artes</span>
+                        <span class="tag-habilidade" onclick="alternarHabilidade(this, 'Liderança')">📢 Liderança e Debates</span>
+                        <span class="tag-habilidade" onclick="alternarHabilidade(this, 'Ciências')">🔬 Laboratório & Ciências</span>
+                        <span class="tag-habilidade" onclick="alternarHabilidade(this, 'Cálculos')">📐 Matemática e Estruturas</span>
+                    </div>
+
+                    <button class="btn-principal" onclick="calcularVocacional()">Analisar Meu Perfil de Carreira</button>
+                    
+                    <div id="resultado-carreira" style="margin-top:20px; display:none; padding:15px; background:rgba(0,0,0,0.3); border-radius:8px;"></div>
+                </div>
+            </div>
+
+            <div id="aba-destaques" class="aba-conteudo">
+                <div class="card">
+                    <div class="card-titulo"><i class="fas fa-trophy"></i> Destaques Semanais da Escola</div>
+                    <div class="grid-dashboard" style="grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <h4>🔥 Top Evolução em XP</h4>
+                            <div class="lista-destaques" style="margin-top:10px;">
+                                <div class="item-destaque"><span>1. Mariana Silva</span> <strong style="color:var(--gold)">+2.400 XP</strong></div>
+                                <div class="item-destaque"><span>2. Gabriel Stark (Você)</span> <strong id="destaque-xp-voce">+0 XP</strong></div>
+                                <div class="item-destaque"><span>3. Pedro Santos</span> <strong>+1.150 XP</strong></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>🌟 Alunos Mais Participativos</h4>
+                            <div class="lista-destaques" style="margin-top:10px;">
+                                <div class="item-destaque"><span>1. Beatriz Souza</span> <span>14 Contribuições</span></div>
+                                <div class="item-destaque"><span>2. Rodrigo Lima</span> <span>11 Contribuições</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
     <script>
-        // Dados iniciais dinâmicos de XP e Pontos simulados
-        let xpAtual = 650;
-        let xpNecessario = 1000;
-        let nivelAtual = 4;
-        let pontosTotais = 2450;
+        // Configurações do Banco Movaedu
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJLAKUTPU0y61gPJb8P4M1soHkOQ2m-GM",
+            authDomain: "movadu-4311d.firebaseapp.com",
+            databaseURL: "https://movadu-4311d-default-rtdb.firebaseio.com",
+            projectId: "movadu-4311d",
+            storageBucket: "movadu-4311d.firebasestorage.app",
+            messagingSenderId: "325630373139",
+            appId: "1:325630373139:web:82cdd8f9c405284e1a7ee6",
+            measurementId: "G-FQ5SY03ZQD"
+        };
 
-        // Função do Botão Votar (Sistema Gamer de Upvote)
-        function votar(botao) {
-            const spanQtd = botao.querySelector('.votos-qtd');
-            let votos = parseInt(spanQtd.innerText);
-            
-            if (botao.classList.contains('ativo')) {
-                botao.classList.remove('ativo');
-                spanQtd.innerText = votos - 1;
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        const usuarioRef = database.ref('movaedu/usuario');
+        const feedRef = database.ref('movaedu/feed');
+
+        // Estado das Habilidades Escolhidas
+        let habilidadesSelecionadas = [];
+
+        // SINCRONIZAÇÃO EM TEMPO REAL DO ALUNO
+        usuarioRef.on('value', (snapshot) => {
+            const dados = snapshot.val();
+            if (dados) {
+                document.getElementById('barra-nivel').innerText = `NV ${dados.nivel || 1}`;
+                document.getElementById('texto-xp').innerText = `XPs: ${dados.xp || 0} / 1000`;
+                document.getElementById('progresso-xp').style.width = `${((dados.xp || 0) / 1000) * 100}%`;
+                document.getElementById('equipe-pts').innerText = `${(dados.pontos || 0).toLocaleString('pt-BR')} pts`;
+                document.getElementById('destaque-xp-voce').innerText = `+${dados.xp || 0} XP`;
+                document.getElementById('valor-streak').innerText = `${dados.streak || 3} Dias`;
+
+                if(dados.m1) {
+                    const b = document.getElementById('btn-m1');
+                    b.disabled = true; b.innerText = "Entregue ✔"; b.style.background = "var(--sucesso)";
+                }
             } else {
-                botao.classList.add('ativo');
-                spanQtd.innerText = votos + 1;
-                // Ganha um pouquinho de ponto ao interagir
-                atualizarPontos(5);
+                usuarioRef.set({ nivel: 1, xp: 150, pontos: 300, streak: 4, m1: false });
+            }
+        });
+
+        // NAVEGAÇÃO ENTRE ABAS
+        function mudarAba(idAba) {
+            document.querySelectorAll('.aba-conteudo').forEach(a => a.classList.remove('ativa'));
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('ativo'));
+            
+            document.getElementById(`aba-${idAba}`).classList.add('ativa');
+            event.currentTarget.classList.add('ativo');
+
+            if(idAba === 'desenho') inicializarCanvas();
+        }
+
+        // CARREGAR E REESCREVER FEED EM TEMPO REAL
+        feedRef.on('value', (snapshot) => {
+            const container = document.getElementById('container-feed');
+            container.innerHTML = "";
+            const posts = snapshot.val();
+            if(posts) {
+                Object.keys(posts).reverse().forEach(id => {
+                    const post = posts[id];
+                    const div = document.createElement('div');
+                    div.className = 'projeto-card';
+                    div.innerHTML = `
+                        <strong style="color:var(--cor-azul-neon);">${post.autor}</strong>
+                        <p style="margin: 8px 0; font-size:0.95rem; color:var(--cor-texto-secundario);">${post.texto}</p>
+                        <div class="feed-acoes">
+                            <button class="btn-voto" onclick="votar('${id}', ${post.votos || 0})"><i class="fas fa-arrow-up"></i> Votar (${post.votos || 0})</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            } else {
+                container.innerHTML = "<p style='color:var(--cor-texto-secundario); font-size:0.9rem;'>Nenhum projeto compartilhado hoje.</p>";
+            }
+        });
+
+        function publicarPost() {
+            const txt = document.getElementById('input-post-texto').value;
+            if(!txt.trim()) return alert("Digite algo antes de publicar!");
+            
+            feedRef.push({ autor: "Gabriel Stark (Você)", texto: txt, votos: 0 });
+            document.getElementById('input-post-texto').value = "";
+
+            usuarioRef.once('value', s => {
+                const d = s.val();
+                if(d) usuarioRef.update({ pontos: (d.pontos || 0) + 50 });
+            });
+        }
+
+        function votar(id, votosAtuais) {
+            feedRef.child(id).update({ votos: votosAtuais + 1 });
+        }
+
+        function completarMissao(idMissao, xpGanho) {
+            usuarioRef.once('value', s => {
+                const d = s.val();
+                if(d) {
+                    let nXp = (d.xp || 0) + xpGanho;
+                    let nNivel = d.nivel || 1;
+                    if(nXp >= 1000) { nXp -= 1000; nNivel++; alert("🎉 LEVEL UP! Você evoluiu de nível!"); }
+                    
+                    let up = { xp: nXp, nivel: nNivel, pontos: (d.pontos || 0) + (xpGanho * 2) };
+                    up[idMissao] = true;
+                    usuarioRef.update(up);
+                }
+            });
+        }
+
+        /* --- LOGICA CANVAS DESENHO --- */
+        let canvas, ctx, desenhando = false;
+        function inicializarCanvas() {
+            canvas = document.getElementById('canvas-desenho');
+            ctx = canvas.getContext('2d');
+            
+            canvas.onmousedown = () => desenhando = true;
+            canvas.onmouseup = () => { desenhando = false; ctx.beginPath(); };
+            canvas.onmousemove = desenhar;
+        }
+
+        function desenhar(e) {
+            if(!desenhando) return;
+            const r = canvas.getBoundingClientRect();
+            ctx.lineWidth = document.getElementById('tamanho-pincel').value;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = document.getElementById('cor-pincel').value;
+
+            ctx.lineTo(e.clientX - r.left, e.clientY - r.top);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - r.left, e.clientY - r.top);
+        }
+
+        function limparCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+        function salvarDesenho() { alert("🎨 Arte digital enviada para a avaliação da galeria escolar!"); }
+
+        /* --- LOGICA TUTOR IA DE ESTUDOS --- */
+        function perguntarIA() {
+            const input = document.getElementById('input-chat-ia');
+            const txt = input.value.trim();
+            if(!txt) return;
+
+            const janela = document.getElementById('janela-chat-ia');
+            janela.innerHTML += `<div class="msg-chat msg-user">${txt}</div>`;
+            input.value = "";
+
+            setTimeout(() => {
+                let resposta = "🤖 **Resposta do Assistente Inteligente:** Excelente tópico! Baseado nos parâmetros da sua série, preparei três fases de desafio para fixar este assunto. Quer transformar em um quiz valendo 100 XP?";
+                if(txt.toLowerCase().includes('quiz')) {
+                    resposta = "🎮 **Fase 1/3 Ativada!** Pergunta: Qual o principal gás absorvido pelas plantas na fotossíntese? <br><br> Registe sua resposta no chat para computar seus pontos.";
+                }
+                janela.innerHTML += `<div class="msg-chat msg-ia">${resposta}</div>`;
+                janela.scrollTop = janela.scrollHeight;
+            }, 800);
+        }
+
+        /* --- LOGICA CAREIRA/VOCACIONAL --- */
+        function alternarHabilidade(el, area) {
+            el.classList.toggle('selecionada');
+            if(el.classList.contains('selecionada')) {
+                habilidadesSelecionadas.push(area);
+            } else {
+                habilidadesSelecionadas = habilidadesSelecionadas.filter(h => h !== area);
             }
         }
 
-        // Função de Concluir Desafios Semanais
-        function completarMissao(botao, recompensaXp) {
-            botao.disabled = true;
-            botao.innerText = "Concluído! ✔";
-            botao.style.background = "#2e7d32";
-            botao.style.boxShadow = "none";
+        function calcularVocacional() {
+            const painel = document.getElementById('resultado-carreira');
+            painel.style.display = "block";
             
-            // Incrementa os status
-            xpAtual += recompensaXp;
-            atualizarPontos(recompensaXp * 2); // Pontos proporcionais
-            
-            // Verifica subida de nível (Level Up)
-            if (xpAtual >= xpNecessario) {
-                xpAtual -= xpNecessario;
-                nivelAtual++;
-                document.getElementById('txt-nivel').innerText = `NV 0${nivelAtual}`;
-                alert(`🎉 LEVEL UP! Você subiu para o Nível ${nivelAtual}! Parabéns!`);
-            }
-            
-            // Atualiza tela
-            document.getElementById('txt-xp').innerText = `${xpAtual} / ${xpNecessario}`;
-            const percentual = (xpAtual / xpNecessario) * 100;
-            document.getElementById('barra-xp').style.width = `${percentual}%`;
-        }
-
-        function atualizarPontos(ganho) {
-            pontosTotais += ganho;
-            document.getElementById('pts-total').innerText = pontosTotais.toLocaleString('pt-BR');
-        }
-
-        // Função para os alunos enviarem ideias, projetos ou debates em tempo real
-        function criarNovoPost() {
-            const texto = document.getElementById('input-post').value;
-            const tipo = document.getElementById('tipo-post').value;
-
-            if (texto.trim() === "") {
-                alert("Por favor, digite alguma ideia ou projeto antes de publicar!");
+            if(habilidadesSelecionadas.length === 0) {
+                painel.innerHTML = "⚠️ Por favor, selecione ao menos uma habilidade acima para análise.";
                 return;
             }
 
-            const feed = document.getElementById('feed-container');
+            let sugestao = "🚀 **Análise de Perfil Concluída:** Com base em seus gostos, sugerimos trilhas nas áreas de Engenharia de Sistemas, Design Arquitetônico ou Pesquisa Científica Aplicada.";
+            if(habilidadesSelecionadas.includes('Artes')) sugestao = "🎨 **Perfil Criativo Encontrado:** Suas chaves apontam grande aptidão para Design Digital, Animação de Jogos e Arquitetura de Software Centrada no Usuário.";
             
-            // Criação da estrutura do novo card postado pelo aluno logado
-            const novoCard = document.createElement('div');
-            novoCard.className = 'projeto-card';
-            novoCard.innerHTML = `
-                <div class="projeto-header">
-                    <img class="autor-avatar" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=80" alt="Sua Foto">
-                    <div class="autor-info">
-                        <h5>Gabriel Stark (Você)</h5>
-                        <span>Equipe: CyberFox • Agora mesmo</span>
-                    </div>
-                </div>
-                <div class="projeto-conteudo">
-                    <p>${texto}</p>
-                    <div class="projeto-tags">
-                        <span class="tag">${tipo}</span>
-                        <span class="tag">Enviado por Aluno</span>
-                    </div>
-                </div>
-                <div class="projeto-acoes">
-                    <button class="btn-interagir" onclick="votar(this)"><i class="fas fa-arrow-up"></i> <span class="votos-qtd">0</span> Votos</button>
-                    <button class="btn-interagir"><i class="fas fa-comment"></i> 0 Comentários</button>
-                </div>
-            `;
-
-            // Adiciona no topo do Feed e limpa o campo
-            feed.insertBefore(novoCard, feed.firstChild);
-            document.getElementById('input-post').value = "";
-
-            // Recompensa o aluno por postar
-            atualizarPontos(50);
-            alert("🚀 Publicado com sucesso! Você ganhou +50 Pontos de atividade!");
+            painel.innerHTML = sugestao;
         }
     </script>
 </body>
 </html>
-
