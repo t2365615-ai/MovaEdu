@@ -1,84 +1,1004 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Nexus Acadêmico - Sistema Completo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Edu - Plataforma Escolar Inteligente</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #eef2f3; margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .card { border: 1px solid #e0e0e0; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #fafafa; }
-        h1, h2 { color: #2c3e50; }
-        button { background: #27ae60; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        button:hover { background: #219150; }
-        textarea { width: 100%; height: 100px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
-        #chat-output { background: #fff; padding: 15px; margin-top: 10px; border-left: 5px solid #27ae60; min-height: 50px; }
-        .stats { display: flex; gap: 20px; font-weight: bold; color: #34495e; margin-bottom: 20px; }
+        /* --- ESTILOS GERAIS E VARIÁVEIS --- */
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: #151d30;
+            --bg-sidebar: #0e1424;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --purple-vibrant: #7c3aed;
+            --purple-hover: #6d28d9;
+            --xp-gold: #f59e0b;
+            --neon-blue: #06b6d4;
+            --success-green: #10b981;
+            --error-red: #ef4444;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* --- LAYOUT DA APLICAÇÃO (RESPONSIVO ATIVO) --- */
+        
+        /* Sidebar Fixa para Computador */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            border-right: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-main);
+            padding-bottom: 20px;
+            border-bottom: 1px solid #1e293b;
+            margin-bottom: 24px;
+        }
+
+        .brand i {
+            color: var(--purple-vibrant);
+            text-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--text-main);
+            background-color: rgba(124, 58, 237, 0.15);
+        }
+
+        .nav-item.active {
+            background-color: var(--purple-vibrant);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
+
+        /* Top Header Fixo */
+        .header {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            height: 75px;
+            background-color: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 90;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .user-status-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #1e293b;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .status-pill.streak {
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+
+        .status-pill.coins {
+            color: var(--xp-gold);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            background-color: rgba(245, 158, 11, 0.1);
+        }
+
+        .xp-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 140px;
+        }
+
+        .xp-text {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .xp-bar-outer {
+            width: 100%;
+            height: 8px;
+            background-color: #1e293b;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .xp-bar-inner {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--purple-vibrant), var(--neon-blue));
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+
+        .header-avatar-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--purple-vibrant);
+            cursor: pointer;
+            overflow: hidden;
+            background-color: #1e293b;
+        }
+
+        .header-avatar-link svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Área de Conteúdo Principal */
+        .main-content {
+            flex-grow: 1;
+            margin-left: var(--sidebar-width);
+            padding: 105px 32px 40px 32px;
+            width: calc(100% - var(--sidebar-width));
+            min-height: 100vh;
+        }
+
+        /* --- COMPONENTES REUTILIZÁVEIS --- */
+        .view-section {
+            display: none;
+            animation: fadeIn 0.25s ease-in-out forwards;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #1e293b;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            color: var(--purple-vibrant);
+        }
+
+        .btn {
+            background-color: var(--purple-vibrant);
+            color: var(--text-main);
+            border: none;
+            padding: 12px 20px;
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn:hover { background-color: var(--purple-hover); }
+        .btn:active { transform: scale(0.98); }
+
+        .btn-secondary {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+        }
+        .btn-secondary:hover { background-color: #334155; }
+
+        /* Grids Flexíveis anti-sobreposição */
+        .flex-grid-2 {
+            display: flex;
+            gap: 24px;
+            width: 100%;
+        }
+
+        .flex-col-60 { width: 60%; }
+        .flex-col-40 { width: 40%; }
+        .flex-col-50 { width: 50%; }
+
+        /* --- DASHBOARD --- */
+        .welcome-banner {
+            background: linear-gradient(135deg, #1e1b4b 0%, #311042 100%);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+        }
+        .welcome-banner h1 { font-size: 26px; margin-bottom: 6px; }
+
+        .stat-container {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            width: 100%;
+        }
+
+        .stat-box {
+            flex: 1;
+            background-color: var(--bg-card);
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-num { font-size: 28px; font-weight: 800; margin-top: 6px; }
+        .stat-box i { font-size: 22px; margin-bottom: 6px; }
+
+        /* --- CONSTRUTOR DE AVATAR --- */
+        .avatar-creator-wrapper {
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+        }
+
+        .avatar-preview-pane {
+            flex: 1;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.01);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px dashed #334155;
+        }
+
+        .avatar-options-pane { flex: 2; }
+
+        .big-avatar-frame {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 20px auto;
+            border: 4px solid var(--purple-vibrant);
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+        }
+        .big-avatar-frame svg { width: 100%; height: 100%; display: block; }
+
+        .option-group { margin-bottom: 20px; }
+        .option-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .color-palette, .selector-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .color-dot {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .color-dot.active {
+            border-color: var(--text-main);
+            box-shadow: 0 0 6px #fff;
+        }
+
+        .selector-btn {
+            background-color: #1e293b;
+            color: var(--text-main);
+            border: 1px solid #334155;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .selector-btn.active { background-color: var(--purple-vibrant); border-color: var(--purple-vibrant); }
+
+        /* --- CHAT IA E QUIZ --- */
+        .chat-layout {
+            display: flex;
+            flex-direction: column;
+            height: 380px;
+            background-color: #0e1424;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chat-bubble {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .chat-bubble.user { background-color: var(--purple-vibrant); align-self: flex-end; border-bottom-right-radius: 2026px; }
+        .chat-bubble.ia { background-color: var(--bg-card); align-self: flex-start; border-bottom-left-radius: 2026px; border: 1px solid #1e293b; }
+
+        .chat-input-row {
+            display: flex;
+            background-color: #151d30;
+            padding: 12px;
+            border-top: 1px solid #1e293b;
+            gap: 10px;
+        }
+        .chat-input {
+            flex-grow: 1;
+            background-color: #0b0f19;
+            border: 1px solid #334155;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        /* Quiz Box */
+        .quiz-box {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            border: 2px solid var(--purple-vibrant);
+            border-radius: 16px;
+            padding: 20px;
+            display: none;
+        }
+        .quiz-options-list { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+        .quiz-opt {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid #334155;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .quiz-opt.selected { background-color: rgba(124, 58, 237, 0.2); border-color: var(--purple-vibrant); }
+        .quiz-opt.correct { background-color: rgba(16, 185, 129, 0.2); border-color: var(--success-green); color: #10b981; font-weight: bold; }
+        .quiz-opt.wrong { background-color: rgba(239, 68, 68, 0.2); border-color: var(--error-red); color: #ef4444; }
+
+        /* --- MARATONA DE DESENHO (CANVAS) --- */
+        .canvas-area {
+            width: 100%;
+            max-width: 500px;
+        }
+        .canvas-toolbar {
+            background-color: #0e1424;
+            padding: 10px;
+            border-radius: 12px 12px 0 0;
+            border: 1px solid #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        #drawing-canvas {
+            background-color: #ffffff;
+            border: 1px solid #1e293b;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            cursor: crosshair;
+            width: 100%;
+            max-width: 500px;
+            height: 320px;
+            display: block;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .gallery-item { background-color: #0e1424; border-radius: 12px; border: 1px solid #1e293b; overflow: hidden; }
+
+        /* --- TESTE VOCACIONAL --- */
+        .voc-options { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+        .result-bar-container { margin-bottom: 12px; }
+        .result-bar-outer { width: 100%; height: 10px; background-color: #1e293b; border-radius: 6px; overflow: hidden; }
+        .result-bar-inner { height: 100%; width: 0%; transition: width 0.5s ease; }
+
+        /* --- MURAL COMUNIDADE --- */
+        .mural-textarea {
+            width: 100%; height: 75px; background-color: #0e1424; border: 1px solid #334155;
+            border-radius: 10px; color: white; padding: 12px; font-size: 14px; resize: none; outline: none;
+        }
+        .feed-container { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
+        .feed-post { background-color: #0e1424; border: 1px solid #1e293b; border-radius: 12px; padding: 14px; }
+        .post-header { display: flex; align-items: center; gap: 10px; font-size: 13px; margin-bottom: 8px; }
+        .post-avatar { width: 30px; height: 30px; border-radius: 50%; overflow: hidden; background: #1e293b; }
+        .post-avatar svg { width: 100%; height: 100%; }
+
+        /* --- RANKING TABLE --- */
+        .ranking-table { width: 100%; border-collapse: collapse; }
+        .ranking-table th, .ranking-table td { padding: 12px; text-align: left; border-bottom: 1px solid #1e293b; font-size: 14px; }
+        .rank-user-cell { display: flex; align-items: center; gap: 10px; }
+        .rank-avatar { width: 28px; height: 28px; border-radius: 50%; overflow: hidden; background: #1e293b; }
+        .rank-avatar svg { width: 100%; height: 100%; }
+
+        /* 📱 --- RESPONSIVIDADE SUPREMA (MEDIA QUERIES ANTI-SOBREPOSIÇÃO) --- */
+        @media (max-width: 992px) {
+            body { flex-direction: column; }
+            
+            /* Transforma sidebar em uma barra superior ou oculta */
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #1e293b;
+                padding: 12px 16px;
+            }
+            .brand { padding-bottom: 0; margin-bottom: 12px; border-bottom: none; }
+            .nav-menu { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+            .nav-item { padding: 8px 12px; font-size: 13px; }
+
+            .header {
+                position: static;
+                width: 100%;
+                padding: 12px 16px;
+                height: auto;
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px 16px;
+            }
+
+            .flex-grid-2 { flex-direction: column; gap: 16px; }
+            .flex-col-60, .flex-col-40, .flex-col-50 { width: 100%; }
+            .stat-container { flex-direction: column; }
+            .avatar-creator-wrapper { flex-direction: column; }
+            .avatar-preview-pane { width: 100%; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Nexus Acadêmico</h1>
-    
-    <div class="stats">
-        <span>Nível: <span id="nivel">1</span></span>
-        <span>XP: <span id="xp">0</span></span>
-    </div>
+    <aside class="sidebar">
+        <div class="brand">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Nexus Edu</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item active" onclick="switchView('dashboard', this)"><i class="fa-solid fa-house"></i>Dashboard</li>
+            <li class="nav-item" onclick="switchView('ia-studios', this)"><i class="fa-solid fa-brain"></i>Assistente de IA</li>
+            <li class="nav-item" onclick="switchView('avatar-builder', this)"><i class="fa-solid fa-user-gear"></i>Meu Avatar</li>
+            <li class="nav-item" onclick="switchView('drawing-marathon', this)"><i class="fa-solid fa-palette"></i>Maratona de Desenho</li>
+            <li class="nav-item" onclick="switchView('vocational-test', this)"><i class="fa-solid fa-compass"></i>Futuro & Profissões</li>
+            <li class="nav-item" onclick="switchView('community-mural', this)"><i class="fa-solid fa-users"></i>Mural da Comunidade</li>
+            <li class="nav-item" onclick="switchView('neon-ranking', this)"><i class="fa-solid fa-trophy"></i>Ranking Global</li>
+        </ul>
+    </aside>
 
-    <div class="card">
-        <h2>Nexus Mentor (IA)</h2>
-        <textarea id="userInput" placeholder="O que deseja estudar hoje?"></textarea>
-        <button onclick="falarComIA()">Perguntar ao Mentor</button>
-        <div id="chat-output">O Mentor está pronto para guiar seus estudos...</div>
-    </div>
-
-    <div class="card">
-        <h2>Descoberta de Carreira</h2>
-        <p>Realize o teste de habilidades para desbloquear novas trilhas.</p>
-        <button onclick="iniciarTeste()">Iniciar Teste de Perfil</button>
-    </div>
-</div>
-
-<script>
-    // Sua chave de API integrada
-    const API_KEY = 'AIzaSyAF02V_iBJVxNuphYbIBCgN479yXp9lG3c'; 
-    let xp = 0;
-    let nivel = 1;
-
-    async function falarComIA() {
-        const pergunta = document.getElementById('userInput').value;
-        const display = document.getElementById('chat-output');
+    <div style="flex-grow:1; display:flex; flex-direction:column; width:100%;">
         
-        if (!pergunta) return;
-        display.innerText = "Pensando...";
+        <header class="header">
+            <div class="header-title" id="page-title">Dashboard</div>
+            <div class="user-status-bar">
+                <div class="status-pill streak"><i class="fa-solid fa-fire"></i><span id="header-streak">1</span> d</div>
+                <div class="status-pill coins"><i class="fa-solid fa-coins"></i><span id="header-coins">0</span></div>
+                <div class="xp-container">
+                    <div class="xp-text"><span id="header-level-text">Nível 1</span><span id="header-xp-text">0/100 XP</span></div>
+                    <div class="xp-bar-outer"><div class="xp-bar-inner" id="header-xp-bar"></div></div>
+                </div>
+                <div class="header-avatar-link" onclick="switchView('avatar-builder', document.querySelector('[onclick*=\'avatar-builder\']'))" id="header-avatar-container"></div>
+            </div>
+        </header>
 
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+        <main class="main-content">
 
-        try {
-            const resposta = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: "Você é o Nexus Mentor. Responda de forma motivadora: " + pergunta }] }]
-                })
-            });
-            const dados = await resposta.json();
-            const texto = dados.candidates[0].content.parts[0].text;
-            display.innerText = texto;
-            
-            // Sistema de XP
-            xp += 50;
-            document.getElementById('xp').innerText = xp;
-            if(xp >= 100) { nivel++; xp = 0; document.getElementById('nivel').innerText = nivel; }
-        } catch (erro) {
-            display.innerText = "Erro: Verifique a conexão.";
+            <section id="view-dashboard" class="view-section active">
+                <div class="card welcome-banner">
+                    <h1>Olá, Estudante! 👋</h1>
+                    <p>Suas tarefas escolares de hoje estão prontas e valendo pontos reais.</p>
+                </div>
+                <div class="stat-container">
+                    <div class="stat-box" style="border-left: 4px solid var(--purple-vibrant);"><i class="fa-solid fa-brain" style="color:var(--purple-vibrant)"></i><div>Quizzes Feitos</div><div class="stat-num" id="stat-quizzes">0</div></div>
+                    <div class="stat-box" style="border-left: 4px solid var(--success-green);"><i class="fa-solid fa-check" style="color:var(--success-green)"></i><div>Acertos Reais</div><div class="stat-num" id="stat-accuracy">0%</div></div>
+                    <div class="stat-box" style="border-left: 4px solid var(--neon-blue);"><i class="fa-solid fa-star" style="color:var(--neon-blue)"></i><div>Ranking</div><div class="stat-num" id="stat-rank">#5</div></div>
+                </div>
+                <div class="flex-grid-2">
+                    <div class="flex-col-60 card">
+                        <div class="card-title"><i class="fa-solid fa-bolt"></i>Missões Ativas</div>
+                        <p style="font-size:14px; margin-top:8px; color:var(--text-muted)">• Complete um desafio da IA para ganhar +30 XP.</p>
+                        <p style="font-size:14px; margin-top:6px; color:var(--text-muted)">• Envie uma arte na Maratona de Desenho para garantir +20 XP.</p>
+                    </div>
+                    <div class="flex-col-40 card" style="text-align: center;">
+                        <div class="card-title"><i class="fa-solid fa-award"></i>Líder da Semana</div>
+                        <div style="width:50px; height:50px; margin: 10px auto; overflow:hidden; border-radius:50%;" id="dash-leader-av"></div>
+                        <div style="font-weight:700;">Duda Brito</div>
+                        <div style="font-size:12px; color:var(--neon-blue)">+1,420 XP</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="view-ia-studios" class="view-section">
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-brain"></i>IA de Estudos</div>
+                    <p style="font-size:14px; color:var(--text-muted); margin-bottom:12px;">Busque por: <strong>Fotossíntese, Revolução Francesa, Equação de 2º Grau ou Redação ENEM</strong>.</p>
+                    <div class="chat-layout">
+                        <div class="chat-messages" id="chat-box">
+                            <div class="chat-bubble ia">Olá! Qual tema ou assunto de escola você quer revisar e criar um quiz agora?</div>
+                        </div>
+                        <div class="chat-input-row">
+                            <input type="text" id="chat-input-field" class="chat-input" placeholder="Digite o tema escolar...">
+                            <button class="btn" onclick="sendIAMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                    <div class="quiz-box" id="quiz-block">
+                        <div class="card-title" id="quiz-progress-text">Pergunta 1 de 3</div>
+                        <div id="quiz-question-text" style="font-weight:600; margin-bottom:10px;"></div>
+                        <div class="quiz-options-list" id="quiz-options-container"></div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                            <div id="quiz-feedback" style="font-weight:700;"></div>
+                            <button class="btn" id="quiz-action-btn" onclick="checkOrNextQuizAnswer()">Verificar Resposta</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="view-avatar-builder" class="view-section">
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-user-gear"></i>Customizar Avatar Inclusivo</div>
+                    <div class="avatar-creator-wrapper">
+                        <div class="avatar-preview-pane">
+                            <div class="big-avatar-frame" id="creator-avatar-preview"></div>
+                            <button class="btn" onclick="saveAvatar()"><i class="fa-solid fa-floppy-disk"></i> Salvar Perfil</button>
+                        </div>
+                        <div class="avatar-options-pane">
+                            <div class="option-group">
+                                <div class="option-label">Tons de Pele & Etnias</div>
+                                <div class="color-palette" id="palette-skin"></div>
+                            </div>
+                            <div class="option-group">
+                                <div class="option-label">Textura do Cabelo (Inclusão total)</div>
+                                <div class="selector-row" id="row-hair-type"></div>
+                            </div>
+                            <div class="option-group">
+                                <div class="option-label">Cor do Cabelo</div>
+                                <div class="color-palette" id="palette-hair-color"></div>
+                            </div>
+                            <div class="option-group">
+                                <div class="option-label">Fundo do Avatar</div>
+                                <div class="color-palette" id="palette-bg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="view-drawing-marathon" class="view-section">
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-palette"></i>Maratona de Desenho Real</div>
+                    <div class="flex-grid-2">
+                        <div class="flex-col-60">
+                            <div class="canvas-toolbar">
+                                <input type="color" id="canvas-color" value="#7c3aed" style="width:30px; height:30px; border:none; background:none;">
+                                <input type="range" id="canvas-size" min="2" max="15" value="5">
+                                <button class="btn btn-secondary" style="padding:6px 10px;" onclick="clearCanvas()">Limpar</button>
+                            </div>
+                            <canvas id="drawing-canvas"></canvas>
+                            <button class="btn" style="margin-top:10px; width:100%;" onclick="publishDrawing()">Publicar na Galeria (+20 XP)</button>
+                        </div>
+                        <div class="flex-col-40">
+                            <div class="card-title">Galeria da Escola</div>
+                            <div class="gallery-grid" id="gallery-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="view-vocational-test" class="view-section">
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-compass"></i>Habilidades & Carreiras</div>
+                    <div class="card" id="voc-main-box" style="background:#0e1424; margin-bottom:0;">
+                        <div class="voc-q active" data-qindex="0">
+                            <div style="font-weight:700; margin-bottom:12px;">1. Qual papel você prefere desempenhar em trabalhos escolares?</div>
+                            <div class="voc-options">
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'tecnologico')">A) Programação, lógica ou desenvolvimento do site.</div>
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'artistico')">B) Identidade visual, desenhos e estética.</div>
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'humanas')">C) Gestão, oratória e liderança da equipe.</div>
+                            </div>
+                        </div>
+                        <div class="voc-q" data-qindex="1">
+                            <div style="font-weight:700; margin-bottom:12px;">2. Que tipo de assunto mais chama a sua atenção?</div>
+                            <div class="voc-options">
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'tecnologico')">A) Tecnologias, códigos e softwares.</div>
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'artistico')">B) Cinema, ilustrações reais e design de carros.</div>
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'humanas')">C) Empreendedorismo, administração e marketing.</div>
+                            </div>
+                        </div>
+                        <button class="btn" id="voc-next-btn" style="margin-top:14px; width:100%;" onclick="nextVocQuestion()" disabled>Avançar Questão</button>
+                    </div>
+                    <div class="card" id="voc-res-box" style="display:none; background:#0f172a; margin-top:16px;">
+                        <div class="result-bar-container"><div>Tecnologia: <span id="pct-tec">0%</span></div><div class="result-bar-outer"><div class="result-bar-inner" id="bar-tec" style="background:var(--neon-blue)"></div></div></div>
+                        <div class="result-bar-container"><div>Artes & Design: <span id="pct-art">0%</span></div><div class="result-bar-outer"><div class="result-bar-inner" id="bar-art" style="background:var(--purple-vibrant)"></div></div></div>
+                        <div class="result-bar-container"><div>Gestão & Administração: <span id="pct-hum">0%</span></div><div class="result-bar-outer"><div class="result-bar-inner" id="bar-hum" style="background:var(--xp-gold)"></div></div></div>
+                        <p id="voc-final-text" style="font-size:14px; margin-top:10px; font-weight:600; color:var(--text-muted);"></p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="view-community-mural" class="view-section">
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-users"></i>Mural da Comunidade</div>
+                    <textarea id="mural-input-text" class="mural-textarea" placeholder="Escreva uma ideia ou sugestão de ouvidoria..."></textarea>
+                    <button class="btn" style="margin-top:10px;" onclick="createPost()">Postar Ideia</button>
+                    <div class="feed-container" id="mural-feed"></div>
+                </div>
+            </section>
+
+            <section id="view-neon-ranking" class="view-section">
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-trophy"></i>Ranking Geral de Alunos</div>
+                    <div style="overflow-x:auto;">
+                        <table class="ranking-table">
+                            <thead><tr><th>Posição</th><th>Estudante</th><th>Nível</th><th>XP</th></tr></thead>
+                            <tbody id="ranking-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        let userState = {
+            xp: 0, level: 1, coins: 0, streak: 5, quizzesDone: 0, correctAnswers: 0,
+            avatar: { skin: '#e0ac69', hairType: 'crespo', hairColor: '#1a1a1a', bg: '#7c3aed' },
+            vocationalScores: { tecnologico: 0, artistico: 0, humanas: 0 }
+        };
+
+        let simulatedStudents = [
+            { name: "Duda Brito", level: 12, xp: 1150, isMe: false, avatar: { skin: '#8d5524', hairType: 'cacheado', hairColor: '#1a1a1a', bg: '#06b6d4' } },
+            { name: "Carlos J.", level: 10, xp: 920, isMe: false, avatar: { skin: '#ffdbac', hairType: 'liso', hairColor: '#b58110', bg: '#10b981' } }
+        ];
+
+        const IA_DATABASE = {
+            'fotossintese': {
+                summary: "A <strong>Fotossíntese</strong> converte água e gás carbônico em glicose e oxigênio usando luz solar.",
+                quiz: [
+                    { q: "Onde ocorre a fotossíntese?", o: ["A) Mitocôndria", "B) Cloroplasto", "C) Lisossomo"], a: 1 },
+                    { q: "O que é liberado para o ar?", o: ["A) Oxigênio", "B) Nitrogênio", "C) Hidrogênio"], a: 0 },
+                    { q: "Qual o pigmento principal?", o: ["A) Melanina", "B) Clorofila", "C) Caroteno"], a: 1 }
+                ]
+            },
+            'revolucao francesa': {
+                summary: "A <strong>Revolução Francesa</strong> (1789) derrubou o absolutismo sob o lema de Igualdade e Liberdade.",
+                quiz: [
+                    { q: "Qual foi o evento marco?", o: ["A) Queda da Bastilha", "B) Tratado de Versalhes", "C) Guerra dos Cem Dias"], a: 0 },
+                    { q: "Quem era o rei derrubado?", o: ["A) Luís XIV", "B) Luís XVI", "C) Napoleão"], a: 1 },
+                    { q: "Qual era o lema?", o: ["A) Ordem e Progresso", "B) Liberdade, Igualdade, Fraternidade", "C) Paz e Amor"], a: 1 }
+                ]
+            }
+        };
+
+        let currentActiveQuiz = null, currentQuizIndex = 0, quizAnswersSelected = [];
+        const SKIN_TONES = ['#ffdbac', '#f1c27d', '#e0ac69', '#8d5524', '#3c220f'];
+        const HAIR_COLORS = ['#1a1a1a', '#4a3728', '#b58110', '#cbd5e1'];
+        const BG_COLORS = ['#7c3aed', '#06b6d4', '#10b981', '#ef4444'];
+        const HAIR_TYPES = ['crespo', 'cacheado', 'ondulado', 'liso', 'careca'];
+
+        window.onload = function() {
+            let saved = localStorage.getItem('nexus_edu_state');
+            if(saved) userState = JSON.parse(saved);
+            renderAllAvatars();
+            setupAvatarOptions();
+            updateUI();
+            initCanvas();
+            renderMuralFeed();
+            renderRanking();
+        };
+
+        function switchView(viewId, element) {
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.getElementById('view-' + viewId).classList.add('active');
+            if(element) element.classList.add('active');
+            document.getElementById('page-title').innerText = element.innerText;
         }
-    }
 
-    function iniciarTeste() {
-        alert("Iniciando jornada de descoberta de carreira...");
-    }
-</script>
+        function generateAvatarSVG(config) {
+            let hairSVG = '';
+            if (config.hairType === 'crespo') {
+                hairSVG = `<circle cx="50" cy="38" r="20" fill="${config.hairColor}"/><circle cx="35" cy="42" r="11" fill="${config.hairColor}"/><circle cx="65" cy="42" r="11" fill="${config.hairColor}"/>`;
+            } else if (config.hairType === 'cacheado') {
+                hairSVG = `<path d="M 30 42 Q 50 25 70 42 Q 75 55 65 60 Q 50 40 35 60 Q 25 55 30 42 Z" fill="${config.hairColor}"/>`;
+            } else if (config.hairType === 'liso') {
+                hairSVG = `<path d="M 30 45 L 30 32 Q 50 20 70 32 L 70 45 L 66 65 L 34 65 Z" fill="${config.hairColor}"/>`;
+            } else if (config.hairType === 'ondulado') {
+                hairSVG = `<path d="M 28 44 Q 50 22 72 44 Q 76 60 68 62 Q 50 38 32 62 Z" fill="${config.hairColor}"/>`;
+            }
+            return `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="${config.bg}"/>${hairSVG}<circle cx="50" cy="54" r="18" fill="${config.skin}"/><circle cx="44" cy="52" r="2" fill="#000"/><circle cx="56" cy="52" r="2" fill="#000"/><path d="M 45 60 Q 50 64 55 60" stroke="#000" stroke-width="2" fill="none"/></svg>`;
+        }
 
+        function renderAllAvatars() {
+            let svg = generateAvatarSVG(userState.avatar);
+            document.getElementById('header-avatar-container').innerHTML = svg;
+            document.getElementById('creator-avatar-preview').innerHTML = svg;
+            document.getElementById('dash-leader-av').innerHTML = generateAvatarSVG(simulatedStudents[0].avatar);
+        }
+
+        function setupAvatarOptions() {
+            let sBox = document.getElementById('palette-skin'); sBox.innerHTML = '';
+            SKIN_TONES.forEach(c => sBox.innerHTML += `<div class="color-dot ${userState.avatar.skin===c?'active':''}" style="background:${c}" onclick="setAv('skin','${c}',this)"></div>`);
+            
+            let tBox = document.getElementById('row-hair-type'); tBox.innerHTML = '';
+            HAIR_TYPES.forEach(t => tBox.innerHTML += `<button class="selector-btn ${userState.avatar.hairType===t?'active':''}" onclick="setAv('hairType','${t}',this)">${t}</button>`);
+
+            let cBox = document.getElementById('palette-hair-color'); cBox.innerHTML = '';
+            HAIR_COLORS.forEach(c => cBox.innerHTML += `<div class="color-dot ${userState.avatar.hairColor===c?'active':''}" style="background:${c}" onclick="setAv('hairColor','${c}',this)"></div>`);
+
+            let bBox = document.getElementById('palette-bg'); bBox.innerHTML = '';
+            BG_COLORS.forEach(c => bBox.innerHTML += `<div class="color-dot ${userState.avatar.bg===c?'active':''}" style="background:${c}" onclick="setAv('bg','${c}',this)"></div>`);
+        }
+
+        function setAv(p, v, el) {
+            userState.avatar[p] = v;
+            el.parentElement.querySelectorAll('.color-dot, .selector-btn').forEach(x => x.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('creator-avatar-preview').innerHTML = generateAvatarSVG(userState.avatar);
+        }
+
+        function saveAvatar() {
+            localStorage.setItem('nexus_edu_state', JSON.stringify(userState));
+            renderAllAvatars(); renderRanking(); renderMuralFeed();
+            alert("Avatar salvo e sincronizado!");
+        }
+
+        function updateUI() {
+            let lvl = Math.floor(userState.xp / 100) + 1;
+            userState.level = lvl;
+            document.getElementById('header-streak').innerText = userState.streak;
+            document.getElementById('header-coins').innerText = userState.coins;
+            document.getElementById('header-level-text').innerText = `Nível ${userState.level}`;
+            document.getElementById('header-xp-text').innerText = `${userState.xp % 100}/100 XP`;
+            document.getElementById('header-xp-bar').style.width = `${userState.xp % 100}%`;
+            document.getElementById('stat-quizzes').innerText = userState.quizzesDone;
+            document.getElementById('stat-accuracy').innerText = userState.quizzesDone > 0 ? Math.round((userState.correctAnswers/(userState.quizzesDone*3))*100)+'%' : '0%';
+        }
+
+        function sendIAMessage() {
+            let inp = document.getElementById('chat-input-field');
+            let val = inp.value.trim().toLowerCase(); if(!val) return;
+            let box = document.getElementById('chat-box');
+            box.innerHTML += `<div class="chat-bubble user">${inp.value}</div>`;
+            inp.value = '';
+            
+            setTimeout(() => {
+                let found = Object.keys(IA_DATABASE).find(k => val.includes(k));
+                if(found) {
+                    box.innerHTML += `<div class="chat-bubble ia">${IA_DATABASE[found].summary}<br><button class="btn" style="padding:4px 8px; margin-top:8px; font-size:12px;" onclick="startQuiz('${found}')">Iniciar Quiz</button></div>`;
+                } else {
+                    box.innerHTML += `<div class="chat-bubble ia">Tente buscar por <strong>Fotossíntese</strong> ou <strong>Revolução Francesa</strong> para testar o sistema.</div>`;
+                }
+                box.scrollTop = box.scrollHeight;
+            }, 500);
+        }
+
+        function startQuiz(key) {
+            currentActiveQuiz = IA_DATABASE[key]; currentQuizIndex = 0; quizAnswersSelected = [];
+            document.getElementById('quiz-block').style.display = 'block';
+            loadQuizQ();
+        }
+
+        function loadQuizQ() {
+            let q = currentActiveQuiz.quiz[currentQuizIndex];
+            document.getElementById('quiz-progress-text').innerText = `Pergunta ${currentQuizIndex+1} de 3`;
+            document.getElementById('quiz-question-text').innerText = q.q;
+            document.getElementById('quiz-feedback').innerText = '';
+            let cont = document.getElementById('quiz-options-container'); cont.innerHTML = '';
+            q.o.forEach((o, i) => cont.innerHTML += `<div class="quiz-opt" data-i="${i}" onclick="secOpt(this)">${o}</div>`);
+            document.getElementById('quiz-action-btn').innerText = "Verificar Resposta";
+        }
+
+        function secOpt(el) {
+            if(document.getElementById('quiz-action-btn').innerText !== "Verificar Resposta") return;
+            el.parentElement.querySelectorAll('.quiz-opt').forEach(x => x.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function checkOrNextQuizAnswer() {
+            let btn = document.getElementById('quiz-action-btn');
+            if(btn.innerText === "Avançar") {
+                currentQuizIndex++;
+                if(currentQuizIndex < 3) loadQuizQ();
+                else {
+                    userState.quizzesDone++;
+                    let rights = quizAnswersSelected.filter(x => x.c).length;
+                    userState.correctAnswers += rights;
+                    userState.xp += rights * 15; userState.coins += rights * 5;
+                    localStorage.setItem('nexus_edu_state', JSON.stringify(userState));
+                    updateUI(); renderRanking();
+                    document.getElementById('quiz-block').style.display = 'none';
+                    alert(`Quiz Fim! Você acertou ${rights} de 3. Ganhou +${rights*15} XP!`);
+                }
+                return;
+            }
+            let sel = document.querySelector('.quiz-opt.selected');
+            if(!sel) return alert("Selecione um item!");
+            let ans = parseInt(sel.getAttribute('data-i'));
+            let cor = currentActiveQuiz.quiz[currentQuizIndex].a;
+            let opts = document.querySelectorAll('.quiz-opt');
+            if(ans === cor) {
+                sel.classList.add('correct'); quizAnswersSelected.push({c:true});
+            } else {
+                sel.classList.add('wrong'); opts[cor].classList.add('correct'); quizAnswersSelected.push({c:false});
+            }
+            btn.innerText = "Avançar";
+        }
+
+        let cv, cx, dr = false;
+        function initCanvas() {
+            cv = document.getElementById('drawing-canvas'); cx = cv.getContext('2d');
+            cx.fillStyle = '#ffffff'; cx.fillRect(0,0,500,320);
+            cv.addEventListener('mousedown', (e)=>{dr=true; drow(e);});
+            cv.addEventListener('mousemove', drow);
+            cv.addEventListener('mouseup', ()=>{dr=false; cx.beginPath();});
+            renderGal();
+        }
+        function drow(e) {
+            if(!dr) return;
+            let r = cv.getBoundingClientRect();
+            let x = (e.clientX || e.touches[0].clientX) - r.left;
+            let y = (e.clientY || e.touches[0].clientY) - r.top;
+            cx.lineWidth = document.getElementById('canvas-size').value;
+            cx.lineCap = 'round'; cx.strokeStyle = document.getElementById('canvas-color').value;
+            cx.lineTo(x, y); cx.stroke(); cx.beginPath(); cx.moveTo(x, y);
+        }
+        function clearCanvas() { cx.fillStyle='#ffffff'; cx.fillRect(0,0,500,320); }
+        
+        function publishDrawing() {
+            userState.xp += 20; localStorage.setItem('nexus_edu_state', JSON.stringify(userState)); updateUI(); renderRanking();
+            alert("Arte enviada para a galeria escolar! +20 XP obtidos.");
+            clearCanvas();
+        }
+        function renderGal() {
+            document.getElementById('gallery-container').innerHTML = `<div class="gallery-item"><div style="height:100px; background:#e2e8f0; display:flex; align-items:center; justify-content:center; color:#334155;"><i class="fa-solid fa-car fa-2x"></i></div><div style="padding:8px; font-size:12px;">Por: Duda Brito</div></div>`;
+        }
+
+        let currentVoc = 0;
+        function selectVocOption(el, cat) {
+            el.parentElement.querySelectorAll('.quiz-opt').forEach(x => x.classList.remove('selected'));
+            el.classList.add('selected'); el.setAttribute('data-cat', cat);
+            document.getElementById('voc-next-btn').removeAttribute('disabled');
+        }
+        function nextVocQuestion() {
+            let sel = document.querySelector('.voc-q.active .quiz-opt.selected');
+            let cat = sel.getAttribute('data-cat'); userState.vocationalScores[cat]++;
+            let qs = document.querySelectorAll('.voc-q');
+            qs[currentVoc].classList.remove('active'); currentVoc++;
+            if(currentVoc < qs.length) {
+                qs[currentVoc].classList.add('active'); document.getElementById('voc-next-btn').setAttribute('disabled','true');
+            } else {
+                document.getElementById('voc-main-box').style.display='none';
+                document.getElementById('voc-res-box').style.display='block';
+                let t = userState.vocationalScores.tecnologico, a = userState.vocationalScores.artistico, h = userState.vocationalScores.humanas, sum = (t+a+h)||1;
+                document.getElementById('pct-tec').innerText = Math.round(t/sum*100)+'%'; document.getElementById('bar-tec').style.width = Math.round(t/sum*100)+'%';
+                document.getElementById('pct-art').innerText = Math.round(a/sum*100)+'%'; document.getElementById('bar-art').style.width = Math.round(a/sum*100)+'%';
+                document.getElementById('pct-hum').innerText = Math.round(h/sum*100)+'%'; document.getElementById('bar-hum').style.width = Math.round(h/sum*100)+'%';
+                document.getElementById('voc-final-text').innerText = t >= a && t >= h ? "Foco recomendado: Engenharia, Programação e TI." : (a >= t && a >= h ? "Foco recomendado: Design, Animação e Artes." : "Foco recomendado: Administração e Empreendedorismo.");
+            }
+        }
+
+        let posts = [{name:"Duda Brito", text:"Adorei os novos desafios da ouvidoria escolar do Nexus!"}];
+        function renderMuralFeed() {
+            let feed = document.getElementById('mural-feed'); feed.innerHTML = '';
+            posts.forEach(p => {
+                feed.innerHTML += `<div class="feed-post"><div class="post-header"><div class="post-avatar">${p.name.includes('Você')?generateAvatarSVG(userState.avatar):generateAvatarSVG(simulatedStudents[0].avatar)}</div><strong>${p.name}</strong></div><div style="font-size:14px;">${p.text}</div></div>`;
+            });
+        }
+        function createPost() {
+            let tx = document.getElementById('mural-input-text').value.trim(); if(!tx) return;
+            posts.unshift({name:"Você (Eduarda)", text:tx}); document.getElementById('mural-input-text').value=''; renderMuralFeed();
+        }
+
+        function renderRanking() {
+            let body = document.getElementById('ranking-table-body'); body.innerHTML = '';
+            let list = [...simulatedStudents, {name:"Eduarda Brito (Você)", level:userState.level, xp:userState.xp, isMe:true, avatar:userState.avatar}];
+            list.sort((x,y) => y.xp - x.xp);
+            list.forEach((s, i) => {
+                body.innerHTML += `<tr style="${s.isMe?'background:rgba(124,58,237,0.1); font-weight:bold;':''}"><td>#${i+1}</td><td><div class="rank-user-cell"><div class="rank-avatar">${generateAvatarSVG(s.avatar)}</div>${s.name}</div></td><td>${s.level}</td><td style="color:var(--neon-blue)">${s.xp} XP</td></tr>`;
+                if(s.isMe) document.getElementById('stat-rank').innerText = `#${i+1}`;
+            });
+        }
+    </script>
 </body>
 </html>
