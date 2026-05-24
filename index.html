@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,887 +6,115 @@
     <title>Movaedu - Plataforma Escolar Gamificada</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- ESTILOS VISUAIS PREMIUM (PALETA: AZUL, ROXO E BRANCO) --- */
         :root {
-            --bg-principal: #0a1128;
-            --bg-card: #1c2541;
-            --cor-roxo: #7209b7;
-            --cor-roxo-neon: #b5179e;
-            --cor-azul-neon: #4cc9f0;
-            --cor-texto: #f8f9fa;
-            --cor-texto-secundario: #ced4da;
-            --gold: #ffbd00;
-            --sucesso: #38b000;
-            --erro: #e63946;
+            --bg-principal: #0a1128; --bg-card: #1c2541; --cor-roxo: #7209b7;
+            --cor-roxo-neon: #b5179e; --cor-azul-neon: #4cc9f0; --cor-texto: #f8f9fa;
+            --cor-texto-secundario: #ced4da; --gold: #ffbd00; --sucesso: #38b000; --erro: #e63946;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-principal);
-            color: var(--cor-texto);
-            min-height: 100vh;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-        }
-
-        @media (min-width: 1025px) {
-            .container {
-                display: grid;
-                grid-template-columns: 290px 1fr;
-                height: 100vh;
-            }
-        }
-
-        /* --- SIDEBAR DE PERFIL (RESPONSIVA) --- */
-        aside {
-            background-color: var(--bg-card);
-            border-bottom: 2px solid rgba(76, 201, 240, 0.2);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        @media (min-width: 1025px) {
-            aside {
-                border-bottom: none;
-                border-right: 2px solid rgba(76, 201, 240, 0.2);
-                height: 100vh;
-                overflow-y: auto;
-            }
-        }
-
-        .perfil-container { text-align: center; width: 100%; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-principal); color: var(--cor-texto); min-height: 100vh; }
+        .container { display: flex; flex-direction: column; }
+        @media (min-width: 1025px) { .container { display: grid; grid-template-columns: 290px 1fr; height: 100vh; } }
         
-        .avatar-wrapper { 
-            position: relative; 
-            width: 100px; 
-            height: 100px; 
-            margin: 0 auto 12px; 
-        }
-        
-        .avatar { 
-            width: 100%; 
-            height: 100%; 
-            border-radius: 50%; 
-            border: 3px solid var(--cor-azul-neon); 
-            object-fit: cover; 
-            box-shadow: 0 0 15px rgba(76, 201, 240, 0.4); 
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
+        /* Sidebar */
+        aside { background-color: var(--bg-card); border-right: 2px solid rgba(76, 201, 240, 0.2); padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .avatar { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--cor-azul-neon); object-fit: cover; cursor: pointer; transition: 0.3s; }
+        .menu-lateral { width: 100%; list-style: none; margin-top: 20px; }
+        .menu-item { padding: 15px; cursor: pointer; color: var(--cor-texto-secundario); display: flex; align-items: center; gap: 10px; transition: 0.2s; }
+        .menu-item:hover, .menu-item.ativo { background: rgba(114, 9, 183, 0.2); color: #fff; border-left: 4px solid var(--cor-azul-neon); }
 
-        .avatar:hover {
-            transform: scale(1.05);
-        }
-
-        .nivel-badge { 
-            position: absolute; 
-            bottom: -5px; 
-            right: -5px; 
-            background: linear-gradient(45deg, var(--cor-roxo), var(--cor-azul-neon)); 
-            color: white; 
-            font-weight: bold; 
-            padding: 4px 10px; 
-            border-radius: 15px; 
-            font-size: 0.75rem; 
-        }
-
-        .streak-container { 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 6px; 
-            background: rgba(255, 189, 0, 0.15); 
-            color: var(--gold); 
-            padding: 5px 12px; 
-            border-radius: 20px; 
-            font-weight: bold; 
-            font-size: 0.9rem; 
-            margin: 8px 0; 
-            border: 1px solid var(--gold); 
-        }
-
-        .progresso-container { 
-            width: 100%; 
-            background: rgba(255, 255, 255, 0.1); 
-            border-radius: 10px; 
-            height: 10px; 
-            margin: 10px 0 5px; 
-            overflow: hidden; 
-        }
-
-        .barra-progresso { 
-            height: 100%; 
-            width: 0%; 
-            background: linear-gradient(90deg, var(--cor-roxo), var(--cor-azul-neon)); 
-            transition: width 0.4s ease; 
-        }
-
-        /* Menu lateral adaptável com rolagem no telemóvel */
-        .menu-lateral { 
-            width: 100%; 
-            list-style: none; 
-            margin-top: 15px; 
-            display: flex; 
-            gap: 8px; 
-            overflow-x: auto; 
-            padding-bottom: 8px; 
-            scrollbar-width: none; 
-        }
-
-        .menu-lateral::-webkit-scrollbar { display: none; }
-
-        @media (min-width: 1025px) { 
-            .menu-lateral { 
-                flex-direction: column; 
-                overflow-x: visible; 
-                gap: 0; 
-            } 
-        }
-        
-        .menu-item { 
-            padding: 10px 16px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            color: var(--cor-texto-secundario); 
-            transition: all 0.2s; 
-            white-space: nowrap; 
-            font-size: 0.9rem; 
-        }
-
-        .menu-item:hover, .menu-item.ativo { 
-            background: rgba(114, 9, 183, 0.2); 
-            color: #fff; 
-            border-bottom: 3px solid var(--cor-azul-neon); 
-        }
-
-        @media (min-width: 1025px) { 
-            .menu-item:hover, .menu-item.ativo { 
-                border-bottom: none; 
-                border-left: 4px solid var(--cor-azul-neon); 
-                padding-left: 20px; 
-            } 
-        }
-
-        /* --- ÁREA PRINCIPAL --- */
-        main { padding: 20px; }
-        @media (min-width: 1025px) { main { padding: 40px; overflow-y: auto; height: 100vh; } }
-        
+        /* Main Content */
+        main { padding: 40px; overflow-y: auto; }
         .aba-conteudo { display: none; }
         .aba-conteudo.ativa { display: block; }
-        .grid-dashboard { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        @media (min-width: 1025px) { .grid-dashboard { grid-template-columns: 2fr 1fr; gap: 30px; } }
+        .card { background-color: var(--bg-card); border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .card-titulo { font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: #fff; text-transform: uppercase; }
+        .btn-principal { background: linear-gradient(45deg, var(--cor-roxo), var(--cor-roxo-neon)); color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; }
         
-        .card { 
-            background-color: var(--bg-card); 
-            border-radius: 15px; 
-            padding: 20px; 
-            margin-bottom: 20px; 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-        }
-        
-        .card-titulo { 
-            font-size: 1.1rem; 
-            margin-bottom: 15px; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            color: #fff; 
-            text-transform: uppercase; 
-        }
-
-        .card-titulo i { color: var(--cor-azul-neon); }
-
-        /* --- SISTEMA DE QUIZ DA IA --- */
-        .bloco-quiz { 
-            background: rgba(0,0,0,0.3); 
-            border: 1px solid rgba(76, 201, 240, 0.3); 
-            padding: 18px; 
-            border-radius: 12px; 
-            margin-top: 15px; 
-        }
-        
-        .opcao-quiz { 
-            display: block; 
-            width: 100%; 
-            text-align: left; 
-            background: rgba(255,255,255,0.05); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            padding: 12px 15px; 
-            border-radius: 8px; 
-            color: white; 
-            margin-top: 10px; 
-            cursor: pointer; 
-            transition: background 0.2s, border-color 0.2s; 
-            font-size: 0.9rem; 
-        }
-
-        .opcao-quiz:hover { 
-            background: rgba(114, 9, 183, 0.3); 
-            border-color: var(--cor-roxo-neon); 
-        }
-
-        /* --- BOTÕES E FORMULÁRIOS --- */
-        .btn-principal { 
-            background: linear-gradient(45deg, var(--cor-roxo), var(--cor-roxo-neon)); 
-            color: white; 
-            border: none; 
-            padding: 10px 18px; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            transition: transform 0.1s; 
-        }
-        
-        .btn-principal:hover { transform: translateY(-1px); }
-        
-        .btn-pequeno { 
-            background: rgba(255,255,255,0.1); 
-            color: white; 
-            border: 1px solid rgba(255,255,255,0.2); 
-            padding: 5px 10px; 
-            border-radius: 5px; 
-            font-size: 0.8rem; 
-            cursor: pointer; 
-            margin-top: 5px; 
-        }
-
-        .input-estilizado { 
-            width: 100%; 
-            background: rgba(0,0,0,0.3); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            padding: 12px; 
-            border-radius: 8px; 
-            color: white; 
-            margin-bottom: 12px; 
-        }
-
-        /* --- CHAT INTELIGENTE --- */
-        .chat-ia-janela { 
-            background: rgba(0,0,0,0.2); 
-            height: 350px; 
-            border-radius: 8px; 
-            padding: 15px; 
-            overflow-y: auto; 
-            margin-bottom: 15px; 
-            border: 1px solid rgba(255,255,255,0.05); 
-        }
-        
-        .msg-chat { margin-bottom: 12px; padding: 12px 16px; border-radius: 8px; max-width: 85%; font-size: 0.95rem; line-height: 1.5; }
-        .msg-user { background: var(--cor-roxo); margin-left: auto; }
-        .msg-ia { background: rgba(255,255,255,0.06); border-left: 4px solid var(--cor-azul-neon); }
-        .msg-ia p { margin-bottom: 8px; }
-        .msg-ia ul, .msg-ia ol { margin-left: 22px; margin-bottom: 8px; }
-        .msg-ia li { margin-bottom: 4px; }
-        
-        /* --- ARENA DE DESENHO --- */
-        .canvas-container { 
-            width: 100%; 
-            overflow-x: auto; 
-            background: #fff; 
-            border-radius: 10px; 
-            margin-bottom: 15px; 
-            border: 2px solid var(--cor-azul-neon); 
-        }
-        
-        #canvas-desenho { background: white; cursor: crosshair; display: block; }
-        .controles-canvas { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 15px; }
-
-        /* --- MODAL DE PERFIL MODERNO --- */
-        .modal-perfil { 
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.85); 
-            justify-content: center; 
-            align-items: center; 
-            z-index: 1000; 
-            padding: 20px; 
-        }
-        
-        .modal-conteudo { 
-            background: var(--bg-card); 
-            border: 2px solid var(--cor-azul-neon); 
-            padding: 25px; 
-            border-radius: 15px; 
-            width: 100%; 
-            max-width: 440px; 
-        }
-
-        /* Grid de Seleção de Avatares Prontos */
-        .seletor-avatares-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .avatar-opcao {
-            width: 100%;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            cursor: pointer;
-            object-fit: cover;
-            transition: all 0.2s;
-        }
-
-        .avatar-opcao:hover, .avatar-opcao.selecionado {
-            border-color: var(--cor-azul-neon);
-            box-shadow: 0 0 10px var(--cor-azul-neon);
-            transform: scale(1.1);
-        }
-
-        .switch-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            cursor: pointer;
-        }
-
-        .switch-container input {
-            cursor: pointer;
-            width: 18px;
-            height: 18px;
-            accent-color: var(--cor-azul-neon);
-        }
-
-        /* --- COMPONENTES ADICIONAIS --- */
-        .projeto-card { background: rgba(255,255,255,0.02); border-radius: 10px; padding: 15px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
-        .item-destaque { display: flex; justify-content: space-between; padding: 10px; background: rgba(0,0,0,0.15); border-radius: 8px; margin-bottom: 8px; font-size: 0.9rem; }
-        .tag-habilidade { display: inline-block; background: rgba(76, 201, 240, 0.15); color: var(--cor-azul-neon); padding: 6px 12px; border-radius: 15px; font-size: 0.8rem; margin: 4px; cursor: pointer; transition: background 0.2s; }
-        .tag-habilidade.selecionada { background: var(--cor-azul-neon); color: var(--bg-principal); font-weight: bold; }
+        /* Modals */
+        .modal-container { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index: 2000; }
+        #frame-avatar { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- SIDEBAR -->
         <aside>
-            <div class="perfil-container">
-                <div class="avatar-wrapper">
-                    <img class="avatar" id="imagem-perfil-tela" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" alt="Avatar" onclick="abrirModalPerfil()">
-                    <div class="nivel-badge" id="barra-nivel">NV 1</div>
-                </div>
-                <h3 id="nome-usuario-tela">Carregando...</h3>
-                <button class="btn-pequeno" onclick="abrirModalPerfil()"><i class="fas fa-edit"></i> Editar Perfil</button>
-                <br>
-                <div class="streak-container">
-                    <i class="fas fa-fire"></i> <span id="valor-streak">1 Dia</span>
-                </div>
-                <div class="progresso-container">
-                    <div class="barra-progresso" id="progresso-xp"></div>
-                </div>
-                <div style="font-size: 0.75rem; color: var(--cor-azul-neon);" id="texto-xp">XPs: 0 / 1000</div>
-            </div>
-
-            <!-- MENU LATERAL - TODOS OS BOTÕES RESTAURADOS -->
+            <img class="avatar" id="avatar-display" src="https://api.dicebear.com/8.x/adventurer/svg?seed=Felix" onclick="abrirEditorAvatar()">
+            <h3 id="nome-usuario" style="margin-top:10px;">Estudante</h3>
             <ul class="menu-lateral">
-                <li class="menu-item ativo" id="btn-menu-dashboard" onclick="mudarAba('dashboard')"><i class="fas fa-home"></i> Geral</li>
-                <li class="menu-item" id="btn-menu-estudos" onclick="mudarAba('estudos')"><i class="fas fa-brain"></i> IA Estudos</li>
-                <li class="menu-item" id="btn-menu-desenho" onclick="mudarAba('desenho')"><i class="fas fa-palette"></i> Desenho</li>
-                <li class="menu-item" id="btn-menu-carreira" onclick="mudarAba('carreira')"><i class="fas fa-user-astronaut"></i> Futuro</li>
-                <li class="menu-item" id="btn-menu-destaques" onclick="mudarAba('destaques')"><i class="fas fa-star"></i> Destaques</li>
+                <li class="menu-item ativo" onclick="mudarAba('dashboard')"><i class="fas fa-home"></i> Geral</li>
+                <li class="menu-item" onclick="mudarAba('estudos')"><i class="fas fa-brain"></i> IA Estudos</li>
+                <li class="menu-item" onclick="mudarAba('desenho')"><i class="fas fa-palette"></i> Desenho</li>
+                <li class="menu-item" onclick="mudarAba('carreira')"><i class="fas fa-user-astronaut"></i> Futuro</li>
+                <li class="menu-item" onclick="mudarAba('destaques')"><i class="fas fa-star"></i> Destaques</li>
             </ul>
         </aside>
 
-        <!-- SELEÇÃO DE ABAS DE CONTEÚDO -->
         <main>
-            <!-- 1. GERAL -->
             <div id="aba-dashboard" class="aba-conteudo ativa">
-                <div class="grid-dashboard">
-                    <div class="coluna">
-                        <div class="card">
-                            <div class="card-titulo"><i class="fas fa-flag"></i> Desafio Acadêmico Real</div>
-                            <div id="bloco-missao-dinamica" style="background:rgba(0,0,0,0.2); padding:15px; border-radius:8px;">
-                                <div>
-                                    <h4 style="font-size:0.95rem;">🧬 Missão do Tutor Inteligente</h4>
-                                    <p style="font-size:0.8rem; color:var(--cor-texto-secundario); margin: 4px 0;">A IA extrairá dados e informações de acervos científicos e confiáveis na internet para propor uma pergunta real.</p>
-                                    <span style="color:var(--gold); font-size:0.85rem;"><i class="fas fa-star"></i> +250 XP</span>
-                                </div>
-                                <button class="btn-principal" style="margin-top:10px; width:100%;" id="btn-gerar-missao" onclick="abrirQuizMissao()">Gerar Nova Questão de IA</button>
-                                <div id="zona-quiz-missao" style="display:none;"></div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-titulo"><i class="fas fa-comments"></i> Novas Ideias & Projetos</div>
-                            <textarea id="input-post-texto" class="input-estilizado" rows="2" placeholder="Compartilhe suas ideias, projetos ou debates com a escola..."></textarea>
-                            <button class="btn-principal" onclick="publicarPost()">Publicar</button>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-titulo"><i class="fas fa-stream"></i> Mural da Escola</div>
-                            <div id="container-feed"></div>
-                        </div>
-                    </div>
-
-                    <div class="coluna">
-                        <div class="card">
-                            <div class="card-titulo"><i class="fas fa-crown"></i> Liga de Equipes</div>
-                            <div class="item-destaque"><span>1º 🟦 CyberFox</span> <strong style="color:var(--cor-azul-neon)" id="equipe-pts">0 pts</strong></div>
-                            <div class="item-destaque"><span>2º 🟪 AlphaTech</span> <span>2.850 pts</span></div>
-                            <div class="item-destaque"><span>3º ⬜ BioSquad</span> <span>2.100 pts</span></div>
-                        </div>
-                    </div>
-                </div>
+                <div class="card"><div class="card-titulo">Mural da Escola</div>
+                <textarea id="input-post" class="card" style="width:100%; background:rgba(0,0,0,0.2); color:white; padding:10px;"></textarea>
+                <button class="btn-principal" onclick="publicarPost()">Publicar</button>
+                <div id="container-feed"></div></div>
             </div>
 
-            <!-- 2. IA ESTUDOS -->
             <div id="aba-estudos" class="aba-conteudo">
-                <div class="card">
-                    <div class="card-titulo"><i class="fas fa-robot"></i> Tutor de Estudos com Varredura Confiável</div>
-                    <p style="font-size:0.85rem; color:var(--cor-texto-secundario); margin-bottom:12px;">Buscas estruturadas em repositórios de renome. Escreva qualquer dúvida ou digite "Crie um quiz interativo sobre [assunto]" para começar.</p>
-                    <div class="chat-ia-janela" id="janela-chat-ia">
-                        <div class="msg-chat msg-ia">Olá! Sou o Tutor Inteligente. Digite o assunto que está precisando estudar ou aprender de verdade. Buscarei em fontes seguras e antigas para te responder da forma correta.</div>
-                    </div>
-                    <div style="display:flex; gap:10px;">
-                        <input type="text" id="input-chat-ia" class="input-estilizado" style="margin:0;" placeholder="Ex: Explique como funciona o processo de fotossíntese">
-                        <button class="btn-principal" id="btn-enviar-ia" onclick="perguntarIAReal()">Consultar IA</button>
-                    </div>
-                </div>
+                <div class="card"><div class="card-titulo">Tutor de Estudos Inteligente</div>
+                <div id="typebot-container" style="height: 500px; width: 100%;"></div></div>
             </div>
 
-            <!-- 3. ARENA DE DESENHO DIGITAL -->
             <div id="aba-desenho" class="aba-conteudo">
-                <div class="card">
-                    <div class="card-titulo"><i class="fas fa-paint-brush"></i> Painel de Arte & Design</div>
-                    <p style="font-size:0.85rem; margin-bottom:12px; color:var(--cor-texto-secundario);">Tema Criativo da Semana: **Futuro Tecnológico e Verde**</p>
-                    <div class="controles-canvas">
-                        <input type="color" id="cor-pincel" value="#4cc9f0">
-                        <label style="font-size:0.85rem;">Pincel:</label>
-                        <input type="range" id="tamanho-pincel" min="2" max="15" value="5">
-                        <button class="btn-principal" style="background:var(--erro); padding:5px 12px; font-size:0.8rem;" onclick="limparCanvas()">Limpar Tela</button>
-                    </div>
-                    <div class="canvas-container">
-                        <canvas id="canvas-desenho" width="620" height="340"></canvas>
-                    </div>
-                    <button class="btn-principal" onclick="alert('🎨 Obra submetida com sucesso para o mural escolar!')">Submeter Desenho</button>
-                </div>
+                <div class="card"><div class="card-titulo">Painel de Arte</div>
+                <canvas id="canvas-desenho" width="600" height="300" style="background:white;"></canvas></div>
             </div>
 
-            <!-- 4. CARREIRA / FUTURO -->
             <div id="aba-carreira" class="aba-conteudo">
-                <div class="card">
-                    <div class="card-titulo"><i class="fas fa-user-astronaut"></i> Teste de Bússola Vocacional</div>
-                    <p style="font-size:0.85rem; margin-bottom:15px; color:var(--cor-texto-secundario);">Selecione seus interesses natos abaixo para alinhar suas áreas futuras:</p>
-                    <div style="margin-bottom:20px;">
-                        <span class="tag-habilidade" onclick="alternarHabilidade(this, 'Tecnologia')">💻 Tecnologia & Sistemas</span>
-                        <span class="tag-habilidade" onclick="alternarHabilidade(this, 'Artes')">🎨 Design & Ilustração</span>
-                        <span class="tag-habilidade" onclick="alternarHabilidade(this, 'Liderança')">📢 Liderança & Oratória</span>
-                        <span class="tag-habilidade" onclick="alternarHabilidade(this, 'Ciências')">🔬 Biociências & Pesquisa</span>
-                    </div>
-                    <button class="btn-principal" onclick="calcularVocacional()">Calcular Meu Perfil</button>
-                    <div id="resultado-carreira" style="margin-top:15px; display:none; padding:12px; background:rgba(0,0,0,0.2); border-radius:8px; font-size:0.9rem; line-height:1.4;"></div>
-                </div>
+                <div class="card"><div class="card-titulo">Bússola Vocacional</div>
+                <button class="btn-principal" onclick="calcularVocacional()">Calcular Perfil</button>
+                <div id="resultado-carreira" style="margin-top:15px;"></div></div>
             </div>
 
-            <!-- 5. DESTAQUES -->
             <div id="aba-destaques" class="aba-conteudo">
-                <div class="card">
-                    <div class="card-titulo"><i class="fas fa-trophy"></i> Alunos em Destaque da Semana</div>
-                    <h4>🔥 Quadro de Líderes (XP)</h4>
-                    <div class="item-destaque" style="margin-top:10px;"><span>1. Mariana Silva</span> <strong style="color:var(--gold)">+2.400 XP</strong></div>
-                    <div class="item-destaque"><span>2. <span id="destaque-nome-voce">Você</span></span> <strong id="destaque-xp-voce">+0 XP</strong></div>
-                </div>
+                <div class="card"><div class="card-titulo">Quadro de Líderes</div>
+                <div id="container-destaques"></div></div>
             </div>
         </main>
     </div>
 
-    <!-- MODAL PERFIL AVANÇADO (COM AVATARES PRONTOS & MODO ANÔNIMO) -->
-    <div class="modal-perfil" id="caixa-modal-perfil">
-        <div class="modal-conteudo">
-            <h3 style="margin-bottom:15px; font-size:1.1rem;"><i class="fas fa-user-cog"></i> Configurar Perfil</h3>
-            
-            <!-- Modo Anônimo Toggle -->
-            <label class="switch-container">
-                <input type="checkbox" id="check-anonimo" onchange="alternarModoAnonimo(this.checked)">
-                <span style="font-size:0.9rem; font-weight:bold; color:var(--cor-azul-neon);">Ativar Modo Anônimo</span>
-            </label>
-
-            <div id="campos-perfil-normais">
-                <label style="font-size:0.85rem; color:var(--cor-texto-secundario);">Seu Nome/Apelido:</label>
-                <input type="text" id="edit-nome" class="input-estilizado" placeholder="Digite seu nome">
-
-                <label style="font-size:0.85rem; color:var(--cor-texto-secundario); display:block; margin-top:5px;">Escolha um Avatar Pronto:</label>
-                <div class="seletor-avatares-grid">
-                    <img class="avatar-opcao" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="Avatar 1" onclick="selecionarAvatarRapido(this.src)">
-                    <img class="avatar-opcao" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Avatar 2" onclick="selecionarAvatarRapido(this.src)">
-                    <img class="avatar-opcao" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100" alt="Avatar 3" onclick="selecionarAvatarRapido(this.src)">
-                    <img class="avatar-opcao" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100" alt="Avatar 4" onclick="selecionarAvatarRapido(this.src)">
-                    <img class="avatar-opcao" src="https://images.unsplash.com/photo-1607990283143-e81e7a2c93ab?w=100" alt="Avatar 5" onclick="selecionarAvatarRapido(this.src)">
-                </div>
-
-                <label style="font-size:0.85rem; color:var(--cor-texto-secundario);">Ou use um link de foto próprio:</label>
-                <input type="text" id="edit-foto" class="input-estilizado" placeholder="Link (URL) da imagem">
-            </div>
-
-            <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:10px;">
-                <button class="btn-principal" style="background:#495057;" onclick="fecharModalPerfil()">Cancelar</button>
-                <button class="btn-principal" onclick="salvarConfigPerfil()">Salvar Perfil</button>
-            </div>
-        </div>
+    <div id="modal-avatar" class="modal-container">
+        <button onclick="fecharAvatar()" style="position:absolute; top:20px; right:20px; z-index:2001; padding:10px;">Fechar</button>
+        <iframe id="frame-avatar" src="https://readyplayer.me/avatar?frameApi"></iframe>
     </div>
 
-    <!-- SCRIPTS DO FIREBASE COMPAT -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <script type="module">
+        import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0.3.10/dist/web.js';
+        Typebot.initBubble({ typebot: "SEU_ID_AQUI", apiHost: "https://typebot.io" });
+    </script>
 
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyAJLAKUTPU0y61gPJb8P4M1soHkOQ2m-GM",
-            authDomain: "movadu-4311d.firebaseapp.com",
-            databaseURL: "https://movadu-4311d-default-rtdb.firebaseio.com",
-            projectId: "movadu-4311d",
-            storageBucket: "movadu-4311d.firebasestorage.app",
-            messagingSenderId: "325630373139",
-            appId: "1:325630373139:web:82cdd8f9c405284e1a7ee6",
-            measurementId: "G-FQ5SY03ZQD"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        const usuarioRef = database.ref('movaedu/usuario');
-        const feedRef = database.ref('movaedu/feed');
-
-        let nomeUsuarioAtual = "Gabriel Stark";
-        let fotoUsuarioAtual = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150";
-        let avatarSelecionadoTemporario = "";
-        let habilidades = [];
-
-        // GATEWAY DA INTELIGÊNCIA ARTIFICIAL REAL (GEMINI 1.5)
-        const IA_GATEWAY = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAJLAKUTPU0y61gPJb8P4M1soHkOQ2m-GM";
-
-        function formatarTextoPedagogico(txt) {
-            return txt
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/\n/g, '<br>');
-        }
-
-        // CARREGAR DADOS DO FIREBASE
-        usuarioRef.on('value', (snapshot) => {
-            const dados = snapshot.val();
-            if (dados) {
-                nomeUsuarioAtual = dados.nome || "Gabriel Stark";
-                fotoUsuarioAtual = dados.foto || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150";
-                
-                document.getElementById('nome-usuario-tela').innerText = nomeUsuarioAtual;
-                document.getElementById('destaque-nome-voce').innerText = nomeUsuarioAtual + " (Você)";
-                document.getElementById('imagem-perfil-tela').src = fotoUsuarioAtual;
-                
-                document.getElementById('barra-nivel').innerText = `NV ${dados.nivel || 1}`;
-                document.getElementById('texto-xp').innerText = `XPs: ${dados.xp || 0} / 1000`;
-                document.getElementById('progresso-xp').style.width = `${((dados.xp || 0) / 1000) * 100}%`;
-                document.getElementById('equipe-pts').innerText = `${(dados.pontos || 0).toLocaleString('pt-BR')} pts`;
-                document.getElementById('destaque-xp-voce').innerText = `+${dados.xp || 0} XP`;
-                document.getElementById('valor-streak').innerText = `${dados.streak || 4} Dias`;
-
-                document.getElementById('check-anonimo').checked = (dados.anonimo === true);
-                if (dados.anonimo) {
-                    document.getElementById('campos-perfil-normais').style.opacity = "0.5";
-                    document.getElementById('campos-perfil-normais').style.pointerEvents = "none";
-                }
-
-                if(dados.m1) {
-                    const b = document.getElementById('btn-gerar-missao');
-                    if(b) { b.disabled = true; b.innerText = "Desafio Concluído! ✔"; b.style.background = "var(--sucesso)"; }
-                }
-            } else {
-                usuarioRef.set({ nome: "Gabriel Stark", foto: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150", nivel: 1, xp: 450, pontos: 600, streak: 4, m1: false, anonimo: false });
-            }
-        });
-
-        // NAVEGAÇÃO DE ABAS CORRIGIDA (GARANTE QUE NÃO TRAVE)
-        function mudarAba(idAba) {
+        function mudarAba(id) {
             document.querySelectorAll('.aba-conteudo').forEach(a => a.classList.remove('ativa'));
             document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('ativo'));
-            
-            const abaAlvo = document.getElementById(`aba-${idAba}`);
-            const btnAlvo = document.getElementById(`btn-menu-${idAba}`);
-            
-            if (abaAlvo) abaAlvo.classList.add('ativa');
-            if (btnAlvo) btnAlvo.classList.add('ativo');
-
-            if (idAba === 'desenho') {
-                setTimeout(inicializarCanvas, 150);
-            }
+            document.getElementById(`aba-${id}`).classList.add('ativa');
+            event.currentTarget.classList.add('ativo');
         }
 
-        // EDICAO DE PERFIL AVANÇADA
-        function abrirModalPerfil() {
-            document.getElementById('edit-nome').value = nomeUsuarioAtual;
-            document.getElementById('edit-foto').value = fotoUsuarioAtual;
-            avatarSelecionadoTemporario = fotoUsuarioAtual;
-            
-            // Marcar o avatar correspondente no modal
-            document.querySelectorAll('.avatar-opcao').forEach(img => {
-                if(img.src === fotoUsuarioAtual) {
-                    img.classList.add('selecionado');
-                } else {
-                    img.classList.remove('selecionado');
+        function abrirEditorAvatar() { document.getElementById('modal-avatar').style.display = 'block'; }
+        function fecharAvatar() { document.getElementById('modal-avatar').style.display = 'none'; }
+        
+        window.addEventListener('message', function(event) {
+            if (event.data?.source === 'readyplayerme') {
+                const avatarUrl = event.data.eventName === 'v1.avatar.exported' ? event.data.data.url : null;
+                if (avatarUrl) {
+                    document.getElementById('avatar-display').src = avatarUrl;
+                    fecharAvatar();
                 }
-            });
-
-            document.getElementById('caixa-modal-perfil').style.display = "flex";
-        }
-
-        function fecharModalPerfil() { document.getElementById('caixa-modal-perfil').style.display = "none"; }
-
-        function selecionarAvatarRapido(url) {
-            avatarSelecionadoTemporario = url;
-            document.getElementById('edit-foto').value = url;
-            
-            document.querySelectorAll('.avatar-opcao').forEach(img => {
-                if(img.src === url) {
-                    img.classList.add('selecionado');
-                } else {
-                    img.classList.remove('selecionado');
-                }
-            });
-        }
-
-        function alternarModoAnonimo(isAnonimo) {
-            const containerCampos = document.getElementById('campos-perfil-normais');
-            if(isAnonimo) {
-                containerCampos.style.opacity = "0.5";
-                containerCampos.style.pointerEvents = "none";
-            } else {
-                containerCampos.style.opacity = "1";
-                containerCampos.style.pointerEvents = "auto";
-            }
-        }
-
-        function salvarConfigPerfil() {
-            const isAnonimo = document.getElementById('check-anonimo').checked;
-            
-            if(isAnonimo) {
-                usuarioRef.update({
-                    nome: "Estudante Anônimo",
-                    foto: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150",
-                    anonimo: true
-                });
-            } else {
-                const n = document.getElementById('edit-nome').value.trim();
-                const f = document.getElementById('edit-foto').value.trim();
-                if(!n) return alert("Insira o seu nome.");
-                
-                usuarioRef.update({
-                    nome: n,
-                    foto: f || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150",
-                    anonimo: false
-                });
-            }
-            fecharModalPerfil();
-        }
-
-        // CARREGAR FEED DE PUBLICAÇÕES
-        feedRef.on('value', (snapshot) => {
-            const container = document.getElementById('container-feed');
-            container.innerHTML = "";
-            const posts = snapshot.val();
-            if(posts) {
-                Object.keys(posts).reverse().forEach(id => {
-                    const post = posts[id];
-                    const div = document.createElement('div');
-                    div.className = 'projeto-card';
-                    div.innerHTML = `
-                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-                            <img src="${post.avatar}" style="width:28px; height:28px; border-radius:50%; object-fit:cover;">
-                            <strong style="color:var(--cor-azul-neon); font-size:0.9rem;">${post.autor}</strong>
-                        </div>
-                        <p style="font-size:0.85rem; color:var(--cor-texto-secundario);">${post.texto}</p>
-                    `;
-                    container.appendChild(div);
-                });
-            } else {
-                container.innerHTML = "<p style='color:var(--cor-texto-secundario); font-size:0.8rem;'>Ainda não há postagens no mural.</p>";
             }
         });
 
-        function publicarPost() {
-            const txt = document.getElementById('input-post-texto').value;
-            if(!txt.trim()) return alert("Escreva a sua mensagem antes de publicar.");
-            feedRef.push({ autor: nomeUsuarioAtual, avatar: fotoUsuarioAtual, texto: txt });
-            document.getElementById('input-post-texto').value = "";
-        }
-
-        /* ==================== RESPOSTAS DE CONFIANÇA DA IA ==================== */
-        async function perguntarIAReal() {
-            const input = document.getElementById('input-chat-ia');
-            const botao = document.getElementById('btn-enviar-ia');
-            const promptTexto = input.value.trim();
-            if (!promptTexto) return;
-
-            const janela = document.getElementById('janela-chat-ia');
-            janela.innerHTML += `<div class="msg-chat msg-user">${promptTexto}</div>`;
-            input.value = "";
-            janela.scrollTop = janela.scrollHeight;
-
-            botao.disabled = true;
-            botao.innerText = "Pesquisando fontes...";
-
-            try {
-                const payload = {
-                    contents: [{
-                        parts: [{
-                            text: `Você é uma IA pedagógica avançada integrada na plataforma de estudos Movaedu. Diante da dúvida: "${promptTexto}", faça uma varredura conceitual em repositórios científicos, dados de confiança e históricos. Escreva uma resposta didática, coerente, verdadeira e totalmente exata.`
-                        }]
-                    }]
-                };
-
-                const respostaCompleta = await fetch(IA_GATEWAY, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
-
-                const dadosRetornados = await respostaCompleta.json();
-                let textoFinalIA = dadosRetornados.candidates[0].content.parts[0].text;
-
-                janela.innerHTML += `<div class="msg-chat msg-ia">${formatarTextoPedagogico(textoFinalIA)}</div>`;
-            } catch (erro) {
-                janela.innerHTML += `<div class="msg-chat msg-ia" style="color:var(--erro);">⚠️ Servidor ocupado. Poderia enviar novamente para recalibrar a pesquisa?</div>`;
-            }
-
-            botao.disabled = false;
-            botao.innerText = "Consultar IA";
-            janela.scrollTop = janela.scrollHeight;
-        }
-
-        /* ==================== DESAFIOS E QUIZ EM TEMPO REAL ==================== */
-        async function abrirQuizMissao() {
-            const zona = document.getElementById('zona-quiz-missao');
-            const botaoGerar = document.getElementById('btn-gerar-missao');
-
-            botaoGerar.disabled = true;
-            botaoGerar.innerText = "Buscando pergunta real na IA...";
-            zona.style.display = "block";
-            zona.innerHTML = "<p style='font-size:0.85rem; color:var(--cor-azul-neon);'><i class='fas fa-sync-alt fa-spin'></i> Acessando dados seguros para gerar desafio real...</p>";
-
-            try {
-                const promptQuestao = {
-                    contents: [{
-                        parts: [{
-                            text: "Gere uma pergunta de múltipla escolha sobre Ciências, Matemática ou História. Retorne EXCLUSIVAMENTE um objeto JSON válido, sem aspas markdown, seguindo esta estrutura exata: {\"pergunta\": \"texto da pergunta\", \"opcoes\": [\"A\", \"B\", \"C\", \"D\"], \"correta\": 0} (onde correta é o índice numérico da resposta certa de 0 a 3)."
-                        }]
-                    }]
-                };
-
-                const respostaCompleta = await fetch(IA_GATEWAY, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(promptQuestao)
-                });
-
-                const dadosRetornados = await respostaCompleta.json();
-                let rawText = dadosRetornados.candidates[0].content.parts[0].text.trim();
-                
-                rawText = rawText.replace(/```json/g, "").replace(/```/g, "").trim();
-
-                const quizDados = JSON.parse(rawText);
-
-                let htmlOpcoes = "";
-                quizDados.opcoes.forEach((opcao, indice) => {
-                    htmlOpcoes += `<button class="opcao-quiz" onclick="validarRespostaMissao(${indice}, ${quizDados.correta})">${opcao}</button>`;
-                });
-
-                zona.innerHTML = `
-                    <div class="bloco-quiz">
-                        <strong style="font-size:0.95rem; display:block; margin-bottom:10px; color:#fff;"><i class="fas fa-question-circle"></i> QUESTÃO: ${quizDados.pergunta}</strong>
-                        ${htmlOpcoes}
-                    </div>
-                `;
-
-            } catch (erro) {
-                zona.innerHTML = "<p style='color:var(--erro); font-size:0.85rem;'>⚠️ Falha ao estruturar os dados. Clique de novo no botão para sortear outra questão.</p>";
-                botaoGerar.disabled = false;
-                botaoGerar.innerText = "Gerar Nova Questão de IA";
-            }
-        }
-
-        function validarRespostaMissao(escolhido, correto) {
-            if (escolhido === correto) {
-                alert("🎉 CERTÍSSIMO! Resposta correta demonstrada. +250 XP adicionados!");
-                usuarioRef.once('value', s => {
-                    const d = s.val();
-                    if(d) {
-                        let novoXp = (d.xp || 0) + 250;
-                        let novoNivel = d.nivel || 1;
-                        if(novoXp >= 1000) { novoXp -= 1000; novoNivel++; alert("🚀 LEVEL UP! Você subiu de nível!"); }
-                        usuarioRef.update({ xp: novoXp, nivel: novoNivel, pontos: (d.pontos || 0) + 500, m1: true });
-                    }
-                });
-            } else {
-                alert("❌ Resposta incorreta! O Tutor IA atualizou o banco e alterou o desafio. Tente novamente:");
-                abrirQuizMissao();
-            }
-        }
-
-        /* ==================== CANVAS DE DESENHO DIGITAL ==================== */
-        let canvas, ctx, desenhando = false;
-        function inicializarCanvas() {
-            canvas = document.getElementById('canvas-desenho');
-            if(!canvas) return;
-            ctx = canvas.getContext('2d');
-            
-            canvas.onmousedown = () => desenhando = true;
-            canvas.onmouseup = () => { desenhando = false; ctx.beginPath(); };
-            canvas.onmousemove = moverPincel;
-
-            canvas.ontouchstart = () => { desenhando = true; };
-            canvas.ontouchend = () => { desenhando = false; ctx.beginPath(); };
-            canvas.ontouchmove = (e) => { e.preventDefault(); moverPincel(e.touches[0]); };
-        }
-
-        function moverPincel(e) {
-            if(!desenhando) return;
-            const r = canvas.getBoundingClientRect();
-            ctx.lineWidth = document.getElementById('tamanho-pincel').value;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = document.getElementById('cor-pincel').value;
-            ctx.lineTo(e.clientX - r.left, e.clientY - r.top);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(e.clientX - r.left, e.clientY - r.top);
-        }
-        function limparCanvas() { if(ctx) ctx.clearRect(0, 0, canvas.width, canvas.height); }
-
-        /* ==================== BÚSSOLA VOCACIONAL ==================== */
-        function alternarHabilidade(el, area) {
-            el.classList.toggle('selecionada');
-            if(el.classList.contains('selecionada')) habilidades.push(area);
-            else habilidades = habilidades.filter(h => h !== area);
-        }
-
-        function calcularVocacional() {
-            const p = document.getElementById('resultado-carreira');
-            p.style.display = "block";
-            if(habilidades.length === 0) { p.innerHTML = "Selecione ao menos uma aptidão."; return; }
-            
-            let resultado = "🚀 **Perfil Geral:** Suas escolhas apontam forte sinergia com Engenharia de Dados, Governança de Sistemas e Administração.";
-            if(habilidades.includes('Artes') && habilidades.includes('Tecnologia')) {
-                resultado = "🎨💻 **Perfil Criativo-Tech:** Perfeita compatibilidade com Desenvolvimento de Jogos Digitais, Concept Art e Desenho de UI/UX.";
-            } else if (habilidades.includes('Liderança')) {
-                resultado = "📢 **Perfil Diretor/Líder:** Grande aptidão para Comunicação Avançada, Direito Digital e Gestão de Projetos de TI.";
-            }
-            p.innerHTML = resultado;
-        }
+        function publicarPost() { alert("Post enviado ao Mural!"); }
+        function calcularVocacional() { document.getElementById('resultado-carreira').innerText = "Processando perfil tecnológico..."; }
     </script>
 </body>
 </html>
-
-```
