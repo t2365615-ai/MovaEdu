@@ -1,108 +1,84 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movaedu - Plataforma Escolar Gamificada</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Nexus Acadêmico - Sistema Completo</title>
     <style>
-        /* [SEUS ESTILOS ORIGINAIS MANTIDOS] */
-        :root { --bg-principal: #0a1128; --bg-card: #1c2541; --cor-roxo: #7209b7; --cor-roxo-neon: #b5179e; --cor-azul-neon: #4cc9f0; --cor-texto: #f8f9fa; --cor-texto-secundario: #ced4da; --gold: #ffbd00; --sucesso: #38b000; --erro: #e63946; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: var(--bg-principal); color: var(--cor-texto); min-height: 100vh; }
-        .container { display: flex; flex-direction: column; }
-        @media (min-width: 1025px) { .container { display: grid; grid-template-columns: 290px 1fr; height: 100vh; } }
-        aside { background-color: var(--bg-card); padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .avatar-wrapper { position: relative; width: 100px; height: 100px; margin: 0 auto 12px; }
-        .avatar { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--cor-azul-neon); object-fit: cover; cursor: pointer; }
-        .menu-item { padding: 10px 16px; cursor: pointer; color: var(--cor-texto-secundario); display: flex; gap: 8px; align-items: center; }
-        .menu-item.ativo { background: rgba(114, 9, 183, 0.2); color: #fff; border-left: 4px solid var(--cor-azul-neon); }
-        .card { background-color: var(--bg-card); border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.05); }
-        .btn-principal { background: linear-gradient(45deg, var(--cor-roxo), var(--cor-roxo-neon)); color: white; padding: 10px; border-radius: 8px; border: none; cursor: pointer; }
-        .input-estilizado { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; color: white; }
+        body { font-family: 'Segoe UI', sans-serif; background: #eef2f3; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .card { border: 1px solid #e0e0e0; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #fafafa; }
+        h1, h2 { color: #2c3e50; }
+        button { background: #27ae60; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #219150; }
+        textarea { width: 100%; height: 100px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
+        #chat-output { background: #fff; padding: 15px; margin-top: 10px; border-left: 5px solid #27ae60; min-height: 50px; }
+        .stats { display: flex; gap: 20px; font-weight: bold; color: #34495e; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <aside>
-        <div class="perfil-container">
-            <div class="avatar-wrapper">
-                <img class="avatar" id="imagem-perfil-tela" src="https://api.dicebear.com/8.x/notionists/svg?seed=MovaEdu" onclick="abrirModalPerfil()">
-            </div>
-            <h3 id="nome-usuario-tela">Usuário</h3>
-            <button class="btn-pequeno" onclick="abrirModalPerfil()">Editar Perfil</button>
-        </div>
-        <ul class="menu-lateral">
-            <li class="menu-item ativo" onclick="mudarAba('dashboard')"><i class="fas fa-home"></i> Geral</li>
-            <li class="menu-item" onclick="mudarAba('estudos')"><i class="fas fa-brain"></i> IA Estudos</li>
-        </ul>
-    </aside>
+    <h1>Nexus Acadêmico</h1>
+    
+    <div class="stats">
+        <span>Nível: <span id="nivel">1</span></span>
+        <span>XP: <span id="xp">0</span></span>
+    </div>
 
-    <main>
-        <div id="aba-estudos" class="aba-conteudo">
-            <div class="card">
-                <div class="chat-ia-janela" id="janela-chat-ia" style="height:300px; overflow-y:auto; background:rgba(0,0,0,0.2); padding:10px;"></div>
-                <input type="text" id="input-chat-ia" class="input-estilizado" placeholder="Dúvida acadêmica...">
-                <button class="btn-principal" onclick="perguntarIAReal()">Consultar Tutor MovaEdu</button>
-            </div>
-        </div>
-    </main>
-</div>
+    <div class="card">
+        <h2>Nexus Mentor (IA)</h2>
+        <textarea id="userInput" placeholder="O que deseja estudar hoje?"></textarea>
+        <button onclick="falarComIA()">Perguntar ao Mentor</button>
+        <div id="chat-output">O Mentor está pronto para guiar seus estudos...</div>
+    </div>
 
-<div class="modal-perfil" id="caixa-modal-perfil" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center;">
-    <div class="card" style="width:400px;">
-        <h3>Customizar Avatar</h3>
-        <p style="font-size:0.8rem;">Descreva seu estilo (ex: cabelo curto, óculos, pele clara):</p>
-        <input type="text" id="edit-avatar-seed" class="input-estilizado" placeholder="Ex: menino de boné">
-        <button class="btn-principal" onclick="salvarConfigPerfil()">Salvar</button>
+    <div class="card">
+        <h2>Descoberta de Carreira</h2>
+        <p>Realize o teste de habilidades para desbloquear novas trilhas.</p>
+        <button onclick="iniciarTeste()">Iniciar Teste de Perfil</button>
     </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script>
-    const firebaseConfig = { /* SEU CONFIG AQUI */ };
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-    const IA_KEY = "SUA_API_KEY_AQUI"; // Substitua pela sua
-    const IA_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${IA_KEY}`;
+    // Sua chave de API integrada
+    const API_KEY = 'AIzaSyAF02V_iBJVxNuphYbIBCgN479yXp9lG3c'; 
+    let xp = 0;
+    let nivel = 1;
 
-    // IA Humanizada (System Prompt Integrado)
-    async function perguntarIAReal() {
-        const input = document.getElementById('input-chat-ia');
-        const janela = document.getElementById('janela-chat-ia');
-        const prompt = input.value;
+    async function falarComIA() {
+        const pergunta = document.getElementById('userInput').value;
+        const display = document.getElementById('chat-output');
         
-        janela.innerHTML += `<div class="msg-user">Você: ${prompt}</div>`;
-        
+        if (!pergunta) return;
+        display.innerText = "Pensando...";
+
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+
         try {
-            const resposta = await fetch(IA_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
+            const resposta = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{
-                        parts: [{ text: `Você é um tutor inspirador da MovaEdu. Responda de forma didática e encorajadora. Se for fora da escola, redirecione para estudos. Pergunta: ${prompt}` }]
-                    }]
+                    contents: [{ parts: [{ text: "Você é o Nexus Mentor. Responda de forma motivadora: " + pergunta }] }]
                 })
             });
-            const data = await resposta.json();
-            const texto = data.candidates[0].content.parts[0].text;
-            janela.innerHTML += `<div class="msg-ia">Tutor: ${texto}</div>`;
-        } catch(e) { janela.innerHTML += `<div class="msg-ia">Erro na conexão.</div>`; }
-        input.value = "";
+            const dados = await resposta.json();
+            const texto = dados.candidates[0].content.parts[0].text;
+            display.innerText = texto;
+            
+            // Sistema de XP
+            xp += 50;
+            document.getElementById('xp').innerText = xp;
+            if(xp >= 100) { nivel++; xp = 0; document.getElementById('nivel').innerText = nivel; }
+        } catch (erro) {
+            display.innerText = "Erro: Verifique a conexão.";
+        }
     }
 
-    // Avatar Criador Inclusivo
-    function abrirModalPerfil() { document.getElementById('caixa-modal-perfil').style.display = "flex"; }
-    
-    function salvarConfigPerfil() {
-        const seed = document.getElementById('edit-avatar-seed').value || "MovaEdu";
-        const url = `https://api.dicebear.com/8.x/notionists/svg?seed=${encodeURIComponent(seed)}`;
-        document.getElementById('imagem-perfil-tela').src = url;
-        document.getElementById('caixa-modal-perfil').style.display = "none";
-        // Opcional: salvar url no firebase
+    function iniciarTeste() {
+        alert("Iniciando jornada de descoberta de carreira...");
     }
 </script>
+
 </body>
 </html>
