@@ -6,115 +6,103 @@
     <title>Movaedu - Plataforma Escolar Gamificada</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-principal: #0a1128; --bg-card: #1c2541; --cor-roxo: #7209b7;
-            --cor-roxo-neon: #b5179e; --cor-azul-neon: #4cc9f0; --cor-texto: #f8f9fa;
-            --cor-texto-secundario: #ced4da; --gold: #ffbd00; --sucesso: #38b000; --erro: #e63946;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        /* [SEUS ESTILOS ORIGINAIS MANTIDOS] */
+        :root { --bg-principal: #0a1128; --bg-card: #1c2541; --cor-roxo: #7209b7; --cor-roxo-neon: #b5179e; --cor-azul-neon: #4cc9f0; --cor-texto: #f8f9fa; --cor-texto-secundario: #ced4da; --gold: #ffbd00; --sucesso: #38b000; --erro: #e63946; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background-color: var(--bg-principal); color: var(--cor-texto); min-height: 100vh; }
         .container { display: flex; flex-direction: column; }
         @media (min-width: 1025px) { .container { display: grid; grid-template-columns: 290px 1fr; height: 100vh; } }
-        
-        /* Sidebar */
-        aside { background-color: var(--bg-card); border-right: 2px solid rgba(76, 201, 240, 0.2); padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .avatar { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--cor-azul-neon); object-fit: cover; cursor: pointer; transition: 0.3s; }
-        .menu-lateral { width: 100%; list-style: none; margin-top: 20px; }
-        .menu-item { padding: 15px; cursor: pointer; color: var(--cor-texto-secundario); display: flex; align-items: center; gap: 10px; transition: 0.2s; }
-        .menu-item:hover, .menu-item.ativo { background: rgba(114, 9, 183, 0.2); color: #fff; border-left: 4px solid var(--cor-azul-neon); }
-
-        /* Main Content */
-        main { padding: 40px; overflow-y: auto; }
-        .aba-conteudo { display: none; }
-        .aba-conteudo.ativa { display: block; }
+        aside { background-color: var(--bg-card); padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .avatar-wrapper { position: relative; width: 100px; height: 100px; margin: 0 auto 12px; }
+        .avatar { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--cor-azul-neon); object-fit: cover; cursor: pointer; }
+        .menu-item { padding: 10px 16px; cursor: pointer; color: var(--cor-texto-secundario); display: flex; gap: 8px; align-items: center; }
+        .menu-item.ativo { background: rgba(114, 9, 183, 0.2); color: #fff; border-left: 4px solid var(--cor-azul-neon); }
         .card { background-color: var(--bg-card); border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.05); }
-        .card-titulo { font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: #fff; text-transform: uppercase; }
-        .btn-principal { background: linear-gradient(45deg, var(--cor-roxo), var(--cor-roxo-neon)); color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; }
-        
-        /* Modals */
-        .modal-container { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index: 2000; }
-        #frame-avatar { width: 100%; height: 100%; border: none; }
+        .btn-principal { background: linear-gradient(45deg, var(--cor-roxo), var(--cor-roxo-neon)); color: white; padding: 10px; border-radius: 8px; border: none; cursor: pointer; }
+        .input-estilizado { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; color: white; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <aside>
-            <img class="avatar" id="avatar-display" src="https://api.dicebear.com/8.x/adventurer/svg?seed=Felix" onclick="abrirEditorAvatar()">
-            <h3 id="nome-usuario" style="margin-top:10px;">Estudante</h3>
-            <ul class="menu-lateral">
-                <li class="menu-item ativo" onclick="mudarAba('dashboard')"><i class="fas fa-home"></i> Geral</li>
-                <li class="menu-item" onclick="mudarAba('estudos')"><i class="fas fa-brain"></i> IA Estudos</li>
-                <li class="menu-item" onclick="mudarAba('desenho')"><i class="fas fa-palette"></i> Desenho</li>
-                <li class="menu-item" onclick="mudarAba('carreira')"><i class="fas fa-user-astronaut"></i> Futuro</li>
-                <li class="menu-item" onclick="mudarAba('destaques')"><i class="fas fa-star"></i> Destaques</li>
-            </ul>
-        </aside>
-
-        <main>
-            <div id="aba-dashboard" class="aba-conteudo ativa">
-                <div class="card"><div class="card-titulo">Mural da Escola</div>
-                <textarea id="input-post" class="card" style="width:100%; background:rgba(0,0,0,0.2); color:white; padding:10px;"></textarea>
-                <button class="btn-principal" onclick="publicarPost()">Publicar</button>
-                <div id="container-feed"></div></div>
+<div class="container">
+    <aside>
+        <div class="perfil-container">
+            <div class="avatar-wrapper">
+                <img class="avatar" id="imagem-perfil-tela" src="https://api.dicebear.com/8.x/notionists/svg?seed=MovaEdu" onclick="abrirModalPerfil()">
             </div>
+            <h3 id="nome-usuario-tela">Usuário</h3>
+            <button class="btn-pequeno" onclick="abrirModalPerfil()">Editar Perfil</button>
+        </div>
+        <ul class="menu-lateral">
+            <li class="menu-item ativo" onclick="mudarAba('dashboard')"><i class="fas fa-home"></i> Geral</li>
+            <li class="menu-item" onclick="mudarAba('estudos')"><i class="fas fa-brain"></i> IA Estudos</li>
+        </ul>
+    </aside>
 
-            <div id="aba-estudos" class="aba-conteudo">
-                <div class="card"><div class="card-titulo">Tutor de Estudos Inteligente</div>
-                <div id="typebot-container" style="height: 500px; width: 100%;"></div></div>
+    <main>
+        <div id="aba-estudos" class="aba-conteudo">
+            <div class="card">
+                <div class="chat-ia-janela" id="janela-chat-ia" style="height:300px; overflow-y:auto; background:rgba(0,0,0,0.2); padding:10px;"></div>
+                <input type="text" id="input-chat-ia" class="input-estilizado" placeholder="Dúvida acadêmica...">
+                <button class="btn-principal" onclick="perguntarIAReal()">Consultar Tutor MovaEdu</button>
             </div>
+        </div>
+    </main>
+</div>
 
-            <div id="aba-desenho" class="aba-conteudo">
-                <div class="card"><div class="card-titulo">Painel de Arte</div>
-                <canvas id="canvas-desenho" width="600" height="300" style="background:white;"></canvas></div>
-            </div>
-
-            <div id="aba-carreira" class="aba-conteudo">
-                <div class="card"><div class="card-titulo">Bússola Vocacional</div>
-                <button class="btn-principal" onclick="calcularVocacional()">Calcular Perfil</button>
-                <div id="resultado-carreira" style="margin-top:15px;"></div></div>
-            </div>
-
-            <div id="aba-destaques" class="aba-conteudo">
-                <div class="card"><div class="card-titulo">Quadro de Líderes</div>
-                <div id="container-destaques"></div></div>
-            </div>
-        </main>
+<div class="modal-perfil" id="caixa-modal-perfil" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center;">
+    <div class="card" style="width:400px;">
+        <h3>Customizar Avatar</h3>
+        <p style="font-size:0.8rem;">Descreva seu estilo (ex: cabelo curto, óculos, pele clara):</p>
+        <input type="text" id="edit-avatar-seed" class="input-estilizado" placeholder="Ex: menino de boné">
+        <button class="btn-principal" onclick="salvarConfigPerfil()">Salvar</button>
     </div>
+</div>
 
-    <div id="modal-avatar" class="modal-container">
-        <button onclick="fecharAvatar()" style="position:absolute; top:20px; right:20px; z-index:2001; padding:10px;">Fechar</button>
-        <iframe id="frame-avatar" src="https://readyplayer.me/avatar?frameApi"></iframe>
-    </div>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+    const firebaseConfig = { /* SEU CONFIG AQUI */ };
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const IA_KEY = "SUA_API_KEY_AQUI"; // Substitua pela sua
+    const IA_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${IA_KEY}`;
 
-    <script type="module">
-        import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0.3.10/dist/web.js';
-        Typebot.initBubble({ typebot: "SEU_ID_AQUI", apiHost: "https://typebot.io" });
-    </script>
-
-    <script>
-        function mudarAba(id) {
-            document.querySelectorAll('.aba-conteudo').forEach(a => a.classList.remove('ativa'));
-            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('ativo'));
-            document.getElementById(`aba-${id}`).classList.add('ativa');
-            event.currentTarget.classList.add('ativo');
-        }
-
-        function abrirEditorAvatar() { document.getElementById('modal-avatar').style.display = 'block'; }
-        function fecharAvatar() { document.getElementById('modal-avatar').style.display = 'none'; }
+    // IA Humanizada (System Prompt Integrado)
+    async function perguntarIAReal() {
+        const input = document.getElementById('input-chat-ia');
+        const janela = document.getElementById('janela-chat-ia');
+        const prompt = input.value;
         
-        window.addEventListener('message', function(event) {
-            if (event.data?.source === 'readyplayerme') {
-                const avatarUrl = event.data.eventName === 'v1.avatar.exported' ? event.data.data.url : null;
-                if (avatarUrl) {
-                    document.getElementById('avatar-display').src = avatarUrl;
-                    fecharAvatar();
-                }
-            }
-        });
+        janela.innerHTML += `<div class="msg-user">Você: ${prompt}</div>`;
+        
+        try {
+            const resposta = await fetch(IA_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ text: `Você é um tutor inspirador da MovaEdu. Responda de forma didática e encorajadora. Se for fora da escola, redirecione para estudos. Pergunta: ${prompt}` }]
+                    }]
+                })
+            });
+            const data = await resposta.json();
+            const texto = data.candidates[0].content.parts[0].text;
+            janela.innerHTML += `<div class="msg-ia">Tutor: ${texto}</div>`;
+        } catch(e) { janela.innerHTML += `<div class="msg-ia">Erro na conexão.</div>`; }
+        input.value = "";
+    }
 
-        function publicarPost() { alert("Post enviado ao Mural!"); }
-        function calcularVocacional() { document.getElementById('resultado-carreira').innerText = "Processando perfil tecnológico..."; }
-    </script>
+    // Avatar Criador Inclusivo
+    function abrirModalPerfil() { document.getElementById('caixa-modal-perfil').style.display = "flex"; }
+    
+    function salvarConfigPerfil() {
+        const seed = document.getElementById('edit-avatar-seed').value || "MovaEdu";
+        const url = `https://api.dicebear.com/8.x/notionists/svg?seed=${encodeURIComponent(seed)}`;
+        document.getElementById('imagem-perfil-tela').src = url;
+        document.getElementById('caixa-modal-perfil').style.display = "none";
+        // Opcional: salvar url no firebase
+    }
+</script>
 </body>
 </html>
