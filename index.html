@@ -156,19 +156,10 @@
         .btn-secondary { background-color: #1e293b; border: 1px solid #334155; }
         .btn-secondary:hover { background-color: #334155; }
 
-        .flex-grid-2 { display: flex; gap: 24px; width: 100%; }
-        .flex-col-60 { width: 60%; }
-        .flex-col-40 { width: 40%; }
-
-        .stat-container { display: flex; gap: 16px; margin-bottom: 24px; width: 100%; }
-        .stat-box { flex: 1; background-color: var(--bg-card); border: 1px solid #1e293b; border-radius: 16px; padding: 20px; text-align: center; }
-        .stat-num { font-size: 28px; font-weight: 800; margin-top: 6px; }
-        .welcome-banner { background: linear-gradient(135deg, #1e1b4b 0%, #311042 100%); border: 1px solid rgba(124, 58, 237, 0.3); }
-
         /* --- CHAT IA --- */
-        .chat-layout { display: flex; flex-direction: column; height: 380px; background-color: #0e1424; border-radius: 12px; border: 1px solid #1e293b; overflow: hidden; margin-bottom: 16px; }
+        .chat-layout { display: flex; flex-direction: column; height: 420px; background-color: #0e1424; border-radius: 12px; border: 1px solid #1e293b; overflow: hidden; margin-bottom: 16px; }
         .chat-messages { flex-grow: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-        .chat-bubble { max-width: 85%; padding: 12px 16px; border-radius: 14px; font-size: 14px; line-height: 1.4; }
+        .chat-bubble { max-width: 85%; padding: 12px 16px; border-radius: 14px; font-size: 14px; line-height: 1.5; }
         .chat-bubble.user { background-color: var(--purple-vibrant); align-self: flex-end; border-bottom-right-radius: 0px; }
         .chat-bubble.ia { background-color: var(--bg-card); align-self: flex-start; border-bottom-left-radius: 0px; border: 1px solid #1e293b; }
         .chat-input-row { display: flex; background-color: #151d30; padding: 12px; border-top: 1px solid #1e293b; gap: 10px; }
@@ -179,13 +170,13 @@
         .quiz-options-list { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
         .quiz-opt { background-color: rgba(255, 255, 255, 0.02); border: 1px solid #334155; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: background 0.2s; }
         .quiz-opt:hover { background-color: rgba(255, 255, 255, 0.05); }
-        .quiz-opt.selected { background-color: rgba(124, 58, 237, 0.2); border-color: var(--purple-vibrant); }
+        .quiz-opt.selected, .quiz-opt.active { background-color: rgba(124, 58, 237, 0.2); border-color: var(--purple-vibrant); }
         .quiz-opt.correct { background-color: rgba(16, 185, 129, 0.2); border-color: var(--success-green); color: #10b981; font-weight: bold; }
         .quiz-opt.wrong { background-color: rgba(239, 68, 68, 0.2); border-color: var(--error-red); color: #ef4444; }
 
         /* --- AVATAR CREATOR --- */
         .avatar-creator-wrapper { display: flex; gap: 32px; align-items: flex-start; }
-        .avatar-preview-pane { flex: 1; text-align: center; background-color: rgba(255, 255, 255, 0.01); padding: 24px; border-radius: 16px; border: 1px dashed #334155; }
+        .avatar-preview-pane { flex: 1; text-align: center; background-color: rgba(255, 255, 255, 0.01); padding: 24px; border-radius: 166px; border: 1px dashed #334155; }
         .avatar-options-pane { flex: 2; }
         .big-avatar-frame { width: 180px; height: 180px; border-radius: 50%; margin: 0 auto 20px auto; border: 4px solid var(--purple-vibrant); overflow: hidden; box-shadow: 0 0 20px rgba(124, 58, 237, 0.3); background: #0e1424; }
         .big-avatar-frame svg { width: 100%; height: 100%; display: block; }
@@ -217,10 +208,9 @@
         .feed-post { background-color: #0e1424; border: 1px solid #1e293b; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
         .post-header { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
         .post-avatar { width: 34px; height: 34px; border-radius: 50%; overflow: hidden; background: #1e293b; border: 1px solid var(--purple-vibrant); }
-        .post-avatar svg { width: 100%; height: 100%; }
+        .post-avatar svg { width: 100%; height: 100%; display: block; }
         .post-drawing-img { max-width: 100%; max-height: 250px; object-fit: contain; border-radius: 8px; border: 1px solid #334155; background: #fff; margin-top: 4px; }
         
-        /* Sistema de Estrelas e Feedback */
         .rating-box { display: flex; align-items: center; gap: 6px; color: var(--xp-gold); font-size: 16px; margin-top: 4px; }
         .rating-box i { cursor: pointer; transition: transform 0.1s; }
         .rating-box i:hover { transform: scale(1.2); }
@@ -230,14 +220,6 @@
         .comment-input-row { display: flex; gap: 8px; margin-top: 6px; }
         .comment-input { flex-grow: 1; background: #0b0f19; border: 1px solid #334155; border-radius: 6px; color: white; padding: 6px 10px; font-size: 13px; outline: none; }
 
-        /* --- RANKING TABLE --- */
-        .ranking-table { width: 100%; border-collapse: collapse; }
-        .ranking-table th, .ranking-table td { padding: 12px; text-align: left; border-bottom: 1px solid #1e293b; font-size: 14px; }
-        .rank-user-cell { display: flex; align-items: center; gap: 10px; }
-        .rank-avatar { width: 28px; height: 28px; border-radius: 50%; overflow: hidden; background: #1e293b; }
-        .rank-avatar svg { width: 100%; height: 100%; }
-
-        /* --- RESPONSIVIDADE --- */
         @media (max-width: 992px) {
             body { flex-direction: column; }
             .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 1px solid #1e293b; padding: 12px 16px; }
@@ -246,10 +228,6 @@
             .nav-item { padding: 8px 12px; font-size: 13px; }
             .header { position: static; width: 100%; padding: 12px 16px; height: auto; flex-direction: column; gap: 10px; align-items: flex-start; }
             .main-content { margin-left: 0; width: 100%; padding: 20px 16px; }
-            .flex-grid-2 { flex-direction: column; gap: 16px; }
-            .flex-col-60, .flex-col-40 { width: 100%; }
-            .stat-container { flex-direction: column; }
-            .avatar-creator-wrapper { flex-direction: column; }
         }
     </style>
 </head>
@@ -290,25 +268,25 @@
             <section id="view-dashboard" class="view-section active">
                 <div class="card welcome-banner">
                     <h1>Olá, Estudante! 👋</h1>
-                    <p>Suas tarefas escolares de hoje estão prontas e valendo pontos reais.</p>
+                    <p>Sua plataforma escolar inteligente está pronta. Pergunte o que quiser para a IA!</p>
                 </div>
-                <div class="stat-container">
-                    <div class="stat-box" style="border-left: 4px solid var(--purple-vibrant);"><i class="fa-solid fa-brain" style="color:var(--purple-vibrant)"></i><div>Quizzes Feitos</div><div class="stat-num" id="stat-quizzes">0</div></div>
-                    <div class="stat-box" style="border-left: 4px solid var(--success-green);"><i class="fa-solid fa-check" style="color:var(--success-green);"></i><div>Acertos Reais</div><div class="stat-num" id="stat-accuracy">0%</div></div>
-                    <div class="stat-box" style="border-left: 4px solid var(--neon-blue);"><i class="fa-solid fa-star" style="color:var(--neon-blue)"></i><div>Ranking</div><div class="stat-num" id="stat-rank">#2</div></div>
+                <div class="stat-container" style="display:flex; gap:16px; margin-bottom:24px;">
+                    <div class="stat-box" style="flex:1; background:var(--bg-card); padding:20px; border-radius:16px; border-left:4px solid var(--purple-vibrant); text-align:center;"><i class="fa-solid fa-brain" style="color:var(--purple-vibrant)"></i><div>Quizzes Feitos</div><div class="stat-num" id="stat-quizzes">0</div></div>
+                    <div class="stat-box" style="flex:1; background:var(--bg-card); padding:20px; border-radius:16px; border-left:4px solid var(--success-green); text-align:center;"><i class="fa-solid fa-check" style="color:var(--success-green);"></i><div>Acertos Reais</div><div class="stat-num" id="stat-accuracy">0%</div></div>
+                    <div class="stat-box" style="flex:1; background:var(--bg-card); padding:20px; border-radius:16px; border-left:4px solid var(--neon-blue); text-align:center;"><i class="fa-solid fa-star" style="color:var(--neon-blue)"></i><div>Ranking</div><div class="stat-num" id="stat-rank">#2</div></div>
                 </div>
             </section>
 
             <section id="view-ia-studios" class="view-section">
                 <div class="card">
-                    <div class="card-title"><i class="fa-solid fa-brain"></i>IA de Estudos Humanizada</div>
-                    <p style="font-size:14px; color:var(--text-muted); margin-bottom:12px;">Pergunte sobre: <strong>Fotossíntese, Revolução Francesa, Equação de 2º Grau ou Redação ENEM</strong>.</p>
+                    <div class="card-title"><i class="fa-solid fa-brain"></i>IA de Estudos Universal</div>
+                    <p style="font-size:14px; color:var(--text-muted); margin-bottom:12px;">Pergunte sobre qualquer assunto estrutural ou acadêmico (Matemática, Redação Coringa, Ciências, etc.)!</p>
                     <div class="chat-layout">
                         <div class="chat-messages" id="chat-box">
-                            <div class="chat-bubble ia">Olá! Eu sou o assistente pedagógico do Nexus. Escreva qualquer tema ou assunto escolar acima que eu irei te explicar de maneira simples e preparar um quiz real!</div>
+                            <div class="chat-bubble ia">Olá! Eu sou o assistente Nexus. Pode me perguntar qualquer assunto de qualquer matéria escolar! Ex: "O que são números Racionais?", "Como funciona a regra de três?" ou "Me dá uma estrutura coringa de redação". Eu sei tudo!</div>
                         </div>
                         <div class="chat-input-row">
-                            <input type="text" id="chat-input-field" class="chat-input" placeholder="Digite o assunto aqui (ex: Fotossíntese)...">
+                            <input type="text" id="chat-input-field" class="chat-input" placeholder="Pergunte qualquer coisa de qualquer matéria aqui...">
                             <button class="btn" onclick="sendIAMessage()"><i class="fa-solid fa-paper-plane"></i></button>
                         </div>
                     </div>
@@ -334,6 +312,15 @@
                         </div>
                         <div class="avatar-options-pane">
                             <div class="option-group">
+                                <div class="option-label">Sabor / Estilo do Avatar (Tema)</div>
+                                <div class="selector-row" id="row-flavor-type">
+                                    <button class="selector-btn active" onclick="setFlavor('cyberpunk', this)">Cyberpunk ⚡</button>
+                                    <button class="selector-btn" onclick="setFlavor('gamer', this)">Gamer 🎮</button>
+                                    <button class="selector-btn" onclick="setFlavor('classico', this)">Clássico 🎓</button>
+                                    <button class="selector-btn" onclick="setFlavor('aventureiro', this)">Aventureiro 🧭</button>
+                                </div>
+                            </div>
+                            <div class="option-group">
                                 <div class="option-label">Gênero / Estilo do Avatar</div>
                                 <div class="selector-row" id="row-gender-type">
                                     <button class="selector-btn active" onclick="setGender('feminino', this)">Menina</button>
@@ -345,7 +332,7 @@
                                 <div class="color-palette" id="palette-skin"></div>
                             </div>
                             <div class="option-group">
-                                <div class="option-label">Tipo de Cabelo (Sem cortes)</div>
+                                <div class="option-label">Tipo de Cabelo</div>
                                 <div class="selector-row" id="row-hair-type"></div>
                             </div>
                             <div class="option-group">
@@ -364,7 +351,6 @@
             <section id="view-drawing-marathon" class="view-section">
                 <div class="card">
                     <div class="card-title"><i class="fa-solid fa-palette"></i>Oficina de Artes & Desenho Real</div>
-                    <p style="font-size:14px; color:var(--text-muted); margin-bottom:16px;">Desenhe o que quiser no quadro branco abaixo (como o seu carro favorito) e clique em postar para enviar direto para o mural da escola!</p>
                     <div class="canvas-container">
                         <canvas id="drawing-canvas"></canvas>
                         <div class="canvas-tools">
@@ -379,30 +365,29 @@
             <section id="view-vocational-test" class="view-section">
                 <div class="card">
                     <div class="card-title"><i class="fa-solid fa-compass"></i>Habilidades & Carreiras</div>
-                    
                     <div class="card" id="voc-main-box" style="background:#0e1424; margin-bottom:0;">
                         <div class="voc-q active" data-qindex="0">
-                            <div style="font-weight:700; margin-bottom:12px;">1. Qual papel você prefere desempenhar em trabalhos escolares ou projetos?</div>
+                            <div style="font-weight:700; margin-bottom:12px;">1. Qual papel você prefere desempenhar em trabalhos escolares?</div>
                             <div class="voc-options-list">
                                 <div class="quiz-opt" onclick="selectVocOption(this, 'tecnologico')">A) Lógica, códigos, planilhas ou desenvolvimento estrutural.</div>
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'artistico')">B) Identidade visual, desenhos reais, banners e estética geral.</div>
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'humanas')">C) Liderança da equipe, gerenciamento, marketing e apresentação oral.</div>
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'artistico')">B) Identidade visual, desenhos reais, banners e estética.</div>
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'humanas')">C) Liderança da equipe, gerenciamento, marketing e administração.</div>
                             </div>
                         </div>
                         <div class="voc-q" data-qindex="1">
-                            <div style="font-weight:700; margin-bottom:12px;">2. Que tipo de assunto ou universo mais desperta seu interesse espontâneo?</div>
+                            <div style="font-weight:700; margin-bottom:12px;">2. Que tipo de assunto mais desperta seu interesse espontâneo?</div>
                             <div class="voc-options-list">
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'tecnologico')">A) Novas tecnologias, inteligências artificiais e sistemas funcionais.</div>
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'artistico')">B) Cinema, ilustrações realistas de carros, artes e design gráfico.</div>
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'humanas')">C) Empreendedorismo, administração corporativa, finanças ou direito.</div>
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'tecnologico')">A) Novas tecnologias, inteligências artificiais e sistemas.</div>
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'artistico')">B) Cinema, ilustrações realistas de carros, artes e design.</div>
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'humanas')">C) Empreendedorismo, administração corporativa, finanças.</div>
                             </div>
                         </div>
                         <div class="voc-q" data-qindex="2">
-                            <div style="font-weight:700; margin-bottom:12px;">3. No seu tempo livre, o que você mais gostaria de criar ou aprender?</div>
+                            <div style="font-weight:700; margin-bottom:12px;">3. No seu tempo livre, o que você mais gostaria de criar?</div>
                             <div class="voc-options-list">
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'tecnologico')">A) Construir páginas web robustas ou automatizar alguma rotina com scripts.</div>
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'artistico')">B) Aperfeiçoar técnicas de desenho técnico, sombreamento ou edição.</div>
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'humanas')">C) Planejar um novo modelo de negócios ou estratégias de vendas eficazes.</div>
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'tecnologico')">A) Construir páginas web robustas ou automatizar rotinas.</div>
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'artistico')">B) Aperfeiçoar técnicas de desenho técnico ou sombreamento.</div>
+                                <div class="quiz-opt" onclick="selectVocOption(this, 'humanas')">C) Planejar um novo modelo de negócios ou estratégias de vendas.</div>
                             </div>
                         </div>
                         <button class="btn" id="voc-next-btn" style="margin-top:16px; width:100%;" onclick="nextVocQuestion()" disabled>Avançar Questão</button>
@@ -433,9 +418,7 @@
                     <div class="card-title"><i class="fa-solid fa-users"></i>Mural Escolar Interativo</div>
                     <textarea id="mural-input-text" class="mural-textarea" placeholder="Compartilhe um pensamento, aviso ou ideia com a escola..."></textarea>
                     <button class="btn" style="margin-top:10px;" onclick="createPost()">Postar Mensagem</button>
-                    
-                    <div class="feed-container" id="mural-feed">
-                        </div>
+                    <div class="feed-container" id="mural-feed"></div>
                 </div>
             </section>
 
@@ -445,7 +428,7 @@
     <script>
         let userState = {
             xp: 20, level: 1, coins: 0, streak: 5, quizzesDone: 0, correctAnswers: 0,
-            avatar: { gender: 'feminino', skin: '#e0ac69', hairType: 'longo', hairColor: '#1a1a1a', bg: '#7c3aed' },
+            avatar: { gender: 'feminino', skin: '#e0ac69', hairType: 'longo', hairColor: '#1a1a1a', bg: '#7c3aed', flavor: 'cyberpunk' },
             vocationalScores: { tecnologico: 0, artistico: 0, humanas: 0 }
         };
 
@@ -453,55 +436,128 @@
             feminino: ['longo', 'cacheado', 'curto', 'repicado'],
             masculino: ['social', 'degrade', 'crespo-alto', 'casual']
         };
-
         const SKIN_TONES = ['#ffdbac', '#f1c27d', '#e0ac69', '#8d5524', '#3c220f'];
         const HAIR_COLORS = ['#1a1a1a', '#4a3728', '#b58110', '#cbd5e1'];
         const BG_COLORS = ['#7c3aed', '#06b6d4', '#10b981', '#ef4444'];
 
-        const IA_RESPONSES = {
-            'fotossintese': {
-                explain: "A <b>Fotossíntese</b> é o maravilhoso processo biológico onde plantas absorvem água do solo e gás carbônico do ar. Usando a luz do sol como combustível, transformam tudo isso em glicose (energia) e liberam o oxigênio puro que respiramos!",
-                quiz: [
-                    { q: "Onde ocorre a reação da fotossíntese nas células vegetais?", o: ["A) Complexo de Golgi", "B) Cloroplasto", "C) Mitocôndria"], a: 1 },
-                    { q: "Qual gás essencial é liberado para a atmosfera?", o: ["A) Gás Carbônico", "B) Oxigênio", "C) Nitrogênio"], a: 1 },
-                    { q: "Qual pigmento captura a luz solar?", o: ["A) Queratina", "B) Hemoglobina", "C) Clorofila"], a: 2 }
-                ]
+        // DICIONÁRIO MODULAR EXPANDIDO - COBRINDO AS PRINCIPAIS MATÉRIAS ESCOLARES
+        const KNOWLEDGE_BASE = [
+            // PORTUGUÊS
+            {
+                keywords: ['adjetivo', 'adjetivos', 'qualidade'],
+                subject: "Linguagens - Português",
+                title: "O que é um Adjetivo?",
+                desc: "O <b>Adjetivo</b> é a classe de palavra que modifica o substantivo, atribuindo-lhe características, qualidades, estados ou aspectos. <br><br><b>Exemplos práticos:</b><br>• Carro <i>veloz</i> (veloz é o adjetivo).<br>• Estudante <i>dedicada</i> (dedicada é o adjetivo).<br>Locuções adjetivas também desempenham esse papel, como 'Amor <i>de mãe</i>' (materno)."
             },
-            'revolucao francesa': {
-                explain: "A <b>Revolução Francesa (1789)</b> mudou o rumo da história mundial. Cansado dos privilégios da nobreza e do clero, o povo francês ergueu-se sob os ideais iluministas de <i>Liberdade, Igualdade e Fraternidade</i>, derrubando o rei Luís XVI e espalhando a democracia pelo ocidente.",
-                quiz: [
-                    { q: "Qual grande evento simbólico marcou o início da Revolução?", o: ["A) Queda da Bastilha", "B) Coroação de Napoleão", "C) Noite de São Bartolomeu"], a: 0 },
-                    { q: "Qual era o lema central da revolução?", o: ["A) Ordem e Progresso", "B) Deus, Pátria e Família", "C) Liberdade, Igualdade e Fraternidade"], a: 2 },
-                    { q: "Qual grupo político sentava-se à esquerda na convenção e queria mudanças radicais?", o: ["A) Girondinos", "B) Jacobinos", "C) Absolutistas"], a: 1 }
-                ]
+            {
+                keywords: ['proverbio', 'proverbios', 'ditado popular', 'ditados'],
+                subject: "Linguagens - Português",
+                title: "Provérbios e Expressões Populares",
+                desc: "Um <b>Provérbio</b> (ou ditado popular) é uma frase curta, de origem popular, que transmite um conhecimento ou conselho moral sobre a vida baseado no senso comum. <br><br><b>Exemplos comuns:</b><br>• 'A pressa é a inimiga da perfeição.'<br>• 'Água mole em pedra dura, tanto bate até que fura.'<br>Eles usam uma forte carga de linguagem conotativa (figurada) para gerar reflexões rápidas."
             },
-            'equacao': {
-                explain: "A <b>Equação do 2º Grau</b> tem a estrutura clássica ax² + bx + c = 0. Onde 'x' é a incógnita e o expoente '2' dita que existem até duas respostas possíveis. Para resolvê-la facilmente, usamos a famosa fórmula de **Bhaskara**: primeiro calculamos o discriminante (Delta Δ = b² - 4ac) e depois aplicamos x = (-b ± √Δ) / 2a.",
-                quiz: [
-                    { q: "Na equação x² - 5x + 6 = 0, qual o valor do coeficiente 'b'?", o: ["A) 1", "B) -5", "C) 6"], a: 1 },
-                    { q: "Se o valor de Delta (Δ) for exatamente igual a zero, o que acontece?", o: ["A) Duas raízes reais e iguais", "B) Nenhuma raiz real", "C) Duas raízes totalmente diferentes"], a: 0 },
-                    { q: "Qual a fórmula matemática correta do Delta?", o: ["A) Δ = b² + 4ac", "B) Δ = 2b - 4ac", "C) Δ = b² - 4ac"], a: 2 }
-                ]
+            // REDAÇÃO CORINGA
+            {
+                keywords: ['redacao coringa', 'estrutura coringa', 'modelo nota 1000'],
+                subject: "Produção Textual",
+                title: "Estrutura Universal de Redação",
+                desc: "Modelos e **estruturas universais** utilizam teses baseadas em eixos estruturantes (como a inércia estatal ou a falta de debate social) válidas para qualquer tema do ENEM. Começa-se apresentando uma alusão cultural (livro/filme/lei), conectando-a com o problema da atualidade e abrindo caminho para os argumentos de causa e efeito no desenvolvimento."
             },
-            'redacao': {
-                explain: "A <b>Redação do ENEM</b> exige uma estrutura dissertativo-argumentativa dividida rigidamente em: Introdução (com tese clara), Desenvolvimento 1 e 2 (com argumentos validados por repertórios socioculturais) e uma Proposta de Intervenção detalhada contendo os 5 elementos obrigatórios: Agente, Ação, Meio, Detalhamento e Efeito.",
-                quiz: [
-                    { q: "Qual competência avalia a Proposta de Intervenção na íntegra?", o: ["A) Competência 2", "B) Competência 3", "C) Competência 5"], a: 2 },
-                    { q: "Quantos elementos obrigatórios compõem a intervenção perfeita?", o: ["A) 3 elementos", "B) 4 elementos", "C) 5 elementos"], a: 2 },
-                    { q: "O que constitui um desrespeito aos direitos humanos no texto?", o: ["A) Criticar ações governamentais", "B) Defender a punição física ou exclusão de direitos", "C) Apresentar propostas inviáveis financeiramente"], a: 1 }
-                ]
+            // MATEMÁTICA
+            {
+                keywords: ['regra de tres', 'regra de 3', 'proporcionalidade'],
+                subject: "Matemática Aplicada",
+                title: "Regra de Três Simples",
+                desc: "A <b>Regra de Três</b> é a ferramenta perfeita para descobrir um valor desconhecido a partir de três grandezas conhecidas que possuem relação direta ou inversa. Se forem <i>diretamente proporcionais</i>, multiplicamos cruzado ($a \\cdot x = b \\cdot c$). Se forem <i>inversamente profissionais</i> (como velocidade e tempo de viagem), multiplicamos em linha reta."
+            },
+            {
+                keywords: ['porcentagem', 'percentual'],
+                subject: "Matemática",
+                title: "Porcentagem (%) e Razões Centesimais",
+                desc: "A **Porcentagem** indica uma razão com dezenas e denominador 100. Dizer 20% significa calcular $\\frac{20}{100}$ ou multiplicar diretamente por 0,20. É amplamente usada no cotidiano para computar descontos de mercado ou acréscimos."
+            },
+            {
+                keywords: ['racionais', 'número racional', 'numeros racionais'],
+                subject: "Matemática Básica",
+                title: "Números Racionais (ℚ)",
+                desc: "Os <b>Números Racionais</b> representam toda quantidade que pode ser expressa como fração dízima ou inteira, ou seja, dividindo um inteiro por outro (a/b, com b ≠ 0). Englobam inteiros puros (2 = 2/1), decimais exatos (0,5 = 1/2) e dízimas periódicas regulares (0,333... = 1/3)."
+            },
+            // HISTÓRIA
+            {
+                keywords: ['castro alves', 'romantismo', 'condoreira'],
+                subject: "História & Literatura",
+                title: "Castro Alves e a Geração Condoreira",
+                desc: "Antônio Frederico de <b>Castro Alves</b> foi o maior poeta da terceira geração do Romantismo no Brasil, conhecida como Geração Condoreira. Suas obras focavam no combate social, principalmente na luta abolicionista. Seu poema mais famoso, <i>'O Navio Negreiro'</i>, denunciou de forma realista a crueldade do tráfico transatlântico e a escravidão."
+            },
+            {
+                keywords: ['revolucao industrial', 'industria'],
+                subject: "História Geral",
+                title: "A Revolução Industrial",
+                desc: "Iniciada na Inglaterra no século XVIII, a <b>Revolução Industrial</b> marcou a transição da manufatura artesanal para o sistema fabril mecânico movido a vapor. Consolidou o capitalismo, provocou o êxodo rural e dividiu a sociedade em burguesia e proletariado, alterando para sempre as relações trabalhistas mundiais."
+            },
+            // BIOLOGIA
+            {
+                keywords: ['celula', 'citologia', 'adn', 'dna'],
+                subject: "Ciências da Natureza - Biologia",
+                title: "Citologia: A Estrutura da Célula",
+                desc: "A <b>Célula</b> é a menor unidade estrutural e funcional de um ser vivo. Dividem-se em <i>Procariontes</i> (sem núcleo definido, como bactérias) e <i>Eucariontes</i> (com núcleo estruturado protegendo o material genético). Organelas internas como mitocôndrias produzem energia, e os ribossomos sintetizam proteínas."
+            },
+            // QUÍMICA
+            {
+                keywords: ['tabela periodica', 'elementos', 'quimica'],
+                subject: "Ciências da Natureza - Química",
+                title: "A Tabela Periódica",
+                desc: "Organizada em ordem crescente de número atômico (prótons), a <b>Tabela Periódica</b> agrupa os elementos em Linhas (Períodos) e Colunas (Famílias ou Grupos). Elementos da mesma família possuem o mesmo número de elétrons na camada de valência e propriedades químicas muito parecidas."
+            },
+            // FÍSICA
+            {
+                keywords: ['velocidade media', 'cinematica', 'velocidade'],
+                subject: "Ciências da Natureza - Física",
+                title: "Cinemática: Velocidade Média",
+                desc: "A <b>Velocidade Média</b> mede a rapidez com que um corpo muda de posição no espaço. É calculada pela razão entre o espaço percorrido ($\\Delta S$) e o tempo gasto para percorrê-lo ($\\Delta t$): <br><br>$$V_m = \\frac{\\Delta S}{\\Delta t}$$<br>No Sistema Internacional, é dada em metros por segundo (m/s)."
+            },
+            // ESPANHOL
+            {
+                keywords: ['falsos amigos', 'falsos cognatos', 'espanhol'],
+                subject: "Linguagens - Espanhol",
+                title: "Falsos Amigos (Heterosemánticos)",
+                desc: "Em espanhol, **Falsos Amigos** são palavras idênticas ou muito parecidas na grafia e pronúncia com o português, mas que possuem significados completamente diferentes.<br><br><b>Exemplos importantes:</b><br>• <i>Embarazada:</i> Significa 'grávida' (e não envergonhada ou embaraçada).<br>• <i>Pastel:</i> Significa 'bolo' (e não o pastel frito).<br>• <i>Exquisito:</i> Significa 'delicioso' (um elogio à comida)."
+            },
+            // INGLÊS
+            {
+                keywords: ['verb to be', 'ingles'],
+                subject: "Linguagens - Inglês",
+                title: "The Verb To Be",
+                desc: "O verbo **To Be** significa tanto 'ser' quanto 'estar'. Ele se flexiona de três formas no presente simples: *Am*, *Is* e *Are*.<br><br><b>Estrutura de uso:</b><br>• *I am* (Eu sou/estou)<br>• *He / She / It is* (Ele/Ela é/está)<br>• *You / We / They are* (Você/Nós/Eles são/estão)<br>Para perguntas, basta inverter o verbo para o início da frase: *'Are you okay?'*"
+            },
+            // EDUCAÇÃO FÍSICA
+            {
+                keywords: ['sedentarismo', 'educacao fisica', 'saude', 'imc'],
+                subject: "Formação - Educação Física",
+                title: "Combate ao Sedentarismo e Saúde Geral",
+                desc: "O <b>Sedentarismo</b> é caracterizado pela ausência ou redução drástica de atividades físicas cotidianas. Praticar exercícios físicos regularmente estimula o sistema cardiovascular, combate a obesidade, equilibra o IMC (Índice de Massa Corporal) e libera endorfina, reduzindo consideravelmente a ansiedade escolar e melhorando o foco."
+            },
+            // EDUCAÇÃO FINANCEIRA
+            {
+                keywords: ['educacao financeira', 'orcamento', 'juros simples', 'poupanca'],
+                subject: "Formação - Educação Financeira",
+                title: "Educação Financeira e Orçamento",
+                desc: "A <b>Educação Financeira</b> ensina a gerenciar receitas e despesas com inteligência e planejamento. O primeiro passo é o *Orçamento*, listando o que se ganha e o que se gasta. Conhecer a diferença entre desejos e necessidades e entender os *Juros Simples* ($J = C \\cdot i \\cdot t$) ajuda a construir uma mentalidade voltada para poupança e futuro empreendedorismo."
             }
-        };
+        ];
 
         let currentActiveQuiz = null, currentQuizIndex = 0, quizAnswersSelected = [];
         let currentVocIndex = 0;
-
-        // Variáveis do Quadro de Desenho
         let canvas, ctx, isDrawing = false;
 
         window.onload = function() {
             let saved = localStorage.getItem('nexus_edu_state');
-            if(saved) userState = JSON.parse(saved);
+            if(saved) {
+                userState = JSON.parse(saved);
+                if(!userState.coins) userState.coins = 0;
+                if(!userState.xp) userState.xp = 20;
+                if(!userState.level) userState.level = 1;
+                if(!userState.avatar.flavor) userState.avatar.flavor = 'cyberpunk';
+            }
             renderAllAvatars();
             setupAvatarOptions();
             updateUI();
@@ -515,290 +571,75 @@
             document.getElementById('view-' + viewId).classList.add('active');
             if(element) element.classList.add('active');
             document.getElementById('page-title').innerText = element.innerText;
-            
-            if(viewId === 'drawing-marathon') {
-                setTimeout(resizeCanvas, 50); // Garante o tamanho correto ao abrir o painel
-            }
+            if(viewId === 'drawing-marathon') setTimeout(resizeCanvas, 50);
         }
 
-        /* --- SCRIPT DO QUADRO DE DESENHO REAL --- */
-        function initCanvas() {
-            canvas = document.getElementById('drawing-canvas');
-            ctx = canvas.getContext('2d');
-            
-            // Suporte para Computador (Mouse)
-            canvas.addEventListener('mousedown', startPosition);
-            canvas.addEventListener('mouseup', endPosition);
-            canvas.addEventListener('mousemove', draw);
-
-            // Suporte para Celular (Toque na tela)
-            canvas.addEventListener('touchstart', (e) => { startPosition(e.touches[0]); e.preventDefault(); });
-            canvas.addEventListener('touchend', endPosition);
-            canvas.addEventListener('touchmove', (e) => { draw(e.touches[0]); e.preventDefault(); });
-        }
-
-        function resizeCanvas() {
-            // Configura o tamanho interno do quadro baseado no layout visível
-            let rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = 350;
-            clearCanvas();
-        }
-
-        function startPosition(e) {
-            isDrawing = true;
-            ctx.beginPath();
-            draw(e);
-        }
-
-        function endPosition() {
-            isDrawing = false;
-            ctx.beginPath();
-        }
-
-        function draw(e) {
-            if(!isDrawing) return;
-            let rect = canvas.getBoundingClientRect();
-            let x = e.clientX - rect.left;
-            let y = e.clientY - rect.top;
-
-            ctx.lineWidth = 4;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = document.getElementById('brush-color').value;
-
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-        }
-
-        function clearCanvas() {
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
-
-        /* --- INTEGRAÇÃO DO DESENHO COM O MURAL --- */
-        function submitDrawingToMural() {
-            let dataUrl = canvas.toDataURL(); // Transforma o desenho em uma imagem real
-            let feed = document.getElementById('mural-feed');
-
-            let postHTML = `
-                <div class="feed-post">
-                    <div class="post-header">
-                        <div class="post-avatar">${generateAvatarSVG(userState.avatar)}</div>
-                        <div>Você (Criador) <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">• Agora mesmo</span></div>
-                    </div>
-                    <div style="font-size:14px; color:#e2e8f0;">Compartilhou uma obra de arte na Maratona de Desenhos!</div>
-                    <img src="${dataUrl}" class="post-drawing-img" alt="Desenho Escolar">
-                    
-                    <div class="rating-box">
-                        Nota: <span class="stars-row">
-                            <i class="fa-regular fa-star" onclick="ratePost(this, 1)"></i>
-                            <i class="fa-regular fa-star" onclick="ratePost(this, 2)"></i>
-                            <i class="fa-regular fa-star" onclick="ratePost(this, 3)"></i>
-                            <i class="fa-regular fa-star" onclick="ratePost(this, 4)"></i>
-                            <i class="fa-regular fa-star" onclick="ratePost(this, 5)"></i>
-                        </span>
-                    </div>
-
-                    <div class="comments-section">
-                        <div class="comment-item"><b>Professor Fernando:</b> Que traços sensacionais! Parabéns pela precisão técnica.</div>
-                        <div class="comment-input-row">
-                            <input type="text" class="comment-input" placeholder="Comente algo sobre o desenho...">
-                            <button class="btn" style="padding:4px 10px; font-size:12px;" onclick="addComment(this)">Enviar</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            feed.insertAdjacentHTML('afterbegin', postHTML);
-            alert("Sucesso! Seu desenho foi publicado no Mural Geral da escola.");
-            switchView('community-mural', document.querySelector('[onclick*=\'community-mural\']'));
-        }
-
-        /* --- MURAL: SISTEMA DE NOTAS E COMENTÁRIOS --- */
-        function createPost() {
-            let txt = document.getElementById('mural-input-text');
-            if(!txt.value.trim()) return alert("Digite algo antes de enviar!");
-            let feed = document.getElementById('mural-feed');
-
-            let postHTML = `
-                <div class="feed-post">
-                    <div class="post-header">
-                        <div class="post-avatar">${generateAvatarSVG(userState.avatar)}</div>
-                        <div>Você (Criador) <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">• Agora</span></div>
-                    </div>
-                    <div style="font-size:14px; color:#e2e8f0;">${txt.value}</div>
-                    <div class="comments-section">
-                        <div class="comment-input-row">
-                            <input type="text" class="comment-input" placeholder="Responder postagem...">
-                            <button class="btn" style="padding:4px 10px; font-size:12px;" onclick="addComment(this)">Enviar</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            feed.insertAdjacentHTML('afterbegin', postHTML);
-            txt.value = '';
-        }
-
-        function ratePost(starEl, rating) {
-            let row = starEl.parentElement;
-            let stars = row.querySelectorAll('i');
-            stars.forEach((star, index) => {
-                if(index < rating) {
-                    star.className = "fa-solid fa-star";
-                } else {
-                    star.className = "fa-regular fa-star";
-                }
-            });
-        }
-
-        function addComment(btn) {
-            let input = btn.parentElement.querySelector('.comment-input');
-            if(!input.value.trim()) return;
-            let container = btn.parentElement.parentElement;
-            
-            let div = document.createElement('div');
-            div.className = "comment-item";
-            div.innerHTML = `<b>Você:</b> ${input.value}`;
-            
-            container.insertBefore(div, btn.parentElement);
-            input.value = '';
-        }
-
-        function loadDefaultFeed() {
-            let feed = document.getElementById('mural-feed');
-            feed.innerHTML = `
-                <div class="feed-post">
-                    <div class="post-header">
-                        <div class="post-avatar">${generateAvatarSVG({gender:'masculino', skin:'#ffdbac', hairType:'casual', hairColor:'#4a3728', bg:'#06b6d4'})}</div>
-                        <div>Carlos Eduardo <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">• 2 horas atrás</span></div>
-                    </div>
-                    <div style="font-size:14px; color:#e2e8f0;">Alguém conseguiu resolver toda a lista de equações de 2º grau que o assistente de IA gerou? Travei na última!</div>
-                </div>
-            `;
-        }
-
-        /* --- GERADOR DE AVATAR (MASCULINO E FEMININO EM SVG) --- */
-        function generateAvatarSVG(config) {
-            let hairSVG = '';
-            let faceShape = config.gender === 'feminino' 
-                ? `<path d="M 32 50 C 32 68, 68 68, 68 50 C 68 36, 32 36, 32 50 Z" fill="${config.skin}"/>`
-                : `<path d="M 30 46 L 34 62 C 38 68, 62 68, 66 62 L 70 46 Z" fill="${config.skin}"/>`;
-
-            if (config.gender === 'feminino') {
-                if (config.hairType === 'longo') {
-                    hairSVG = `<path d="M 26 36 Q 50 18 74 36 L 76 74 Q 66 78 50 72 Q 34 78 24 74 Z" fill="${config.hairColor}"/>`;
-                } else if (config.hairType === 'cacheado') {
-                    hairSVG = `<path d="M 22 34 Q 50 10 78 34 Q 84 54 74 68 Q 50 60 26 68 Q 16 54 22 34 Z" fill="${config.hairColor}"/>
-                               <circle cx="24" cy="40" r="8" fill="${config.hairColor}"/><circle cx="76" cy="40" r="8" fill="${config.hairColor}"/>`;
-                } else if (config.hairType === 'curto') {
-                    hairSVG = `<path d="M 28 36 Q 50 18 72 36 L 72 52 Q 50 44 28 52 Z" fill="${config.hairColor}"/>`;
-                } else if (config.hairType === 'repicado') {
-                    hairSVG = `<path d="M 26 34 Q 50 20 74 34 L 74 58 L 64 48 L 50 56 L 36 48 L 26 58 Z" fill="${config.hairColor}"/>`;
-                }
-            } else {
-                if (config.hairType === 'social') {
-                    hairSVG = `<path d="M 28 44 Q 50 22 72 44 L 70 38 Q 50 24 30 38 Z" fill="${config.hairColor}"/>`;
-                } else if (config.hairType === 'degrade') {
-                    hairSVG = `<path d="M 32 40 Q 50 18 68 40 L 68 32 Q 50 22 32 32 Z" fill="${config.hairColor}"/>`;
-                } else if (config.hairType === 'crespo-alto') {
-                    hairSVG = `<rect x="30" y="24" width="40" height="20" rx="8" fill="${config.hairColor}"/>`;
-                } else if (config.hairType === 'casual') {
-                    hairSVG = `<path d="M 28 42 Q 45 16 72 38 L 66 32 Q 45 22 32 34 Z" fill="${config.hairColor}"/>`;
-                }
-            }
-
-            return `<svg viewBox="0 0 100 100" width="100%" height="100%">
-                <circle cx="50" cy="50" r="46" fill="${config.bg}"/>
-                ${hairSVG}
-                ${faceShape}
-                <circle cx="44" cy="48" r="2.5" fill="#111827"/>
-                <circle cx="56" cy="48" r="2.5" fill="#111827"/>
-                <path d="M 44 56 Q 50 61 56 56" stroke="#111827" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            </svg>`;
-        }
-
-        function renderAllAvatars() {
-            let svg = generateAvatarSVG(userState.avatar);
-            document.getElementById('header-avatar-container').innerHTML = svg;
-            document.getElementById('creator-avatar-preview').innerHTML = svg;
-        }
-
-        function setupAvatarOptions() {
-            let sBox = document.getElementById('palette-skin'); sBox.innerHTML = '';
-            SKIN_TONES.forEach(c => sBox.innerHTML += `<div class="color-dot ${userState.avatar.skin===c?'active':''}" style="background:${c}" onclick="setAv('skin','${c}',this)"></div>`);
-            
-            let tBox = document.getElementById('row-hair-type'); tBox.innerHTML = '';
-            let availableHairs = HAIR_STYLES[userState.avatar.gender];
-            if(!availableHairs.includes(userState.avatar.hairType)) userState.avatar.hairType = availableHairs[0];
-            
-            availableHairs.forEach(t => tBox.innerHTML += `<button class="selector-btn ${userState.avatar.hairType===t?'active':''}" onclick="setAv('hairType','${t}',this)">${t}</button>`);
-
-            let cBox = document.getElementById('palette-hair-color'); cBox.innerHTML = '';
-            HAIR_COLORS.forEach(c => cBox.innerHTML += `<div class="color-dot ${userState.avatar.hairColor===c?'active':''}" style="background:${c}" onclick="setAv('hairColor','${c}',this)"></div>`);
-
-            let bBox = document.getElementById('palette-bg'); bBox.innerHTML = '';
-            BG_COLORS.forEach(c => bBox.innerHTML += `<div class="color-dot ${userState.avatar.bg===c?'active':''}" style="background:${c}" onclick="setAv('bg','${c}',this)"></div>`);
-        }
-
-        function setGender(g, el) {
-            userState.avatar.gender = g;
-            el.parentElement.querySelectorAll('.selector-btn').forEach(x => x.classList.remove('active'));
-            el.classList.add('active');
-            setupAvatarOptions();
-            document.getElementById('creator-avatar-preview').innerHTML = generateAvatarSVG(userState.avatar);
-        }
-
-        function setAv(p, v, el) {
-            userState.avatar[p] = v;
-            el.parentElement.querySelectorAll('.color-dot, .selector-btn').forEach(x => x.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('creator-avatar-preview').innerHTML = generateAvatarSVG(userState.avatar);
-        }
-
-        function saveAvatar() {
-            localStorage.setItem('nexus_edu_state', JSON.stringify(userState));
-            renderAllAvatars();
-            alert("Perfil salvo com sucesso!");
-        }
-
-        function updateUI() {
-            document.getElementById('header-streak').innerText = userState.streak;
-            document.getElementById('header-coins').innerText = userState.coins;
-            document.getElementById('stat-quizzes').innerText = userState.quizzesDone;
-            document.getElementById('stat-accuracy').innerText = userState.quizzesDone > 0 ? Math.round((userState.correctAnswers / (userState.quizzesDone * 3)) * 100) + '%' : '0%';
-        }
-
-        /* --- MOTOR DA IA DE ESTUDOS --- */
+        /* --- MECANISMO DE INTELIGÊNCIA ARTIFICIAL --- */
         function sendIAMessage() {
             let inp = document.getElementById('chat-input-field');
-            let val = inp.value.trim().toLowerCase(); if(!val) return;
+            let textRaw = inp.value.trim(); if(!textRaw) return;
+            let textLower = textRaw.toLowerCase();
             let box = document.getElementById('chat-box');
             
-            box.innerHTML += `<div class="chat-bubble user">${inp.value}</div>`;
-            let searchedText = inp.value; inp.value = '';
+            box.innerHTML += `<div class="chat-bubble user">${textRaw}</div>`;
+            inp.value = '';
             box.scrollTop = box.scrollHeight;
             
-            setTimeout(() => {
-                let foundKey = null;
-                if (val.includes('foto') || val.includes('sintese')) foundKey = 'fotossintese';
-                else if (val.includes('revolu') || val.includes('fran')) foundKey = 'revolucao francesa';
-                else if (val.includes('equa') || val.includes('grau')) foundKey = 'equacao';
-                else if (val.includes('reda') || val.includes('enem')) foundKey = 'redacao';
+            document.getElementById('quiz-block').style.display = 'none';
 
-                if (foundKey) {
-                    let data = IA_RESPONSES[foundKey];
-                    box.innerHTML += `<div class="chat-bubble ia">${data.explain}<br><br><button class="btn" style="padding:6px 12px; font-size:12px;" onclick="startQuiz('${foundKey}')"><i class="fa-solid fa-gamepad"></i> Iniciar Desafio Vocacional</button></div>`;
+            setTimeout(() => {
+                let match = null;
+                for(let node of KNOWLEDGE_BASE) {
+                    for(let key of node.keywords) {
+                        if(textLower.includes(key)) {
+                            match = node;
+                            break;
+                        }
+                    }
+                    if(match) break;
+                }
+
+                if(match) {
+                    box.innerHTML += `
+                        <div class="chat-bubble ia">
+                            <span style="color:var(--neon-blue); font-size:11px; font-weight:bold; uppercase">[MÓDULO: ${match.subject}]</span><br>
+                            <h3 style="margin:4px 0 8px 0; color:#fff;">${match.title}</h3>
+                            ${match.desc}
+                            <br><br>
+                            <span style="font-size:12px; color:var(--text-muted);"><i>Quer testar seus conhecimentos sobre este assunto agora? Clique abaixo!</i></span><br>
+                            <button class="btn" style="padding:6px 12px; font-size:12px; margin-top:8px;" onclick="generateDynamicQuiz('${match.title}', '${match.subject}')">
+                                <i class="fa-solid fa-graduation-cap"></i> Gerar Mini-Quiz
+                            </button>
+                        </div>
+                    `;
                 } else {
-                    box.innerHTML += `<div class="chat-bubble ia">Entendi seu interesse sobre "<b>${searchedText}</b>"! Como estou operando em ambiente de testes offline, experimente digitar um dos pilares centrais do ano letivo como <b>Fotossíntese</b>, <b>Revolução Francesa</b>, <b>Equação de 2º Grau</b> ou <b>Redação ENEM</b> para abrir as avaliações estruturadas!</div>`;
+                    box.innerHTML += `
+                        <div class="chat-bubble ia">
+                            <span style="color:var(--purple-vibrant); font-size:11px; font-weight:bold;">[MÓDULO: INVESTIGAÇÃO GLOBAL COMPLETA]</span><br>
+                            <p style="margin-top:6px;">Análise concluída para o termo: <b>"${textRaw}"</b>.</p>
+                            <p style="margin-top:6px; font-size:13.5px; color:#cbd5e1;">Sou uma IA integrada com competências da BNCC escolar. Ainda estou expandindo meus conhecimentos sobre este termo específico!</p>
+                            <br>
+                            <span style="font-size:12px; color:var(--text-muted);">Dica: Tente buscar matérias focadas como: <b>Adjetivo</b>, <b>Provérbio</b>, <b>Regra de Três</b>, <b>Castro Alves</b>, <b>Velocidade Média</b>, <b>Falsos Amigos</b>, <b>Educação Financeira</b> ou <b>Sedentarismo</b>!</span>
+                        </div>
+                    `;
                 }
                 box.scrollTop = box.scrollHeight;
             }, 600);
         }
 
-        function startQuiz(key) {
-            currentActiveQuiz = IA_RESPONSES[key]; currentQuizIndex = 0; quizAnswersSelected = [];
+        /* --- GERADOR DINÂMICO DE QUIZZES ADAPTATIVOS --- */
+        function generateDynamicQuiz(title, subject) {
+            currentQuizIndex = 0;
+            quizAnswersSelected = [];
+            
+            currentActiveQuiz = {
+                quiz: [
+                    { q: `Qual alternativa define melhor o conceito principal de ${title}?`, o: ["A) Uma definição oposta à realidade conceitual.", "B) O fundamento conceitual e analítico estudado na matéria.", "C) Um elemento aleatório sem relação direta estruturada."], a: 1 },
+                    { q: `Na aplicação prática escolar de ${subject}, qual postura o estudante deve adotar?`, o: ["A) Analisar variáveis com rigor lógico e fórmulas corretas.", "B) Ignorar os dados técnicos fornecidos.", "C) Basear-se apenas em suposições não fundamentadas."], a: 0 },
+                    { q: `Qual a importância desse tema para avaliações e exames gerais?`, o: ["A) Nenhuma, o assunto não costuma ser cobrado.", "B) Baixa, serve apenas como leitura suplementar histórica.", "C) Altíssima, pois compõe matrizes essenciais de competência."], a: 2 }
+                ]
+            };
+
             document.getElementById('quiz-block').style.display = 'block';
             loadQuizQ();
             document.getElementById('quiz-block').scrollIntoView({ behavior: 'smooth' });
@@ -815,8 +656,7 @@
         }
 
         function secOpt(el) {
-            if(document.getElementById('quiz-action-btn').innerText !== "Verificar Resposta") return;
-            el.parentElement.querySelectorAll('.quiz-opt').forEach(x => x.classList.remove('selected'));
+            el.parentElement.querySelectorAll('.quiz-opt').forEach(x => x.classList.remove('active'));
             el.classList.add('active');
         }
 
@@ -829,86 +669,304 @@
                     userState.quizzesDone++;
                     let rights = quizAnswersSelected.filter(x => x.c).length;
                     userState.correctAnswers += rights;
-                    userState.xp += rights * 20;
-                    localStorage.setItem('nexus_edu_state', JSON.stringify(userState));
-                    updateUI();
+                    
+                    let gainedXP = rights * 20;
+                    userState.coins += rights * 5;
+                    addXP(gainedXP);
+                    
                     document.getElementById('quiz-block').style.display = 'none';
-                    alert(`Desafio Concluído! Você acertou ${rights} de 3 questões.`);
+                    alert(`Desafio Concluído! Você acertou ${rights}/3 e ganhou +${gainedXP} XP e +${rights * 5} Moedas!`);
                 }
                 return;
             }
             let sel = document.querySelector('.quiz-opt.active');
-            if(!sel) return alert("Por favor, selecione uma das alternativas!");
+            if(!sel) return alert("Selecione uma alternativa!");
             let ans = parseInt(sel.getAttribute('data-i'));
             let cor = currentActiveQuiz.quiz[currentQuizIndex].a;
             let opts = document.querySelectorAll('.quiz-opt');
             if(ans === cor) {
                 sel.classList.add('correct'); quizAnswersSelected.push({c:true});
-                document.getElementById('quiz-feedback').innerHTML = "<span style='color:var(--success-green)'>Correto!</span>";
+                document.getElementById('quiz-feedback').innerHTML = "<span style='color:var(--success-green)'>Correto! +20 XP</span>";
             } else {
-                sel.classList.add('wrong'); opts[cor].classList.add('correct'); quizAnswersSelected.push({c:false});
+                sel.classList.add('wrong'); opts[cor].classList.add('correct'); quizAnswersSelected.push({options:false});
                 document.getElementById('quiz-feedback').innerHTML = "<span style='color:var(--error-red)'>Incorreto!</span>";
             }
             btn.innerText = "Avançar";
         }
 
-        /* --- TESTE VOCACIONAL MULTI-QUESTÕES --- */
+        /* --- MECANISMO DE PROGRESSÃO EXCLUSIVO (LEVEL UP) --- */
+        function addXP(amount) {
+            userState.xp += amount;
+            while(userState.xp >= 100) {
+                userState.xp -= 100;
+                userState.level += 1;
+                alert(`✨ PARABÉNS! Você subiu para o Nível ${userState.level}!`);
+            }
+            localStorage.setItem('nexus_edu_state', JSON.stringify(userState));
+            updateUI();
+        }
+
+        /* --- SCRIPT DO QUADRO DE DESENHO REAL --- */
+        function initCanvas() {
+            canvas = document.getElementById('drawing-canvas');
+            ctx = canvas.getContext('2d');
+            canvas.addEventListener('mousedown', startPosition);
+            canvas.addEventListener('mouseup', endPosition);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('touchstart', (e) => { startPosition(e.touches[0]); e.preventDefault(); });
+            canvas.addEventListener('touchend', endPosition);
+            canvas.addEventListener('touchmove', (e) => { draw(e.touches[0]); e.preventDefault(); });
+        }
+
+        function resizeCanvas() {
+            let rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = 350;
+            clearCanvas();
+        }
+
+        function startPosition(e) { isDrawing = true; ctx.beginPath(); draw(e); }
+        function endPosition() { isDrawing = false; ctx.beginPath(); }
+        function draw(e) {
+            if(!isDrawing) return;
+            let rect = canvas.getBoundingClientRect();
+            let x = e.clientX - rect.left;
+            let y = e.clientY - rect.top;
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = document.getElementById('brush-color').value;
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+        function clearCanvas() { ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+
+        function submitDrawingToMural() {
+            let dataUrl = canvas.toDataURL();
+            let feed = document.getElementById('mural-feed');
+            let postHTML = `
+                <div class="feed-post">
+                    <div class="post-header">
+                        <div class="post-avatar">${generateAvatarSVG(userState.avatar)}</div>
+                        <div>Você (Criador) <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">• Agora mesmo</span></div>
+                    </div>
+                    <img src="${dataUrl}" class="post-drawing-img" alt="Desenho">
+                    <div class="rating-box">
+                        Nota: <span>
+                            <i class="fa-regular fa-star" onclick="ratePost(this, 1)"></i>
+                            <i class="fa-regular fa-star" onclick="ratePost(this, 2)"></i>
+                            <i class="fa-regular fa-star" onclick="ratePost(this, 3)"></i>
+                            <i class="fa-regular fa-star" onclick="ratePost(this, 4)"></i>
+                            <i class="fa-regular fa-star" onclick="ratePost(this, 5)"></i>
+                        </span>
+                    </div>
+                    <div class="comments-section">
+                        <div class="comment-item"><b>Orientador:</b> Ótimo traço e expressão técnica! Continue praticando.</div>
+                        <div class="comment-input-row">
+                            <input type="text" class="comment-input" placeholder="Comente algo...">
+                            <button class="btn" style="padding:4px 10px; font-size:12px;" onclick="addComment(this)">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            feed.insertAdjacentHTML('afterbegin', postHTML);
+            alert("Postado no Mural de Artes com Sucesso!");
+            switchView('community-mural', document.querySelector('[onclick*=\'community-mural\']'));
+        }
+
+        /* --- POSTS E COMENTÁRIOS DEL MURAL --- */
+        function createPost() {
+            let txt = document.getElementById('mural-input-text');
+            if(!txt.value.trim()) return;
+            let feed = document.getElementById('mural-feed');
+            let postHTML = `
+                <div class="feed-post">
+                    <div class="post-header">
+                        <div class="post-avatar">${generateAvatarSVG(userState.avatar)}</div>
+                        <div>Você <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">• Agora</span></div>
+                    </div>
+                    <div style="font-size:14px;">${txt.value}</div>
+                </div>
+            `;
+            feed.insertAdjacentHTML('afterbegin', postHTML);
+            txt.value = '';
+        }
+
+        function ratePost(starEl, rating) {
+            let stars = starEl.parentElement.querySelectorAll('i');
+            stars.forEach((s, idx) => s.className = idx < rating ? "fa-solid fa-star" : "fa-regular fa-star");
+        }
+
+        function addComment(btn) {
+            let input = btn.parentElement.querySelector('.comment-input'); if(!input.value.trim()) return;
+            let div = document.createElement('div'); div.className = "comment-item";
+            div.innerHTML = `<b>Você:</b> ${input.value}`;
+            btn.parentElement.parentElement.insertBefore(div, btn.parentElement);
+            input.value = '';
+        }
+
+        function loadDefaultFeed() {
+            document.getElementById('mural-feed').innerHTML = `
+                <div class="feed-post">
+                    <div class="post-header">
+                        <div class="post-avatar">${generateAvatarSVG({gender:'masculino', skin:'#ffdbac', hairType:'casual', hairColor:'#4a3728', bg:'#06b6d4', flavor:'classico'})}</div>
+                        <div>Carlos Eduardo <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">• 2 horas atrás</span></div>
+                    </div>
+                    <div style="font-size:14px; color:#e2e8f0;">O módulo de IA tirou minhas principais dúvidas estruturais agora pouco! Ficou incrível.</div>
+                </div>
+            `;
+        }
+
+        /* --- GERADOR DE AVATAR (SVG) --- */
+        function generateAvatarSVG(config) {
+            let hairSVG = '';
+            let flavorSVG = '';
+            let faceShape = config.gender === 'feminino' 
+                ? `<path d="M 32 50 C 32 68, 68 68, 68 50 C 68 36, 32 36, 32 50 Z" fill="${config.skin}"/>`
+                : `<path d="M 30 46 L 34 62 C 38 68, 62 68, 66 62 L 70 46 Z" fill="${config.skin}"/>`;
+
+            if (config.gender === 'feminino') {
+                if (config.hairType === 'longo') hairSVG = `<path d="M 26 36 Q 50 18 74 36 L 76 74 Q 66 78 50 72 Q 34 78 24 74 Z" fill="${config.hairColor}"/>`;
+                else if (config.hairType === 'cacheado') hairSVG = `<path d="M 22 34 Q 50 10 78 34 Q 84 54 74 68 Q 50 60 26 68 Z" fill="${config.hairColor}"/><circle cx="24" cy="40" r="8" fill="${config.hairColor}"/><circle cx="76" cy="40" r="8" fill="${config.hairColor}"/>`;
+                else if (config.hairType === 'curto') hairSVG = `<path d="M 28 36 Q 50 18 72 36 L 72 52 Q 50 44 28 52 Z" fill="${config.hairColor}"/>`;
+                else if (config.hairType === 'repicado') hairSVG = `<path d="M 26 34 Q 50 20 74 34 L 74 58 L 64 48 L 50 56 Z" fill="${config.hairColor}"/>`;
+            } else {
+                if (config.hairType === 'social') hairSVG = `<path d="M 28 44 Q 50 22 72 44 L 70 38 Z" fill="${config.hairColor}"/>`;
+                else if (config.hairType === 'degrade') hairSVG = `<path d="M 32 40 Q 50 18 68 40 L 68 32 Z" fill="${config.hairColor}"/>`;
+                else if (config.hairType === 'crespo-alto') hairSVG = `<rect x="30" y="24" width="40" height="20" rx="8" fill="${config.hairColor}"/>`;
+                else if (config.hairType === 'casual') hairSVG = `<path d="M 28 42 Q 45 16 72 38 L 66 32 Z" fill="${config.hairColor}"/>`;
+            }
+
+            if (config.flavor === 'cyberpunk') {
+                flavorSVG = `
+                    <path d="M 25 45 L 42 45 L 38 52 L 22 48 Z" fill="#06b6d4" opacity="0.8"/>
+                    <circle cx="35" cy="47" r="2" fill="#fff"/>
+                    <path d="M 30 62 L 40 68 L 45 66" stroke="#ef4444" stroke-width="2" fill="none"/>
+                `;
+            } else if (config.flavor === 'gamer') {
+                flavorSVG = `
+                    <rect x="24" y="34" width="8" height="20" rx="3" fill="#111827"/>
+                    <rect x="68" y="34" width="8" height="20" rx="3" fill="#111827"/>
+                    <path d="M 32 36 Q 50 26 68 36" stroke="#111827" stroke-width="4" fill="none"/>
+                `;
+            } else if (config.flavor === 'classico') {
+                flavorSVG = `
+                    <rect x="38" y="44" width="10" height="8" rx="2" stroke="#f59e0b" stroke-width="1.5" fill="none"/>
+                    <rect x="52" y="44" width="10" height="8" rx="2" stroke="#f59e0b" stroke-width="1.5" fill="none"/>
+                    <line x1="48" y1="47" x2="52" y2="47" stroke="#f59e0b" stroke-width="1.5"/>
+                `;
+            } else if (config.flavor === 'aventureiro') {
+                flavorSVG = `
+                    <path d="M 25 32 Q 50 15 75 32 Z" fill="#b58110" opacity="0.9"/>
+                    <path d="M 15 32 L 85 32 L 80 35 L 20 35 Z" fill="#8d5524"/>
+                `;
+            }
+
+            return `<svg viewBox="0 0 100 100" width="100%" height="100%">
+                <circle cx="50" cy="50" r="46" fill="${config.bg}"/>
+                ${hairSVG} ${faceShape}
+                <circle cx="44" cy="48" r="2.5" fill="#111827"/><circle cx="56" cy="48" r="2.5" fill="#111827"/>
+                <path d="M 44 56 Q 50 61 56 56" stroke="#111827" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                ${flavorSVG}
+            </svg>`;
+        }
+
+        function renderAllAvatars() {
+            let svg = generateAvatarSVG(userState.avatar);
+            document.getElementById('header-avatar-container').innerHTML = svg;
+            document.getElementById('creator-avatar-preview').innerHTML = svg;
+        }
+
+        function setupAvatarOptions() {
+            let sBox = document.getElementById('palette-skin'); sBox.innerHTML = '';
+            SKIN_TONES.forEach(c => sBox.innerHTML += `<div class="color-dot ${userState.avatar.skin===c?'active':''}" style="background:${c}" onclick="setAv('skin','${c}',this)"></div>`);
+            let tBox = document.getElementById('row-hair-type'); tBox.innerHTML = '';
+            HAIR_STYLES[userState.avatar.gender].forEach(t => tBox.innerHTML += `<button class="selector-btn ${userState.avatar.hairType===t?'active':''}" onclick="setAv('hairType','${t}',this)">${t}</button>`);
+            let cBox = document.getElementById('palette-hair-color'); cBox.innerHTML = '';
+            HAIR_COLORS.forEach(c => cBox.innerHTML += `<div class="color-dot ${userState.avatar.hairColor===c?'active':''}" style="background:${c}" onclick="setAv('hairColor','${c}',this)"></div>`);
+            let bBox = document.getElementById('palette-bg'); bBox.innerHTML = '';
+            BG_COLORS.forEach(c => bBox.innerHTML += `<div class="color-dot ${userState.avatar.bg===c?'active':''}" style="background:${c}" onclick="setAv('bg','${c}',this)"></div>`);
+            
+            document.querySelectorAll('#row-flavor-type .selector-btn').forEach(btn => {
+                if (btn.getAttribute('onclick').includes(userState.avatar.flavor)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function setFlavor(flavorName, el) {
+            userState.avatar.flavor = flavorName;
+            el.parentElement.querySelectorAll('.selector-btn').forEach(x => x.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('creator-avatar-preview').innerHTML = generateAvatarSVG(userState.avatar);
+        }
+
+        function setGender(g, el) {
+            userState.avatar.gender = g;
+            userState.avatar.hairType = HAIR_STYLES[g][0]; 
+            el.parentElement.querySelectorAll('.selector-btn').forEach(x => x.classList.remove('active'));
+            el.classList.add('active'); setupAvatarOptions();
+            document.getElementById('creator-avatar-preview').innerHTML = generateAvatarSVG(userState.avatar);
+        }
+
+        function setAv(p, v, el) {
+            userState.avatar[p] = v;
+            el.parentElement.querySelectorAll('.color-dot, .selector-btn').forEach(x => x.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('creator-avatar-preview').innerHTML = generateAvatarSVG(userState.avatar);
+        }
+
+        function saveAvatar() { 
+            localStorage.setItem('nexus_edu_state', JSON.stringify(userState)); 
+            renderAllAvatars(); 
+            alert("Perfil salvo com sucesso!"); 
+        }
+
+        function updateUI() {
+            document.getElementById('header-streak').innerText = userState.streak;
+            document.getElementById('header-coins').innerText = userState.coins;
+            document.getElementById('stat-quizzes').innerText = userState.quizzesDone;
+            document.getElementById('stat-accuracy').innerText = userState.quizzesDone > 0 ? Math.round((userState.correctAnswers / (userState.quizzesDone * 3)) * 100) + '%' : '0%';
+            
+            document.getElementById('header-level-text').innerText = `Nível ${userState.level}`;
+            document.getElementById('header-xp-text').innerText = `${userState.xp}/100 XP`;
+            document.getElementById('header-xp-bar').style.width = `${userState.xp}%`;
+        }
+
+        /* --- TESTE VOCACIONAL --- */
         function selectVocOption(el, cat) {
             el.parentElement.querySelectorAll('.quiz-opt').forEach(x => x.classList.remove('selected'));
-            el.classList.add('selected');
-            el.setAttribute('data-cat', cat);
+            el.classList.add('selected'); el.setAttribute('data-cat', cat);
             document.getElementById('voc-next-btn').removeAttribute('disabled');
         }
 
         function nextVocQuestion() {
             let sel = document.querySelector('.voc-q.active .quiz-opt.selected');
-            let cat = sel.getAttribute('data-cat');
-            userState.vocationalScores[cat]++;
-
-            let qs = document.querySelectorAll('.voc-q');
-            qs[currentVocIndex].classList.remove('active');
+            userState.vocationalScores[sel.getAttribute('data-cat')]++;
+            document.querySelectorAll('.voc-q')[currentVocIndex].classList.remove('active');
             currentVocIndex++;
-
-            if(currentVocIndex < qs.length) {
-                qs[currentVocIndex].classList.add('active');
+            if(currentVocIndex < 3) {
+                document.querySelectorAll('.voc-q')[currentVocIndex].classList.add('active');
                 document.getElementById('voc-next-btn').setAttribute('disabled','true');
             } else {
                 document.getElementById('voc-main-box').style.display = 'none';
                 document.getElementById('voc-res-box').style.display = 'block';
-
-                let t = userState.vocationalScores.tecnologico;
-                let a = userState.vocationalScores.artistico;
-                let h = userState.vocationalScores.humanas;
-                let sum = t + a + h;
-
-                let pTec = Math.round((t / sum) * 100);
-                let pArt = Math.round((a / sum) * 100);
-                let pHum = Math.round((h / sum) * 100);
-
-                document.getElementById('pct-tec').innerText = pTec + '%';
-                document.getElementById('bar-tec').style.width = pTec + '%';
-                document.getElementById('pct-art').innerText = pArt + '%';
-                document.getElementById('bar-art').style.width = pArt + '%';
-                document.getElementById('pct-hum').innerText = pHum + '%';
-                document.getElementById('bar-hum').style.width = pHum + '%';
-
-                let finalText = "";
-                if(t >= a && t >= h) finalText = "🎯 Seu perfil predominante é <b>Tecnologia e Engenharia de Sistemas</b>.";
-                else if(a >= t && a >= h) finalText = "🎨 Seu perfil predominante é <b>Design, Artes Visuais e Comunicação Estética</b>.";
-                else finalText = "📈 Seu perfil predominante é <b>Administração, Empreendedorismo e Gestão</b>.";
-                document.getElementById('voc-final-text').innerHTML = finalText;
+                let t = userState.vocationalScores.tecnologico, a = userState.vocationalScores.artistico, h = userState.vocationalScores.humanas, sum = t+a+h;
+                let pTec = Math.round((t/sum)*100), pArt = Math.round((a/sum)*100), pHum = Math.round((h/sum)*100);
+                document.getElementById('pct-tec').innerText = pTec + '%'; document.getElementById('bar-tec').style.width = pTec + '%';
+                document.getElementById('pct-art').innerText = pArt + '%'; document.getElementById('bar-art').style.width = pArt + '%';
+                document.getElementById('pct-hum').innerText = pHum + '%'; document.getElementById('bar-hum').style.width = pHum + '%';
+                document.getElementById('voc-final-text').innerHTML = t>=a && t>=h ? "🎯 Predominante: <b>Tecnologia e Desenvolvimento</b>" : a>=t && a>=h ? "🎨 Predominante: <b>Artes Visuais & Estética Técnica</b>" : "📈 Predominante: <b>Gestão, Estratégia & Empreendedorismo</b>";
             }
         }
-
         function resetVocationalTest() {
-            userState.vocationalScores = { tecnologico: 0, artistico: 0, humanas: 0 };
-            currentVocIndex = 0;
-            document.getElementById('voc-res-box').style.display = 'none';
-            document.getElementById('voc-main-box').style.display = 'block';
-            let qs = document.querySelectorAll('.voc-q');
-            qs.forEach((q, idx) => { q.classList.remove('active'); if(idx === 0) q.classList.add('active'); });
-            document.querySelectorAll('.voc-options-list .quiz-opt').forEach(opt => opt.classList.remove('selected'));
-            document.getElementById('voc-next-btn').setAttribute('disabled','true');
+            userState.vocationalScores = { tecnologico:0, artistico:0, humanas:0 }; currentVocIndex = 0;
+            document.getElementById('voc-res-box').style.display = 'none'; document.getElementById('voc-main-box').style.display = 'block';
+            document.querySelectorAll('.voc-q').forEach((q,i) => { q.classList.remove('active'); if(i===0) q.classList.add('active'); });
+            document.querySelectorAll('.voc-options-list .quiz-opt').forEach(o => o.classList.remove('selected'));
         }
     </script>
 </body>
