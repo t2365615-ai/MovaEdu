@@ -42,23 +42,40 @@ nav a{color:white;text-decoration:none;margin-left:20px;font-weight:500}
 .hero h1{font-size:36px;margin-bottom:10px}
 .search-container{max-width:500px;margin:20px auto 0 auto;display:flex;gap:10px}
 .search-input{padding:12px;border:none;border-radius:8px;width:100%;font-size:16px}
+
 section{padding:30px 25px;max-width:1200px;margin:0 auto}
 h2 { color: #312e81; display: flex; align-items: center; gap: 10px; font-size: 22px; }
+
+/* Planos e Valores */
+.pricing-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+.price-card { background: white; padding: 25px; border-radius: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; width: 280px; border: 2px solid transparent; }
+.price-card.premium { border-color: #10b981; position: relative; }
+.price-card.premium .badge-premium { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+.price-card h3 { font-size: 20px; color: #312e81; margin-bottom: 10px; }
+.price-card .cost { font-size: 28px; font-weight: bold; color: #10b981; margin: 15px 0; }
+.price-card ul { list-style: none; text-align: left; font-size: 13px; color: #555; margin-bottom: 20px; }
+.price-card ul li { margin-bottom: 8px; }
+
+/* Cards de Itens */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:15px}
 .card,.perfil-card,.solicitacao{background:white;padding:20px;border-radius:14px;box-shadow:0 4px 6px rgba(0,0,0,.05);transition:transform 0.2s;display:flex;flex-direction:column;justify-content:space-between}
 .card:hover{transform:translateY(-5px)}
 .card-icon{font-size:36px;margin-bottom:10px}
-.price{font-weight:bold;color:#10b981;font-size:16px;margin:8px 0}
+.price{font-weight:bold;font-size:16px;margin:8px 0}
+.price.free { color: #2563eb; }
+.price.premium-tag { color: #b45309; }
+
 .btn{padding:10px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;transition:opacity 0.2s}
 .btn:hover{opacity:0.9}
 .primary{background:#10b981;color:white;width:100%;margin-top:10px}
+.secondary{background:#2563eb;color:white;width:100%;margin-top:10px}
 .chat{background:#6366f1;color:white;width:100%;margin-top:5px}
 .badge{background:red;color:white;padding:3px 8px;border-radius:50%;font-size:12px;vertical-align:middle;margin-left:5px}
 #perfil{background:#f0f2ff;max-width:100%}
 .perfil-content{max-width:1200px;margin:0 auto}
 .perfil-topo{display:flex;align-items:center;gap:20px;margin-bottom:20px}
 .avatar{width:80px;height:80px;border-radius:50%;background:#6366f1;color:white;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:bold;text-transform:uppercase}
-input{width:100%;padding:12px;margin-top:10px;border:1px solid #ccc;border-radius:8px;font-size:14px}
+input, select{width:100%;padding:12px;margin-top:10px;border:1px solid #ccc;border-radius:8px;font-size:14px}
 footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:14px}
 .solicitacao{margin-bottom:15px;border-left:5px solid #10b981}
 
@@ -122,6 +139,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
     <header>
         <div class="logo">Vitrine<span>de Habilidades</span></div>
         <nav>
+            <a href="#valores">Valores</a>
             <a href="#aprender">Aprender</a>
             <a href="#habilidades">Habilidades</a>
             <a href="#objetos">Objetos</a>
@@ -131,14 +149,46 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
 
     <div class="hero">
         <h1>Vitrine Exclusiva de Habilidades</h1>
-        <p>Encontre soluções educacionais, services especializados e locações diretamente comigo.</p>
+        <p>Encontre soluções educacionais, serviços especializados e locações diretamente comigo.</p>
         <div class="search-container">
             <input type="text" id="busca" class="search-input" placeholder="🔍 O que você precisa hoje?" oninput="filtrarItens()">
         </div>
     </div>
 
+    <section id="valores">
+        <h2>💰 Nossos Planos & Investimento</h2>
+        <div class="pricing-container">
+            <div class="price-card">
+                <h3>Plano Gratuito</h3>
+                <div class="cost">R$ 0,00</div>
+                <ul>
+                    <li>✅ Acesso a ferramentas básicas</li>
+                    <li>✅ Consultas ao Dicionário Online</li>
+                    <li>✅ Uso do Tradutor de Idiomas</li>
+                    <li>✅ Visualização da Vitrine</li>
+                </ul>
+                <button class="btn" style="background: #ccc; color:#333; width:100%; cursor:default;">Plano Ativo</button>
+            </div>
+            <div class="price-card premium">
+                <div class="badge-premium">MAIS VENDIDO</div>
+                <h3>Acesso Premium</h3>
+                <div class="cost">R$ 39,90<span style="font-size:14px; color:#666;">/mês</span></div>
+                <ul>
+                    <li>✅ Todos os benefícios do Grátis</li>
+                    <li>✅ Contratação de Serviços de Slides/Mídias</li>
+                    <li>✅ Mentorias e Aulas Particulares</li>
+                    <li>✅ Locação de Objetos Físicos</li>
+                    <li>✅ Suporte direto via Chat integrado</li>
+                </ul>
+                <button class="btn primary" onclick="aviso('Fale com o Administrador no chat para ativar sua assinatura mensal de R$ 39,90!')">Assinar Agora</button>
+            </div>
+        </div>
+    </section>
+
+    <hr style="border: 0; border-top: 1px solid #e2e8f0;">
+
     <section id="aprender">
-        <h2>📚 Aprender (Aulas e Mentorias)</h2>
+        <h2>📚 Aprender (Aulas, Mentorias e Utilidades)</h2>
         <div class="cards" id="aprenderLista"></div>
     </section>
 
@@ -227,36 +277,25 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
   let salaChatAtual = ""; 
   let contagemNotificacoes = 0;
 
+  // Definição da matriz de itens dividida por gratuidade
   const itensFixos = [
-    { tipo: "Aprender", titulo: "Mentoria para organização dos estudos", emoji: "📅", acao: "Contratar" },
-    { tipo: "Aprender", titulo: "Mentoria para o ENEM", emoji: "📝", acao: "Contratar" },
-    { tipo: "Aprender", titulo: "Aulas de reforço de Matemática", emoji: "📐", acao: "Contratar" },
-    { tipo: "Aprender", titulo: "Aulas de reforço de Português", emoji: "📖", acao: "Contratar" },
-    { tipo: "Aprender", titulo: "Aulas de reforço de Inglês", emoji: "🇺🇸", acao: "Contratar" },
-    { tipo: "Aprender", titulo: "Ajuda em redação", emoji: "✍️", acao: "Contratar" },
-    { tipo: "Aprender", titulo: "Correção de redações", emoji: "🔍", acao: "Contratar" },
-    { tipo: "Aprender", titulo: "Técnicas de memorização", emoji: "🧠", acao: "Contratar" },
-    { tipo: "Aprender", titulo: "Resolução de exercícios", emoji: "🧮", acao: "Contratar" },
-    { tipo: "Aprender", titulo: "Grupo de estudos guiado", emoji: "👥", acao: "Contratar" },
-    { tipo: "Aprender", titulo: "Preparação para apresentações escolares", emoji: "🎤", acao: "Contratar" },
+    { tipo: "Aprender", titulo: "Dicionário Escolar Online", emoji: "📕", acao: "Acessar", cobranca: "Grátis" },
+    { tipo: "Aprender", titulo: "Tradutor de Idiomas Instantâneo", emoji: "🌐", acao: "Acessar", cobranca: "Grátis" },
+    { tipo: "Aprender", titulo: "Aulas de reforço de Matemática", emoji: "📐", acao: "Contratar", cobranca: "Premium" },
+    { tipo: "Aprender", titulo: "Aulas de reforço de Português", emoji: "📖", acao: "Contratar", cobranca: "Premium" },
+    { tipo: "Aprender", titulo: "Aulas de reforço de Inglês", emoji: "🇺🇸", acao: "Contratar", cobranca: "Premium" },
+    { tipo: "Aprender", titulo: "Mentoria para organização dos estudos", emoji: "📅", acao: "Contratar", cobranca: "Premium" },
+    { tipo: "Aprender", titulo: "Mentoria para o ENEM", emoji: "📝", acao: "Contratar", cobranca: "Premium" },
     
-    { tipo: "Habilidade", titulo: "Criação de slides", emoji: "📊", acao: "Contratar" },
-    { tipo: "Habilidade", titulo: "Edição de vídeos", emoji: "🎬", acao: "Contratar" },
-    { tipo: "Habilidade", titulo: "Design no Canva", emoji: "🎨", acao: "Contratar" },
-    { tipo: "Habilidade", titulo: "Criação de currículos", emoji: "💼", acao: "Contratar" },
-    { tipo: "Habilidade", titulo: "Programação básica", emoji: "💻", acao: "Contratar" },
-    { tipo: "Habilidade", titulo: "Montagem de sites simples", emoji: "🌐", acao: "Contratar" },
-    { tipo: "Habilidade", titulo: "Digitação de trabalhos", emoji: "⌨️", acao: "Contratar" },
-    { tipo: "Habilidade", titulo: "Formatação de documentos", emoji: "📄", acao: "Contratar" },
+    { tipo: "Habilidade", titulo: "Criação de slides profissionais", emoji: "📊", acao: "Contratar", cobranca: "Premium" },
+    { tipo: "Habilidade", titulo: "Edição de vídeos estruturados", emoji: "🎬", acao: "Contratar", cobranca: "Premium" },
+    { tipo: "Habilidade", titulo: "Design Gráfico no Canva", emoji: "🎨", acao: "Contratar", cobranca: "Premium" },
+    { tipo: "Habilidade", titulo: "Criação de currículos", emoji: "💼", acao: "Contratar", cobranca: "Premium" },
     
-    { tipo: "Objeto", titulo: "Pendrive", emoji: "💾", acao: "Alugar" },
-    { tipo: "Objeto", titulo: "Fone de ouvido", emoji: "🎧", acao: "Alugar" },
-    { tipo: "Objeto", titulo: "Microfone", emoji: "🎙️", acao: "Alugar" },
-    { tipo: "Objeto", titulo: "Régua", emoji: "📏", acao: "Alugar" },
-    { tipo: "Objeto", titulo: "Compasso", emoji: "🧭", acao: "Alugar" },
-    { tipo: "Objeto", titulo: "Transferidor", emoji: "📐", acao: "Alugar" },
-    { tipo: "Objeto", titulo: "Dicionário", emoji: "📕", acao: "Alugar" },
-    { tipo: "Objeto", titulo: "Rádio portátil", emoji: "📻", acao: "Alugar" }
+    { tipo: "Objeto", titulo: "Pendrive de Armazenamento", emoji: "💾", acao: "Alugar", cobranca: "Premium" },
+    { tipo: "Objeto", titulo: "Fone de ouvido", emoji: "🎧", acao: "Alugar", cobranca: "Premium" },
+    { tipo: "Objeto", titulo: "Microfone de Lapela", emoji: "🎙️", acao: "Alugar", cobranca: "Premium" },
+    { tipo: "Objeto", titulo: "Kit Régua / Compasso / Transferidor", emoji: "📐", acao: "Alugar", cobranca: "Premium" }
   ];
 
   window.addEventListener('DOMContentLoaded', () => {
@@ -289,7 +328,6 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
     document.getElementById('perf-email').innerText = email;
     document.getElementById('perf-avatar').innerText = nome.substring(0, 2);
 
-    // Esconde a tela de login e mostra o site principal de imediato
     document.getElementById('tela-login').style.display = 'none';
     document.getElementById('conteudo-principal').style.display = 'block';
 
@@ -297,7 +335,6 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
         document.getElementById('area-notificacoes-vendedor').style.display = 'block';
     }
 
-    // Renderiza a interface e só depois puxa os dados assíncronos do banco
     renderizarVitrineFixa();
     inicializarEscutasBanco();
   }
@@ -320,14 +357,21 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
 
       itensFixos.forEach(item => {
           let botaoHTML = "";
-          
-          if(usuarioAtual.email === EMAIL_DONO_VITRINE.toLowerCase()) {
-              botaoHTML = `<button class="btn" style="width:100%; background:#ccc; cursor:not-allowed;" disabled>Seu Item</button>`;
+          let labelCobranca = "";
+
+          if(item.cobranca === "Grátis") {
+              labelCobranca = `<p class="price free">Gratuito</p>`;
+              botaoHTML = `<button class="btn secondary" onclick="abrirServicoGratuito('${item.titulo}')">🚀 Abrir Recurso</button>`;
           } else {
-              botaoHTML = `
-                <button class="btn primary" onclick="solicitarServico('${item.titulo}', '${item.acao}')">✨ ${item.acao}</button>
-                <button class="btn chat" onclick="abrirConversa('${item.titulo}', '${EMAIL_DONO_VITRINE}', 'Administrador', '${usuarioAtual.email}', '${usuarioAtual.nome}')">💬 Conversar</button>
-              `;
+              labelCobranca = `<p class="price premium-tag">Premium (R$ 39,90/mês)</p>`;
+              if(usuarioAtual.email === EMAIL_DONO_VITRINE.toLowerCase()) {
+                  botaoHTML = `<button class="btn" style="width:100%; background:#ccc; cursor:not-allowed;" disabled>Seu Item</button>`;
+              } else {
+                  botaoHTML = `
+                    <button class="btn primary" onclick="solicitarServico('${item.titulo.replace(/'/g, "\\'")}', '${item.acao}')">✨ ${item.acao}</button>
+                    <button class="btn chat" onclick="abrirConversa('${item.titulo.replace(/'/g, "\\'")}', '${EMAIL_DONO_VITRINE}', 'Administrador', '${usuarioAtual.email}', '${usuarioAtual.nome.replace(/'/g, "\\'")}')">💬 Conversar</button>
+                  `;
+              }
           }
 
           let cardHtml = `
@@ -338,13 +382,23 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
                     <p style="font-size:12px; color:#666; margin-top:4px;">Disponível por: Administrador</p>
                 </div>
                 <div style="margin-top:15px;">
-                    <p class="price">Consulte Valores</p>
+                    ${labelCobranca}
                     ${botaoHTML}
                 </div>
             </div>`;
 
           containers[item.tipo].insertAdjacentHTML('beforeend', cardHtml);
       });
+  }
+
+  window.abrirServicoGratuito = function(servico) {
+      if(servico.includes("Dicionário")) {
+          window.aviso("Funcionalidade Grátis: Redirecionando para consulta do Dicionário Integrado da Vitrine (Conectado via API Pública).");
+          window.open("https://www.dicio.com.br/", "_blank");
+      } else if(servico.includes("Tradutor")) {
+          window.aviso("Funcionalidade Grátis: Redirecionando para o Tradutor de Idiomas Multilíngue.");
+          window.open("https://translate.google.com/?hl=pt-BR", "_blank");
+      }
   }
 
   window.solicitarServico = function(tituloItem, acao) {
@@ -358,7 +412,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
           clienteEmail: usuarioAtual.email,
           timestamp: Date.now()
       }).then(() => {
-          window.aviso(`Solicitação de ${acao} enviada com sucesso! O administrador foi notificado.`);
+          window.aviso(`Solicitação Premium de ${acao} enviada! Ative seu plano de R$ 39,90/mês conversando com o administrador.`);
       });
   }
 
@@ -393,10 +447,8 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
     let texto = input.value.trim();
     if(!texto || !salaChatAtual) return;
 
-    const msgsRef = ref(db, 'mensagens/' + salaChatAtual);
-    const novaMsgRef = push(msgsRef);
-
-    set(novaMsgRef, {
+    const msgsRef =  ref(db, 'mensagens/' + salaChatAtual);
+    const novaMsgRef = push(msgsRef)    set(novaMsgRef, {
         remetente: usuarioAtual.email,
         nome: usuarioAtual.nome,
         texto: texto,
@@ -412,9 +464,20 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
         const msg = snapshot.val();
         let classeRemetente = (msg.remetente === usuarioAtual.email) ? 'enviada' : 'recebida';
 
-        let msgHtml = `<div class="msg ${classeRemetente}"><strong>${msg.nome}:</strong><br>${msg.texto}</div>`;
+        let msgDiv = document.createElement('div');
+        msgDiv.className = `msg ${classeRemetente}`;
+        
+        let strong = document.createElement('strong');
+        strong.textContent = `${msg.nome}:`;
+        msgDiv.appendChild(strong);
+        msgDiv.appendChild(document.createElement('br'));
+        
+        let textSpan = document.createElement('span');
+        textSpan.textContent = msg.texto;
+        msgDiv.appendChild(textSpan);
+
         let container = document.getElementById('chat-mensagens');
-        container.insertAdjacentHTML('beforeend', msgHtml);
+        container.appendChild(msgDiv);
         container.scrollTop = container.scrollHeight; 
     });
   }
@@ -437,12 +500,15 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
             badge.innerText = contagemNotificacoes;
             badge.style.display = "inline-block";
 
+            let itemEscapado = dados.item.replace(/'/g, "\\'");
+            let nomeEscapado = dados.clienteNome.replace(/'/g, "\\'");
+
             let solHtml = `
             <div class="solicitacao">
                 <h4>🔔 Nova Solicitação de: ${dados.acao}</h4>
                 <p style="margin-top:5px;"><strong>Item/Serviço:</strong> ${dados.item}</p>
                 <p><strong>Cliente:</strong> ${dados.clienteNome} (${dados.clienteEmail})</p>
-                <button class="btn chat" style="width:auto; padding:6px 12px; margin-top:10px;" onclick="abrirConversa('${dados.item}', '${EMAIL_DONO_VITRINE}', 'Administrador', '${dados.clienteEmail}', '${dados.clienteNome}')">💬 Abrir Chat com Cliente</button>
+                <button class="btn chat" style="width:auto; padding:6px 12px; margin-top:10px;" onclick="abrirConversa('${itemEscapado}', '${EMAIL_DONO_VITRINE}', 'Administrador', '${dados.clienteEmail}', '${nomeEscapado}')">💬 Abrir Chat com Cliente</button>
             </div>`;
 
             document.getElementById('lista-solicitacoes').insertAdjacentHTML('beforeend', solHtml);
@@ -454,12 +520,15 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
         
         if(chat.vendedorEmail.toLowerCase() === usuarioAtual.email || chat.clienteEmail.toLowerCase() === usuarioAtual.email) {
             let outroNome = (usuarioAtual.email === chat.vendedorEmail.toLowerCase()) ? chat.clienteNome : chat.vendedorNome;
-            let tipoTag = (usuarioAtual.email === chat.vendedorEmail.toLowerCase()) ? "Cliente" : "Atendente";
+
+            let itemEscapado = chat.item.replace(/'/g, "\\'");
+            let vendNomeEscapado = chat.vendedorNome.replace(/'/g, "\\'");
+            let cliNomeEscapado = chat.clienteNome.replace(/'/g, "\\'");
 
             let itemChatHtml = `
-            <div class="chat-item" onclick="abrirConversa('${chat.item}', '${chat.vendedorEmail}', '${chat.vendedorNome}', '${chat.clienteEmail}', '${chat.clienteNome}')">
+            <div class="chat-item" onclick="abrirConversa('${itemEscapado}', '${chat.vendedorEmail}', '${vendNomeEscapado}', '${chat.clienteEmail}', '${cliNomeEscapado}')">
                 <h4>🤝 Item: ${chat.item}</h4>
-                <p style="margin-top: 5px; font-size: 13px; color: #555;"><strong>${outroNome}</p>
+                <p style="margin-top: 5px; font-size: 13px; color: #555;"><strong>${outroNome}</strong></p>
             </div>`;
 
             document.getElementById('lista-conversas').insertAdjacentHTML('beforeend', itemChatHtml);
@@ -467,7 +536,6 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
     });
   }
 
-  // FUNÇÕES AUXILIARES QUE ESTAVAM FALTANDO NO SEU SCRIPT ORIGINAL:
   window.filtrarItens = function() {
       let termo = document.getElementById('busca').value.toLowerCase();
       let cards = document.querySelectorAll('.card');
@@ -493,7 +561,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
 
   window.verificarEnterChat = function(event) {
       if(event.key === 'Enter') {
-          enviarMensagem();
+          window.enviarMensagem();
       }
   }
 </script>
