@@ -459,7 +459,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
             let itemChatHtml = `
             <div class="chat-item" onclick="abrirConversa('${chat.item}', '${chat.vendedorEmail}', '${chat.vendedorNome}', '${chat.clienteEmail}', '${chat.clienteNome}')">
                 <h4>🤝 Item: ${chat.item}</h4>
-                <p style="margin-top: 5px; font-size: 13px; color: #555;"><strong>${tipoTag}:</strong> ${outroNome}</p>
+                <p style="margin-top: 5px; font-size: 13px; color: #555;"><strong>${outroNome}</p>
             </div>`;
 
             document.getElementById('lista-conversas').insertAdjacentHTML('beforeend', itemChatHtml);
