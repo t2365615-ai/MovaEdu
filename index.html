@@ -1,973 +1,502 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Edu - Plataforma Escolar Inteligente</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* --- ESTILOS GERAIS E VARIÁVEIS --- */
-        :root {
-            --bg-main: #0b0f19;
-            --bg-card: #151d30;
-            --bg-sidebar: #0e1424;
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --purple-vibrant: #7c3aed;
-            --purple-hover: #6d28d9;
-            --xp-gold: #f59e0b;
-            --neon-blue: #06b6d4;
-            --success-green: #10b981;
-            --error-red: #ef4444;
-            --sidebar-width: 260px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vitrine de Habilidades</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f5f7fb;color:#333}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
+/* Tela de Login */
+#tela-login {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #6366f1, #10b981);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+.login-box h1 { font-size: 32px; margin-bottom: 10px; color: #6366f1; }
+.login-box h1 span { color: #10b981; }
+.login-box p { color: #666; margin-bottom: 20px; }
 
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: row;
-        }
+/* Conteúdo Principal */
+#conteudo-principal { display: none; }
 
-        /* --- LAYOUT DA APLICAÇÃO --- */
-        .sidebar {
-            width: var(--sidebar-width);
-            background-color: var(--bg-sidebar);
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 100;
-            border-right: 1px solid #1e293b;
-            display: flex;
-            flex-direction: column;
-            padding: 24px 16px;
-            overflow-y: auto;
-        }
+header{background:#6366f1;color:white;padding:15px 25px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.logo{font-size:26px;font-weight:bold}
+.logo span{color:#10b981}
+nav a{color:white;text-decoration:none;margin-left:20px;font-weight:500}
+.hero{background:linear-gradient(135deg,#6366f1,#10b981);padding:50px 20px;color:white;text-align:center}
+.hero h1{font-size:36px;margin-bottom:10px}
+.search-container{max-width:500px;margin:20px auto 0 auto;display:flex;gap:10px}
+.search-input{padding:12px;border:none;border-radius:8px;width:100%;font-size:16px}
+section{padding:30px 25px;max-width:1200px;margin:0 auto}
+h2 { color: #312e81; display: flex; align-items: center; gap: 10px; font-size: 22px; }
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:15px}
+.card,.perfil-card,.solicitacao{background:white;padding:20px;border-radius:14px;box-shadow:0 4px 6px rgba(0,0,0,.05);transition:transform 0.2s;display:flex;flex-direction:column;justify-content:space-between}
+.card:hover{transform:translateY(-5px)}
+.card-icon{font-size:36px;margin-bottom:10px}
+.price{font-weight:bold;color:#10b981;font-size:16px;margin:8px 0}
+.btn{padding:10px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;transition:opacity 0.2s}
+.btn:hover{opacity:0.9}
+.primary{background:#10b981;color:white;width:100%;margin-top:10px}
+.chat{background:#6366f1;color:white;width:100%;margin-top:5px}
+.badge{background:red;color:white;padding:3px 8px;border-radius:50%;font-size:12px;vertical-align:middle;margin-left:5px}
+#perfil{background:#f0f2ff;max-width:100%}
+.perfil-content{max-width:1200px;margin:0 auto}
+.perfil-topo{display:flex;align-items:center;gap:20px;margin-bottom:20px}
+.avatar{width:80px;height:80px;border-radius:50%;background:#6366f1;color:white;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:bold;text-transform:uppercase}
+input{width:100%;padding:12px;margin-top:10px;border:1px solid #ccc;border-radius:8px;font-size:14px}
+footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:14px}
+.solicitacao{margin-bottom:15px;border-left:5px solid #10b981}
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--text-main);
-            padding-bottom: 20px;
-            border-bottom: 1px solid #1e293b;
-            margin-bottom: 24px;
-        }
-
-        .brand i {
-            color: var(--purple-vibrant);
-            text-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
-        }
-
-        .nav-menu {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex-grow: 1;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            color: var(--text-main);
-            background-color: rgba(124, 58, 237, 0.15);
-        }
-
-        .nav-item.active {
-            background-color: var(--purple-vibrant);
-            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
-        }
-
-        .header {
-            position: fixed;
-            top: 0;
-            left: var(--sidebar-width);
-            right: 0;
-            height: 75px;
-            background-color: rgba(11, 15, 25, 0.85);
-            backdrop-filter: blur(12px);
-            z-index: 90;
-            border-bottom: 1px solid #1e293b;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-        }
-
-        .header-title { font-size: 20px; font-weight: 700; }
-        .user-status-bar { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-        .status-pill { display: flex; align-items: center; gap: 6px; background-color: #1e293b; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 13px; }
-        .status-pill.streak { color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); background-color: rgba(239, 68, 68, 0.1); }
-        .status-pill.coins { color: var(--xp-gold); border: 1px solid rgba(245, 158, 11, 0.3); background-color: rgba(245, 158, 11, 0.1); }
-
-        .xp-container { display: flex; flex-direction: column; gap: 4px; width: 140px; }
-        .xp-text { font-size: 11px; font-weight: 700; color: var(--text-muted); display: flex; justify-content: space-between; }
-        .xp-bar-outer { width: 100%; height: 8px; background-color: #1e293b; border-radius: 4px; overflow: hidden; }
-        .xp-bar-inner { width: 20%; height: 100%; background: linear-gradient(90deg, var(--purple-vibrant), var(--neon-blue)); border-radius: 4px; transition: width 0.4s ease; }
-
-        .header-avatar-link { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--purple-vibrant); cursor: pointer; overflow: hidden; background-color: #1e293b; }
-        .header-avatar-link svg { width: 100%; height: 100%; display: block; }
-
-        .main-content {
-            flex-grow: 1;
-            margin-left: var(--sidebar-width);
-            padding: 105px 32px 40px 32px;
-            width: calc(100% - var(--sidebar-width));
-            min-height: 100vh;
-        }
-
-        /* --- COMPONENTES --- */
-        .view-section { display: none; animation: fadeIn 0.25s ease-in-out forwards; }
-        .view-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
-        .card { background-color: var(--bg-card); border-radius: 16px; padding: 24px; border: 1px solid #1e293b; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); }
-        .card-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-        .card-title i { color: var(--purple-vibrant); }
-
-        .btn { background-color: var(--purple-vibrant); color: var(--text-main); border: none; padding: 12px 20px; font-weight: 700; font-size: 14px; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: background-color 0.2s, transform 0.1s; }
-        .btn:hover { background-color: var(--purple-hover); }
-        .btn:active { transform: scale(0.98); }
-        .btn-secondary { background-color: #1e293b; border: 1px solid #334155; }
-        .btn-secondary:hover { background-color: #334155; }
-
-        /* --- CHAT IA --- */
-        .chat-layout { display: flex; flex-direction: column; height: 420px; background-color: #0e1424; border-radius: 12px; border: 1px solid #1e293b; overflow: hidden; margin-bottom: 16px; }
-        .chat-messages { flex-grow: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-        .chat-bubble { max-width: 85%; padding: 12px 16px; border-radius: 14px; font-size: 14px; line-height: 1.5; }
-        .chat-bubble.user { background-color: var(--purple-vibrant); align-self: flex-end; border-bottom-right-radius: 0px; }
-        .chat-bubble.ia { background-color: var(--bg-card); align-self: flex-start; border-bottom-left-radius: 0px; border: 1px solid #1e293b; }
-        .chat-input-row { display: flex; background-color: #151d30; padding: 12px; border-top: 1px solid #1e293b; gap: 10px; }
-        .chat-input { flex-grow: 1; background-color: #0b0f19; border: 1px solid #334155; color: white; padding: 10px 14px; border-radius: 8px; outline: none; }
-
-        /* QUIZ */
-        .quiz-box { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); border: 2px solid var(--purple-vibrant); border-radius: 16px; padding: 20px; display: none; margin-top: 16px; }
-        .quiz-options-list { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
-        .quiz-opt { background-color: rgba(255, 255, 255, 0.02); border: 1px solid #334155; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: background 0.2s; }
-        .quiz-opt:hover { background-color: rgba(255, 255, 255, 0.05); }
-        .quiz-opt.selected, .quiz-opt.active { background-color: rgba(124, 58, 237, 0.2); border-color: var(--purple-vibrant); }
-        .quiz-opt.correct { background-color: rgba(16, 185, 129, 0.2); border-color: var(--success-green); color: #10b981; font-weight: bold; }
-        .quiz-opt.wrong { background-color: rgba(239, 68, 68, 0.2); border-color: var(--error-red); color: #ef4444; }
-
-        /* --- AVATAR CREATOR --- */
-        .avatar-creator-wrapper { display: flex; gap: 32px; align-items: flex-start; }
-        .avatar-preview-pane { flex: 1; text-align: center; background-color: rgba(255, 255, 255, 0.01); padding: 24px; border-radius: 166px; border: 1px dashed #334155; }
-        .avatar-options-pane { flex: 2; }
-        .big-avatar-frame { width: 180px; height: 180px; border-radius: 50%; margin: 0 auto 20px auto; border: 4px solid var(--purple-vibrant); overflow: hidden; box-shadow: 0 0 20px rgba(124, 58, 237, 0.3); background: #0e1424; }
-        .big-avatar-frame svg { width: 100%; height: 100%; display: block; }
-
-        .option-group { margin-bottom: 20px; }
-        .option-label { font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; }
-        .color-palette, .selector-row { display: flex; flex-wrap: wrap; gap: 8px; }
-        .color-dot { width: 34px; height: 34px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
-        .color-dot.active { border-color: var(--text-main); box-shadow: 0 0 6px #fff; }
-        .selector-btn { background-color: #1e293b; color: var(--text-main); border: 1px solid #334155; padding: 8px 14px; border-radius: 8px; font-weight: 600; font-size: 12px; cursor: pointer; text-transform: capitalize; }
-        .selector-btn.active { background-color: var(--purple-vibrant); border-color: var(--purple-vibrant); }
-
-        /* --- TESTE VOCACIONAL --- */
-        .voc-q { display: none; }
-        .voc-q.active { display: block; }
-        .result-bar-container { margin-bottom: 14px; }
-        .result-bar-outer { width: 100%; height: 12px; background-color: #1e293b; border-radius: 6px; overflow: hidden; margin-top: 4px; }
-        .result-bar-inner { height: 100%; width: 0%; transition: width 0.6s ease; }
-
-        /* --- MARATONA DE DESENHO FUNCIONAL --- */
-        .canvas-container { display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%; }
-        #drawing-canvas { background-color: #ffffff; border: 2px solid var(--purple-vibrant); border-radius: 12px; cursor: crosshair; width: 100%; max-width: 500px; height: 350px; touch-action: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .canvas-tools { display: flex; gap: 10px; justify-content: center; width: 100%; max-width: 500px; }
-        .canvas-tools input[type="color"] { border: none; width: 40px; height: 40px; border-radius: 8px; cursor: pointer; background: transparent; }
-
-        /* --- MURAL INTERATIVO --- */
-        .mural-textarea { width: 100%; height: 75px; background-color: #0e1424; border: 1px solid #334155; border-radius: 10px; color: white; padding: 12px; font-size: 14px; resize: none; outline: none; }
-        .feed-container { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; }
-        .feed-post { background-color: #0e1424; border: 1px solid #1e293b; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
-        .post-header { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
-        .post-avatar { width: 34px; height: 34px; border-radius: 50%; overflow: hidden; background: #1e293b; border: 1px solid var(--purple-vibrant); }
-        .post-avatar svg { width: 100%; height: 100%; display: block; }
-        .post-drawing-img { max-width: 100%; max-height: 250px; object-fit: contain; border-radius: 8px; border: 1px solid #334155; background: #fff; margin-top: 4px; }
-        
-        .rating-box { display: flex; align-items: center; gap: 6px; color: var(--xp-gold); font-size: 16px; margin-top: 4px; }
-        .rating-box i { cursor: pointer; transition: transform 0.1s; }
-        .rating-box i:hover { transform: scale(1.2); }
-        .comments-section { background: rgba(255,255,255,0.02); border-radius: 8px; padding: 10px; margin-top: 6px; display: flex; flex-direction: column; gap: 6px; }
-        .comment-item { font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 4px; }
-        .comment-item b { color: var(--neon-blue); }
-        .comment-input-row { display: flex; gap: 8px; margin-top: 6px; }
-        .comment-input { flex-grow: 1; background: #0b0f19; border: 1px solid #334155; border-radius: 6px; color: white; padding: 6px 10px; font-size: 13px; outline: none; }
-
-        @media (max-width: 992px) {
-            body { flex-direction: column; }
-            .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 1px solid #1e293b; padding: 12px 16px; }
-            .brand { padding-bottom: 0; margin-bottom: 12px; border-bottom: none; }
-            .nav-menu { flex-direction: row; flex-wrap: wrap; gap: 6px; }
-            .nav-item { padding: 8px 12px; font-size: 13px; }
-            .header { position: static; width: 100%; padding: 12px 16px; height: auto; flex-direction: column; gap: 10px; align-items: flex-start; }
-            .main-content { margin-left: 0; width: 100%; padding: 20px 16px; }
-        }
-    </style>
+/* JANELA DE CHAT */
+.chat-window {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    height: 450px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    z-index: 500;
+    flex-direction: column;
+}
+.chat-header {
+    background: #6366f1;
+    color: white;
+    padding: 15px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #f8fafc;
+}
+.msg { padding: 10px 14px; border-radius: 12px; max-width: 80%; font-size: 14px; word-break: break-word; }
+.msg.enviada { background: #6366f1; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+.msg.recebida { background: #e2e8f0; color: #333; align-self: flex-start; border-bottom-left-radius: 2px; }
+.chat-input-area { padding: 10px; display: flex; gap: 8px; border-top: 1px solid #e2e8f0; }
+.chat-input-area input { margin-top: 0; padding: 8px; }
+.chat-item { cursor: pointer; margin-bottom: 10px; padding: 12px; background:#f8fafc; border-radius:8px; border-left: 5px solid #6366f1; }
+.chat-item:hover { background: #eef2ff; }
+.btn-logout { background: #dc2626; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; border: none; cursor: pointer; margin-top: 5px; }
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200}
+.modal-box{background:white;max-width:400px;margin:150px auto;padding:25px;border-radius:12px;text-align:center}
+</style>
 </head>
 <body>
 
-    <aside class="sidebar">
-        <div class="brand">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span>Nexus Edu</span>
+<div id="tela-login">
+    <div class="login-box">
+        <h1>Vitrine<span>+</span></h1>
+        <p>Bem-vindo à Vitrine de Habilidades! Identifique-se para entrar.</p>
+        <input type="text" id="login-nome" placeholder="Seu Nome Completo">
+        <input type="email" id="login-email" placeholder="Seu E-mail ou Gmail">
+        <button class="btn primary" style="margin-top:20px; padding:12px;" onclick="realizarLogin()">Entrar na Vitrine</button>
+    </div>
+</div>
+
+<div id="conteudo-principal">
+    <header>
+        <div class="logo">Vitrine<span>de Habilidades</span></div>
+        <nav>
+            <a href="#aprender">Aprender</a>
+            <a href="#habilidades">Habilidades</a>
+            <a href="#objetos">Objetos</a>
+            <a href="#perfil">Meu Painel <span id="notif-badge" class="badge" style="display:none;">0</span></a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Vitrine Exclusiva de Habilidades</h1>
+        <p>Encontre soluções educacionais, services especializados e locações diretamente comigo.</p>
+        <div class="search-container">
+            <input type="text" id="busca" class="search-input" placeholder="🔍 O que você precisa hoje?" oninput="filtrarItens()">
         </div>
-        <ul class="nav-menu">
-            <li class="nav-item active" onclick="switchView('dashboard', this)"><i class="fa-solid fa-house"></i>Dashboard</li>
-            <li class="nav-item" onclick="switchView('ia-studios', this)"><i class="fa-solid fa-brain"></i>Assistente de IA</li>
-            <li class="nav-item" onclick="switchView('avatar-builder', this)"><i class="fa-solid fa-user-gear"></i>Meu Avatar</li>
-            <li class="nav-item" onclick="switchView('drawing-marathon', this)"><i class="fa-solid fa-palette"></i>Maratona de Desenho</li>
-            <li class="nav-item" onclick="switchView('vocational-test', this)"><i class="fa-solid fa-compass"></i>Futuro & Profissões</li>
-            <li class="nav-item" onclick="switchView('community-mural', this)"><i class="fa-solid fa-users"></i>Mural da Comunidade</li>
-        </ul>
-    </aside>
-
-    <div style="flex-grow:1; display:flex; flex-direction:column; width:100%;">
-        
-        <header class="header">
-            <div class="header-title" id="page-title">Dashboard</div>
-            <div class="user-status-bar">
-                <div class="status-pill streak"><i class="fa-solid fa-fire"></i><span id="header-streak">5</span> d</div>
-                <div class="status-pill coins"><i class="fa-solid fa-coins"></i><span id="header-coins">0</span></div>
-                <div class="xp-container">
-                    <div class="xp-text"><span id="header-level-text">Nível 1</span><span id="header-xp-text">20/100 XP</span></div>
-                    <div class="xp-bar-outer"><div class="xp-bar-inner" id="header-xp-bar" style="width: 20%;"></div></div>
-                </div>
-                <div class="header-avatar-link" onclick="switchView('avatar-builder', document.querySelector('[onclick*=\'avatar-builder\']'))" id="header-avatar-container"></div>
-            </div>
-        </header>
-
-        <main class="main-content">
-
-            <section id="view-dashboard" class="view-section active">
-                <div class="card welcome-banner">
-                    <h1>Olá, Estudante! 👋</h1>
-                    <p>Sua plataforma escolar inteligente está pronta. Pergunte o que quiser para a IA!</p>
-                </div>
-                <div class="stat-container" style="display:flex; gap:16px; margin-bottom:24px;">
-                    <div class="stat-box" style="flex:1; background:var(--bg-card); padding:20px; border-radius:16px; border-left:4px solid var(--purple-vibrant); text-align:center;"><i class="fa-solid fa-brain" style="color:var(--purple-vibrant)"></i><div>Quizzes Feitos</div><div class="stat-num" id="stat-quizzes">0</div></div>
-                    <div class="stat-box" style="flex:1; background:var(--bg-card); padding:20px; border-radius:16px; border-left:4px solid var(--success-green); text-align:center;"><i class="fa-solid fa-check" style="color:var(--success-green);"></i><div>Acertos Reais</div><div class="stat-num" id="stat-accuracy">0%</div></div>
-                    <div class="stat-box" style="flex:1; background:var(--bg-card); padding:20px; border-radius:16px; border-left:4px solid var(--neon-blue); text-align:center;"><i class="fa-solid fa-star" style="color:var(--neon-blue)"></i><div>Ranking</div><div class="stat-num" id="stat-rank">#2</div></div>
-                </div>
-            </section>
-
-            <section id="view-ia-studios" class="view-section">
-                <div class="card">
-                    <div class="card-title"><i class="fa-solid fa-brain"></i>IA de Estudos Universal</div>
-                    <p style="font-size:14px; color:var(--text-muted); margin-bottom:12px;">Pergunte sobre qualquer assunto estrutural ou acadêmico (Matemática, Redação Coringa, Ciências, etc.)!</p>
-                    <div class="chat-layout">
-                        <div class="chat-messages" id="chat-box">
-                            <div class="chat-bubble ia">Olá! Eu sou o assistente Nexus. Pode me perguntar qualquer assunto de qualquer matéria escolar! Ex: "O que são números Racionais?", "Como funciona a regra de três?" ou "Me dá uma estrutura coringa de redação". Eu sei tudo!</div>
-                        </div>
-                        <div class="chat-input-row">
-                            <input type="text" id="chat-input-field" class="chat-input" placeholder="Pergunte qualquer coisa de qualquer matéria aqui...">
-                            <button class="btn" onclick="sendIAMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                    <div class="quiz-box" id="quiz-block">
-                        <div class="card-title" id="quiz-progress-text">Pergunta 1 de 3</div>
-                        <div id="quiz-question-text" style="font-weight:600; margin-bottom:10px;"></div>
-                        <div class="quiz-options-list" id="quiz-options-container"></div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                            <div id="quiz-feedback" style="font-weight:700;"></div>
-                            <button class="btn" id="quiz-action-btn" onclick="checkOrNextQuizAnswer()">Verificar Resposta</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="view-avatar-builder" class="view-section">
-                <div class="card">
-                    <div class="card-title"><i class="fa-solid fa-user-gear"></i>Customizar Perfil Real</div>
-                    <div class="avatar-creator-wrapper">
-                        <div class="avatar-preview-pane">
-                            <div class="big-avatar-frame" id="creator-avatar-preview"></div>
-                            <button class="btn" onclick="saveAvatar()"><i class="fa-solid fa-floppy-disk"></i> Salvar Alterações</button>
-                        </div>
-                        <div class="avatar-options-pane">
-                            <div class="option-group">
-                                <div class="option-label">Sabor / Estilo do Avatar (Tema)</div>
-                                <div class="selector-row" id="row-flavor-type">
-                                    <button class="selector-btn active" onclick="setFlavor('cyberpunk', this)">Cyberpunk ⚡</button>
-                                    <button class="selector-btn" onclick="setFlavor('gamer', this)">Gamer 🎮</button>
-                                    <button class="selector-btn" onclick="setFlavor('classico', this)">Clássico 🎓</button>
-                                    <button class="selector-btn" onclick="setFlavor('aventureiro', this)">Aventureiro 🧭</button>
-                                </div>
-                            </div>
-                            <div class="option-group">
-                                <div class="option-label">Gênero / Estilo do Avatar</div>
-                                <div class="selector-row" id="row-gender-type">
-                                    <button class="selector-btn active" onclick="setGender('feminino', this)">Menina</button>
-                                    <button class="selector-btn" onclick="setGender('masculino', this)">Menino</button>
-                                </div>
-                            </div>
-                            <div class="option-group">
-                                <div class="option-label">Tons de Pele</div>
-                                <div class="color-palette" id="palette-skin"></div>
-                            </div>
-                            <div class="option-group">
-                                <div class="option-label">Tipo de Cabelo</div>
-                                <div class="selector-row" id="row-hair-type"></div>
-                            </div>
-                            <div class="option-group">
-                                <div class="option-label">Cor do Cabelo</div>
-                                <div class="color-palette" id="palette-hair-color"></div>
-                            </div>
-                            <div class="option-group">
-                                <div class="option-label">Cor de Fundo</div>
-                                <div class="color-palette" id="palette-bg"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="view-drawing-marathon" class="view-section">
-                <div class="card">
-                    <div class="card-title"><i class="fa-solid fa-palette"></i>Oficina de Artes & Desenho Real</div>
-                    <div class="canvas-container">
-                        <canvas id="drawing-canvas"></canvas>
-                        <div class="canvas-tools">
-                            <input type="color" id="brush-color" value="#000000" title="Cor do Pincel">
-                            <button class="btn btn-secondary" onclick="clearCanvas()"><i class="fa-solid fa-trash"></i> Limpar Quadro</button>
-                            <button class="btn" onclick="submitDrawingToMural()"><i class="fa-solid fa-share-nodes"></i> Postar Desenho no Mural</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="view-vocational-test" class="view-section">
-                <div class="card">
-                    <div class="card-title"><i class="fa-solid fa-compass"></i>Habilidades & Carreiras</div>
-                    <div class="card" id="voc-main-box" style="background:#0e1424; margin-bottom:0;">
-                        <div class="voc-q active" data-qindex="0">
-                            <div style="font-weight:700; margin-bottom:12px;">1. Qual papel você prefere desempenhar em trabalhos escolares?</div>
-                            <div class="voc-options-list">
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'tecnologico')">A) Lógica, códigos, planilhas ou desenvolvimento estrutural.</div>
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'artistico')">B) Identidade visual, desenhos reais, banners e estética.</div>
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'humanas')">C) Liderança da equipe, gerenciamento, marketing e administração.</div>
-                            </div>
-                        </div>
-                        <div class="voc-q" data-qindex="1">
-                            <div style="font-weight:700; margin-bottom:12px;">2. Que tipo de assunto mais desperta seu interesse espontâneo?</div>
-                            <div class="voc-options-list">
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'tecnologico')">A) Novas tecnologias, inteligências artificiais e sistemas.</div>
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'artistico')">B) Cinema, ilustrações realistas de carros, artes e design.</div>
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'humanas')">C) Empreendedorismo, administração corporativa, finanças.</div>
-                            </div>
-                        </div>
-                        <div class="voc-q" data-qindex="2">
-                            <div style="font-weight:700; margin-bottom:12px;">3. No seu tempo livre, o que você mais gostaria de criar?</div>
-                            <div class="voc-options-list">
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'tecnologico')">A) Construir páginas web robustas ou automatizar rotinas.</div>
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'artistico')">B) Aperfeiçoar técnicas de desenho técnico ou sombreamento.</div>
-                                <div class="quiz-opt" onclick="selectVocOption(this, 'humanas')">C) Planejar um novo modelo de negócios ou estratégias de vendas.</div>
-                            </div>
-                        </div>
-                        <button class="btn" id="voc-next-btn" style="margin-top:16px; width:100%;" onclick="nextVocQuestion()" disabled>Avançar Questão</button>
-                    </div>
-
-                    <div class="card" id="voc-res-box" style="display:none; background:#0f172a; margin-top:16px;">
-                        <div class="card-title" style="color: var(--purple-vibrant);"><i class="fa-solid fa-chart-pie"></i>Seu Diagnóstico de Carreira</div>
-                        <div class="result-bar-container">
-                            <div>Tecnologia e Engenharia de Software: <span id="pct-tec" style="font-weight:bold;">0%</span></div>
-                            <div class="result-bar-outer"><div class="result-bar-inner" id="bar-tec" style="background:var(--neon-blue)"></div></div>
-                        </div>
-                        <div class="result-bar-container">
-                            <div>Artes Visuais, Design & Estética: <span id="pct-art" style="font-weight:bold;">0%</span></div>
-                            <div class="result-bar-outer"><div class="result-bar-inner" id="bar-art" style="background:var(--purple-vibrant)"></div></div>
-                        </div>
-                        <div class="result-bar-container">
-                            <div>Gestão, Empreendedorismo & Administração: <span id="pct-hum" style="font-weight:bold;">0%</span></div>
-                            <div class="result-bar-outer"><div class="result-bar-inner" id="bar-hum" style="background:var(--xp-gold)"></div></div>
-                        </div>
-                        <p id="voc-final-text" style="font-size:15px; margin-top:14px; font-weight:600; line-height:1.5; background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; color: #cbd5e1;"></p>
-                        <button class="btn btn-secondary" style="margin-top:12px; width:100%;" onclick="resetVocationalTest()">Refazer Teste</button>
-                    </div>
-                </div>
-            </section>
-
-            <section id="view-community-mural" class="view-section">
-                <div class="card">
-                    <div class="card-title"><i class="fa-solid fa-users"></i>Mural Escolar Interativo</div>
-                    <textarea id="mural-input-text" class="mural-textarea" placeholder="Compartilhe um pensamento, aviso ou ideia com a escola..."></textarea>
-                    <button class="btn" style="margin-top:10px;" onclick="createPost()">Postar Mensagem</button>
-                    <div class="feed-container" id="mural-feed"></div>
-                </div>
-            </section>
-
-        </main>
     </div>
 
-    <script>
-        let userState = {
-            xp: 20, level: 1, coins: 0, streak: 5, quizzesDone: 0, correctAnswers: 0,
-            avatar: { gender: 'feminino', skin: '#e0ac69', hairType: 'longo', hairColor: '#1a1a1a', bg: '#7c3aed', flavor: 'cyberpunk' },
-            vocationalScores: { tecnologico: 0, artistico: 0, humanas: 0 }
-        };
+    <section id="aprender">
+        <h2>📚 Aprender (Aulas e Mentorias)</h2>
+        <div class="cards" id="aprenderLista"></div>
+    </section>
 
-        const HAIR_STYLES = {
-            feminino: ['longo', 'cacheado', 'curto', 'repicado'],
-            masculino: ['social', 'degrade', 'crespo-alto', 'casual']
-        };
-        const SKIN_TONES = ['#ffdbac', '#f1c27d', '#e0ac69', '#8d5524', '#3c220f'];
-        const HAIR_COLORS = ['#1a1a1a', '#4a3728', '#b58110', '#cbd5e1'];
-        const BG_COLORS = ['#7c3aed', '#06b6d4', '#10b981', '#ef4444'];
+    <hr style="border: 0; border-top: 1px solid #e2e8f0;">
 
-        // DICIONÁRIO MODULAR EXPANDIDO - COBRINDO AS PRINCIPAIS MATÉRIAS ESCOLARES
-        const KNOWLEDGE_BASE = [
-            // PORTUGUÊS
-            {
-                keywords: ['adjetivo', 'adjetivos', 'qualidade'],
-                subject: "Linguagens - Português",
-                title: "O que é um Adjetivo?",
-                desc: "O <b>Adjetivo</b> é a classe de palavra que modifica o substantivo, atribuindo-lhe características, qualidades, estados ou aspectos. <br><br><b>Exemplos práticos:</b><br>• Carro <i>veloz</i> (veloz é o adjetivo).<br>• Estudante <i>dedicada</i> (dedicada é o adjetivo).<br>Locuções adjetivas também desempenham esse papel, como 'Amor <i>de mãe</i>' (materno)."
-            },
-            {
-                keywords: ['proverbio', 'proverbios', 'ditado popular', 'ditados'],
-                subject: "Linguagens - Português",
-                title: "Provérbios e Expressões Populares",
-                desc: "Um <b>Provérbio</b> (ou ditado popular) é uma frase curta, de origem popular, que transmite um conhecimento ou conselho moral sobre a vida baseado no senso comum. <br><br><b>Exemplos comuns:</b><br>• 'A pressa é a inimiga da perfeição.'<br>• 'Água mole em pedra dura, tanto bate até que fura.'<br>Eles usam uma forte carga de linguagem conotativa (figurada) para gerar reflexões rápidas."
-            },
-            // REDAÇÃO CORINGA
-            {
-                keywords: ['redacao coringa', 'estrutura coringa', 'modelo nota 1000'],
-                subject: "Produção Textual",
-                title: "Estrutura Universal de Redação",
-                desc: "Modelos e **estruturas universais** utilizam teses baseadas em eixos estruturantes (como a inércia estatal ou a falta de debate social) válidas para qualquer tema do ENEM. Começa-se apresentando uma alusão cultural (livro/filme/lei), conectando-a com o problema da atualidade e abrindo caminho para os argumentos de causa e efeito no desenvolvimento."
-            },
-            // MATEMÁTICA
-            {
-                keywords: ['regra de tres', 'regra de 3', 'proporcionalidade'],
-                subject: "Matemática Aplicada",
-                title: "Regra de Três Simples",
-                desc: "A <b>Regra de Três</b> é a ferramenta perfeita para descobrir um valor desconhecido a partir de três grandezas conhecidas que possuem relação direta ou inversa. Se forem <i>diretamente proporcionais</i>, multiplicamos cruzado ($a \\cdot x = b \\cdot c$). Se forem <i>inversamente profissionais</i> (como velocidade e tempo de viagem), multiplicamos em linha reta."
-            },
-            {
-                keywords: ['porcentagem', 'percentual'],
-                subject: "Matemática",
-                title: "Porcentagem (%) e Razões Centesimais",
-                desc: "A **Porcentagem** indica uma razão com dezenas e denominador 100. Dizer 20% significa calcular $\\frac{20}{100}$ ou multiplicar diretamente por 0,20. É amplamente usada no cotidiano para computar descontos de mercado ou acréscimos."
-            },
-            {
-                keywords: ['racionais', 'número racional', 'numeros racionais'],
-                subject: "Matemática Básica",
-                title: "Números Racionais (ℚ)",
-                desc: "Os <b>Números Racionais</b> representam toda quantidade que pode ser expressa como fração dízima ou inteira, ou seja, dividindo um inteiro por outro (a/b, com b ≠ 0). Englobam inteiros puros (2 = 2/1), decimais exatos (0,5 = 1/2) e dízimas periódicas regulares (0,333... = 1/3)."
-            },
-            // HISTÓRIA
-            {
-                keywords: ['castro alves', 'romantismo', 'condoreira'],
-                subject: "História & Literatura",
-                title: "Castro Alves e a Geração Condoreira",
-                desc: "Antônio Frederico de <b>Castro Alves</b> foi o maior poeta da terceira geração do Romantismo no Brasil, conhecida como Geração Condoreira. Suas obras focavam no combate social, principalmente na luta abolicionista. Seu poema mais famoso, <i>'O Navio Negreiro'</i>, denunciou de forma realista a crueldade do tráfico transatlântico e a escravidão."
-            },
-            {
-                keywords: ['revolucao industrial', 'industria'],
-                subject: "História Geral",
-                title: "A Revolução Industrial",
-                desc: "Iniciada na Inglaterra no século XVIII, a <b>Revolução Industrial</b> marcou a transição da manufatura artesanal para o sistema fabril mecânico movido a vapor. Consolidou o capitalismo, provocou o êxodo rural e dividiu a sociedade em burguesia e proletariado, alterando para sempre as relações trabalhistas mundiais."
-            },
-            // BIOLOGIA
-            {
-                keywords: ['celula', 'citologia', 'adn', 'dna'],
-                subject: "Ciências da Natureza - Biologia",
-                title: "Citologia: A Estrutura da Célula",
-                desc: "A <b>Célula</b> é a menor unidade estrutural e funcional de um ser vivo. Dividem-se em <i>Procariontes</i> (sem núcleo definido, como bactérias) e <i>Eucariontes</i> (com núcleo estruturado protegendo o material genético). Organelas internas como mitocôndrias produzem energia, e os ribossomos sintetizam proteínas."
-            },
-            // QUÍMICA
-            {
-                keywords: ['tabela periodica', 'elementos', 'quimica'],
-                subject: "Ciências da Natureza - Química",
-                title: "A Tabela Periódica",
-                desc: "Organizada em ordem crescente de número atômico (prótons), a <b>Tabela Periódica</b> agrupa os elementos em Linhas (Períodos) e Colunas (Famílias ou Grupos). Elementos da mesma família possuem o mesmo número de elétrons na camada de valência e propriedades químicas muito parecidas."
-            },
-            // FÍSICA
-            {
-                keywords: ['velocidade media', 'cinematica', 'velocidade'],
-                subject: "Ciências da Natureza - Física",
-                title: "Cinemática: Velocidade Média",
-                desc: "A <b>Velocidade Média</b> mede a rapidez com que um corpo muda de posição no espaço. É calculada pela razão entre o espaço percorrido ($\\Delta S$) e o tempo gasto para percorrê-lo ($\\Delta t$): <br><br>$$V_m = \\frac{\\Delta S}{\\Delta t}$$<br>No Sistema Internacional, é dada em metros por segundo (m/s)."
-            },
-            // ESPANHOL
-            {
-                keywords: ['falsos amigos', 'falsos cognatos', 'espanhol'],
-                subject: "Linguagens - Espanhol",
-                title: "Falsos Amigos (Heterosemánticos)",
-                desc: "Em espanhol, **Falsos Amigos** são palavras idênticas ou muito parecidas na grafia e pronúncia com o português, mas que possuem significados completamente diferentes.<br><br><b>Exemplos importantes:</b><br>• <i>Embarazada:</i> Significa 'grávida' (e não envergonhada ou embaraçada).<br>• <i>Pastel:</i> Significa 'bolo' (e não o pastel frito).<br>• <i>Exquisito:</i> Significa 'delicioso' (um elogio à comida)."
-            },
-            // INGLÊS
-            {
-                keywords: ['verb to be', 'ingles'],
-                subject: "Linguagens - Inglês",
-                title: "The Verb To Be",
-                desc: "O verbo **To Be** significa tanto 'ser' quanto 'estar'. Ele se flexiona de três formas no presente simples: *Am*, *Is* e *Are*.<br><br><b>Estrutura de uso:</b><br>• *I am* (Eu sou/estou)<br>• *He / She / It is* (Ele/Ela é/está)<br>• *You / We / They are* (Você/Nós/Eles são/estão)<br>Para perguntas, basta inverter o verbo para o início da frase: *'Are you okay?'*"
-            },
-            // EDUCAÇÃO FÍSICA
-            {
-                keywords: ['sedentarismo', 'educacao fisica', 'saude', 'imc'],
-                subject: "Formação - Educação Física",
-                title: "Combate ao Sedentarismo e Saúde Geral",
-                desc: "O <b>Sedentarismo</b> é caracterizado pela ausência ou redução drástica de atividades físicas cotidianas. Praticar exercícios físicos regularmente estimula o sistema cardiovascular, combate a obesidade, equilibra o IMC (Índice de Massa Corporal) e libera endorfina, reduzindo consideravelmente a ansiedade escolar e melhorando o foco."
-            },
-            // EDUCAÇÃO FINANCEIRA
-            {
-                keywords: ['educacao financeira', 'orcamento', 'juros simples', 'poupanca'],
-                subject: "Formação - Educação Financeira",
-                title: "Educação Financeira e Orçamento",
-                desc: "A <b>Educação Financeira</b> ensina a gerenciar receitas e despesas com inteligência e planejamento. O primeiro passo é o *Orçamento*, listando o que se ganha e o que se gasta. Conhecer a diferença entre desejos e necessidades e entender os *Juros Simples* ($J = C \\cdot i \\cdot t$) ajuda a construir uma mentalidade voltada para poupança e futuro empreendedorismo."
-            }
-        ];
+    <section id="habilidades">
+        <h2>🛠️ Habilidades e Serviços Disponíveis</h2>
+        <div class="cards" id="habilidadesLista"></div>
+    </section>
 
-        let currentActiveQuiz = null, currentQuizIndex = 0, quizAnswersSelected = [];
-        let currentVocIndex = 0;
-        let canvas, ctx, isDrawing = false;
+    <hr style="border: 0; border-top: 1px solid #e2e8f0;">
 
-        window.onload = function() {
-            let saved = localStorage.getItem('nexus_edu_state');
-            if(saved) {
-                userState = JSON.parse(saved);
-                if(!userState.coins) userState.coins = 0;
-                if(!userState.xp) userState.xp = 20;
-                if(!userState.level) userState.level = 1;
-                if(!userState.avatar.flavor) userState.avatar.flavor = 'cyberpunk';
-            }
-            renderAllAvatars();
-            setupAvatarOptions();
-            updateUI();
-            initCanvas();
-            loadDefaultFeed();
-        };
+    <section id="objetos">
+        <h2>📦 Objetos para Alugar</h2>
+        <div class="cards" id="objetosLista"></div>
+    </section>
 
-        function switchView(viewId, element) {
-            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            document.getElementById('view-' + viewId).classList.add('active');
-            if(element) element.classList.add('active');
-            document.getElementById('page-title').innerText = element.innerText;
-            if(viewId === 'drawing-marathon') setTimeout(resizeCanvas, 50);
-        }
-
-        /* --- MECANISMO DE INTELIGÊNCIA ARTIFICIAL --- */
-        function sendIAMessage() {
-            let inp = document.getElementById('chat-input-field');
-            let textRaw = inp.value.trim(); if(!textRaw) return;
-            let textLower = textRaw.toLowerCase();
-            let box = document.getElementById('chat-box');
-            
-            box.innerHTML += `<div class="chat-bubble user">${textRaw}</div>`;
-            inp.value = '';
-            box.scrollTop = box.scrollHeight;
-            
-            document.getElementById('quiz-block').style.display = 'none';
-
-            setTimeout(() => {
-                let match = null;
-                for(let node of KNOWLEDGE_BASE) {
-                    for(let key of node.keywords) {
-                        if(textLower.includes(key)) {
-                            match = node;
-                            break;
-                        }
-                    }
-                    if(match) break;
-                }
-
-                if(match) {
-                    box.innerHTML += `
-                        <div class="chat-bubble ia">
-                            <span style="color:var(--neon-blue); font-size:11px; font-weight:bold; uppercase">[MÓDULO: ${match.subject}]</span><br>
-                            <h3 style="margin:4px 0 8px 0; color:#fff;">${match.title}</h3>
-                            ${match.desc}
-                            <br><br>
-                            <span style="font-size:12px; color:var(--text-muted);"><i>Quer testar seus conhecimentos sobre este assunto agora? Clique abaixo!</i></span><br>
-                            <button class="btn" style="padding:6px 12px; font-size:12px; margin-top:8px;" onclick="generateDynamicQuiz('${match.title}', '${match.subject}')">
-                                <i class="fa-solid fa-graduation-cap"></i> Gerar Mini-Quiz
-                            </button>
-                        </div>
-                    `;
-                } else {
-                    box.innerHTML += `
-                        <div class="chat-bubble ia">
-                            <span style="color:var(--purple-vibrant); font-size:11px; font-weight:bold;">[MÓDULO: INVESTIGAÇÃO GLOBAL COMPLETA]</span><br>
-                            <p style="margin-top:6px;">Análise concluída para o termo: <b>"${textRaw}"</b>.</p>
-                            <p style="margin-top:6px; font-size:13.5px; color:#cbd5e1;">Sou uma IA integrada com competências da BNCC escolar. Ainda estou expandindo meus conhecimentos sobre este termo específico!</p>
-                            <br>
-                            <span style="font-size:12px; color:var(--text-muted);">Dica: Tente buscar matérias focadas como: <b>Adjetivo</b>, <b>Provérbio</b>, <b>Regra de Três</b>, <b>Castro Alves</b>, <b>Velocidade Média</b>, <b>Falsos Amigos</b>, <b>Educação Financeira</b> ou <b>Sedentarismo</b>!</span>
-                        </div>
-                    `;
-                }
-                box.scrollTop = box.scrollHeight;
-            }, 600);
-        }
-
-        /* --- GERADOR DINÂMICO DE QUIZZES ADAPTATIVOS --- */
-        function generateDynamicQuiz(title, subject) {
-            currentQuizIndex = 0;
-            quizAnswersSelected = [];
-            
-            currentActiveQuiz = {
-                quiz: [
-                    { q: `Qual alternativa define melhor o conceito principal de ${title}?`, o: ["A) Uma definição oposta à realidade conceitual.", "B) O fundamento conceitual e analítico estudado na matéria.", "C) Um elemento aleatório sem relação direta estruturada."], a: 1 },
-                    { q: `Na aplicação prática escolar de ${subject}, qual postura o estudante deve adotar?`, o: ["A) Analisar variáveis com rigor lógico e fórmulas corretas.", "B) Ignorar os dados técnicos fornecidos.", "C) Basear-se apenas em suposições não fundamentadas."], a: 0 },
-                    { q: `Qual a importância desse tema para avaliações e exames gerais?`, o: ["A) Nenhuma, o assunto não costuma ser cobrado.", "B) Baixa, serve apenas como leitura suplementar histórica.", "C) Altíssima, pois compõe matrizes essenciais de competência."], a: 2 }
-                ]
-            };
-
-            document.getElementById('quiz-block').style.display = 'block';
-            loadQuizQ();
-            document.getElementById('quiz-block').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function loadQuizQ() {
-            let q = currentActiveQuiz.quiz[currentQuizIndex];
-            document.getElementById('quiz-progress-text').innerText = `Pergunta ${currentQuizIndex+1} de 3`;
-            document.getElementById('quiz-question-text').innerText = q.q;
-            document.getElementById('quiz-feedback').innerText = '';
-            let cont = document.getElementById('quiz-options-container'); cont.innerHTML = '';
-            q.o.forEach((o, i) => cont.innerHTML += `<div class="quiz-opt" data-i="${i}" onclick="secOpt(this)">${o}</div>`);
-            document.getElementById('quiz-action-btn').innerText = "Verificar Resposta";
-        }
-
-        function secOpt(el) {
-            el.parentElement.querySelectorAll('.quiz-opt').forEach(x => x.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        function checkOrNextQuizAnswer() {
-            let btn = document.getElementById('quiz-action-btn');
-            if(btn.innerText === "Avançar") {
-                currentQuizIndex++;
-                if(currentQuizIndex < 3) loadQuizQ();
-                else {
-                    userState.quizzesDone++;
-                    let rights = quizAnswersSelected.filter(x => x.c).length;
-                    userState.correctAnswers += rights;
-                    
-                    let gainedXP = rights * 20;
-                    userState.coins += rights * 5;
-                    addXP(gainedXP);
-                    
-                    document.getElementById('quiz-block').style.display = 'none';
-                    alert(`Desafio Concluído! Você acertou ${rights}/3 e ganhou +${gainedXP} XP e +${rights * 5} Moedas!`);
-                }
-                return;
-            }
-            let sel = document.querySelector('.quiz-opt.active');
-            if(!sel) return alert("Selecione uma alternativa!");
-            let ans = parseInt(sel.getAttribute('data-i'));
-            let cor = currentActiveQuiz.quiz[currentQuizIndex].a;
-            let opts = document.querySelectorAll('.quiz-opt');
-            if(ans === cor) {
-                sel.classList.add('correct'); quizAnswersSelected.push({c:true});
-                document.getElementById('quiz-feedback').innerHTML = "<span style='color:var(--success-green)'>Correto! +20 XP</span>";
-            } else {
-                sel.classList.add('wrong'); opts[cor].classList.add('correct'); quizAnswersSelected.push({options:false});
-                document.getElementById('quiz-feedback').innerHTML = "<span style='color:var(--error-red)'>Incorreto!</span>";
-            }
-            btn.innerText = "Avançar";
-        }
-
-        /* --- MECANISMO DE PROGRESSÃO EXCLUSIVO (LEVEL UP) --- */
-        function addXP(amount) {
-            userState.xp += amount;
-            while(userState.xp >= 100) {
-                userState.xp -= 100;
-                userState.level += 1;
-                alert(`✨ PARABÉNS! Você subiu para o Nível ${userState.level}!`);
-            }
-            localStorage.setItem('nexus_edu_state', JSON.stringify(userState));
-            updateUI();
-        }
-
-        /* --- SCRIPT DO QUADRO DE DESENHO REAL --- */
-        function initCanvas() {
-            canvas = document.getElementById('drawing-canvas');
-            ctx = canvas.getContext('2d');
-            canvas.addEventListener('mousedown', startPosition);
-            canvas.addEventListener('mouseup', endPosition);
-            canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('touchstart', (e) => { startPosition(e.touches[0]); e.preventDefault(); });
-            canvas.addEventListener('touchend', endPosition);
-            canvas.addEventListener('touchmove', (e) => { draw(e.touches[0]); e.preventDefault(); });
-        }
-
-        function resizeCanvas() {
-            let rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = 350;
-            clearCanvas();
-        }
-
-        function startPosition(e) { isDrawing = true; ctx.beginPath(); draw(e); }
-        function endPosition() { isDrawing = false; ctx.beginPath(); }
-        function draw(e) {
-            if(!isDrawing) return;
-            let rect = canvas.getBoundingClientRect();
-            let x = e.clientX - rect.left;
-            let y = e.clientY - rect.top;
-            ctx.lineWidth = 4;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = document.getElementById('brush-color').value;
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-        }
-        function clearCanvas() { ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height); }
-
-        function submitDrawingToMural() {
-            let dataUrl = canvas.toDataURL();
-            let feed = document.getElementById('mural-feed');
-            let postHTML = `
-                <div class="feed-post">
-                    <div class="post-header">
-                        <div class="post-avatar">${generateAvatarSVG(userState.avatar)}</div>
-                        <div>Você (Criador) <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">• Agora mesmo</span></div>
-                    </div>
-                    <img src="${dataUrl}" class="post-drawing-img" alt="Desenho">
-                    <div class="rating-box">
-                        Nota: <span>
-                            <i class="fa-regular fa-star" onclick="ratePost(this, 1)"></i>
-                            <i class="fa-regular fa-star" onclick="ratePost(this, 2)"></i>
-                            <i class="fa-regular fa-star" onclick="ratePost(this, 3)"></i>
-                            <i class="fa-regular fa-star" onclick="ratePost(this, 4)"></i>
-                            <i class="fa-regular fa-star" onclick="ratePost(this, 5)"></i>
-                        </span>
-                    </div>
-                    <div class="comments-section">
-                        <div class="comment-item"><b>Orientador:</b> Ótimo traço e expressão técnica! Continue praticando.</div>
-                        <div class="comment-input-row">
-                            <input type="text" class="comment-input" placeholder="Comente algo...">
-                            <button class="btn" style="padding:4px 10px; font-size:12px;" onclick="addComment(this)">Enviar</button>
-                        </div>
-                    </div>
+    <section id="perfil">
+        <div class="perfil-content">
+            <h2>👤 Meu Painel Individual</h2><br>
+            <div class="perfil-topo">
+                <div class="avatar" id="perf-avatar">--</div>
+                <div>
+                    <h3 id="perf-nome">Carregando...</h3>
+                    <p id="perf-email">E-mail...</p>
+                    <button class="btn-logout" onclick="logout()">Sair da Conta</button>
                 </div>
-            `;
-            feed.insertAdjacentHTML('afterbegin', postHTML);
-            alert("Postado no Mural de Artes com Sucesso!");
-            switchView('community-mural', document.querySelector('[onclick*=\'community-mural\']'));
-        }
+            </div>
 
-        /* --- POSTS E COMENTÁRIOS DEL MURAL --- */
-        function createPost() {
-            let txt = document.getElementById('mural-input-text');
-            if(!txt.value.trim()) return;
-            let feed = document.getElementById('mural-feed');
-            let postHTML = `
-                <div class="feed-post">
-                    <div class="post-header">
-                        <div class="post-avatar">${generateAvatarSVG(userState.avatar)}</div>
-                        <div>Você <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">• Agora</span></div>
-                    </div>
-                    <div style="font-size:14px;">${txt.value}</div>
+            <div id="area-notificacoes-vendedor" style="display: none; margin-top: 20px;">
+                <h3 style="color: #312e81; margin-bottom: 15px;">🔔 Solicitações de Clientes Recebidas</h3>
+                <div id="lista-solicitacoes"></div>
+            </div>
+
+            <br><br>
+            <h3>💬 Minhas Mensagens Ativas</h3><br>
+            <div id="lista-conversas"></div>
+        </div>
+    </section>
+
+    <footer>
+        © 2026 Vitrine de Habilidades • Conectando Soluções Inteligentes
+    </footer>
+</div>
+
+<div id="janela-chat" class="chat-window">
+    <div class="chat-header">
+        <span id="chat-titulo-item" style="font-weight: bold; font-size: 13px; max-width: 85%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Chat</span>
+        <button onclick="fecharChat()" style="background: none; border: none; color: white; cursor: pointer; font-size: 18px; font-weight: bold;">✕</button>
+    </div>
+    <div id="chat-mensagens" class="chat-messages"></div>
+    <div class="chat-input-area">
+        <input type="text" id="chat-input-msg" placeholder="Digite sua proposta..." onkeypress="verificarEnterChat(event)">
+        <button class="btn primary" style="width: auto; margin-top: 0; padding: 8px 15px;" onclick="enviarMensagem()">Enviar</button>
+    </div>
+</div>
+
+<div id="modal" class="modal">
+    <div class="modal-box">
+        <p id="texto"></p><br>
+        <button class="btn primary" style="width: auto; padding: 10px 30px;" onclick="fechar()">Fechar</button>
+    </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import { getDatabase, ref, push, set, onChildAdded, off } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD3jp-N19gnDIzCClGQohx_5crwfopM3uM",
+    authDomain: "aluga-a35b3.firebaseapp.com",
+    databaseURL: "https://aluga-a35b3-default-rtdb.firebaseio.com",
+    projectId: "aluga-a35b3",
+    storageBucket: "aluga-a35b3.firebasestorage.app",
+    messagingSenderId: "604833955818",
+    appId: "1:604833955818:web:ad0aa07aa264c52c143c93",
+    measurementId: "G-Y471JENWTG"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const EMAIL_DONO_VITRINE = "agusttavo697@gmail.com"; 
+
+  let usuarioAtual = { nome: "", email: "" };
+  let salaChatAtual = ""; 
+  let contagemNotificacoes = 0;
+
+  const itensFixos = [
+    { tipo: "Aprender", titulo: "Mentoria para organização dos estudos", emoji: "📅", acao: "Contratar" },
+    { tipo: "Aprender", titulo: "Mentoria para o ENEM", emoji: "📝", acao: "Contratar" },
+    { tipo: "Aprender", titulo: "Aulas de reforço de Matemática", emoji: "📐", acao: "Contratar" },
+    { tipo: "Aprender", titulo: "Aulas de reforço de Português", emoji: "📖", acao: "Contratar" },
+    { tipo: "Aprender", titulo: "Aulas de reforço de Inglês", emoji: "🇺🇸", acao: "Contratar" },
+    { tipo: "Aprender", titulo: "Ajuda em redação", emoji: "✍️", acao: "Contratar" },
+    { tipo: "Aprender", titulo: "Correção de redações", emoji: "🔍", acao: "Contratar" },
+    { tipo: "Aprender", titulo: "Técnicas de memorização", emoji: "🧠", acao: "Contratar" },
+    { tipo: "Aprender", titulo: "Resolução de exercícios", emoji: "🧮", acao: "Contratar" },
+    { tipo: "Aprender", titulo: "Grupo de estudos guiado", emoji: "👥", acao: "Contratar" },
+    { tipo: "Aprender", titulo: "Preparação para apresentações escolares", emoji: "🎤", acao: "Contratar" },
+    
+    { tipo: "Habilidade", titulo: "Criação de slides", emoji: "📊", acao: "Contratar" },
+    { tipo: "Habilidade", titulo: "Edição de vídeos", emoji: "🎬", acao: "Contratar" },
+    { tipo: "Habilidade", titulo: "Design no Canva", emoji: "🎨", acao: "Contratar" },
+    { tipo: "Habilidade", titulo: "Criação de currículos", emoji: "💼", acao: "Contratar" },
+    { tipo: "Habilidade", titulo: "Programação básica", emoji: "💻", acao: "Contratar" },
+    { tipo: "Habilidade", titulo: "Montagem de sites simples", emoji: "🌐", acao: "Contratar" },
+    { tipo: "Habilidade", titulo: "Digitação de trabalhos", emoji: "⌨️", acao: "Contratar" },
+    { tipo: "Habilidade", titulo: "Formatação de documentos", emoji: "📄", acao: "Contratar" },
+    
+    { tipo: "Objeto", titulo: "Pendrive", emoji: "💾", acao: "Alugar" },
+    { tipo: "Objeto", titulo: "Fone de ouvido", emoji: "🎧", acao: "Alugar" },
+    { tipo: "Objeto", titulo: "Microfone", emoji: "🎙️", acao: "Alugar" },
+    { tipo: "Objeto", titulo: "Régua", emoji: "📏", acao: "Alugar" },
+    { tipo: "Objeto", titulo: "Compasso", emoji: "🧭", acao: "Alugar" },
+    { tipo: "Objeto", titulo: "Transferidor", emoji: "📐", acao: "Alugar" },
+    { tipo: "Objeto", titulo: "Dicionário", emoji: "📕", acao: "Alugar" },
+    { tipo: "Objeto", titulo: "Rádio portátil", emoji: "📻", acao: "Alugar" }
+  ];
+
+  window.addEventListener('DOMContentLoaded', () => {
+      const nomeSalvo = localStorage.getItem('vitrine_nome');
+      const emailSalvo = localStorage.getItem('vitrine_email');
+      if(nomeSalvo && emailSalvo) {
+          logarUsuario(nomeSalvo, emailSalvo);
+      }
+  });
+
+  window.realizarLogin = function() {
+    let nome = document.getElementById('login-nome').value.trim();
+    let email = document.getElementById('login-email').value.trim().toLowerCase();
+
+    if(!nome || !email) {
+        window.aviso("Por favor, preencha seu nome e e-mail para entrar.");
+        return;
+    }
+    
+    localStorage.setItem('vitrine_nome', nome);
+    localStorage.setItem('vitrine_email', email);
+    logarUsuario(nome, email);
+  }
+
+  function logarUsuario(nome, email) {
+    usuarioAtual.nome = nome;
+    usuarioAtual.email = email;
+
+    document.getElementById('perf-nome').innerText = nome;
+    document.getElementById('perf-email').innerText = email;
+    document.getElementById('perf-avatar').innerText = nome.substring(0, 2);
+
+    // Esconde a tela de login e mostra o site principal de imediato
+    document.getElementById('tela-login').style.display = 'none';
+    document.getElementById('conteudo-principal').style.display = 'block';
+
+    if(usuarioAtual.email === EMAIL_DONO_VITRINE.toLowerCase()) {
+        document.getElementById('area-notificacoes-vendedor').style.display = 'block';
+    }
+
+    // Renderiza a interface e só depois puxa os dados assíncronos do banco
+    renderizarVitrineFixa();
+    inicializarEscutasBanco();
+  }
+
+  window.logout = function() {
+      localStorage.clear();
+      window.location.reload();
+  }
+
+  function renderizarVitrineFixa() {
+      const containers = {
+          Aprender: document.getElementById('aprenderLista'),
+          Habilidade: document.getElementById('habilidadesLista'),
+          Objeto: document.getElementById('objetosLista')
+      };
+
+      containers.Aprender.innerHTML = "";
+      containers.Habilidade.innerHTML = "";
+      containers.Objeto.innerHTML = "";
+
+      itensFixos.forEach(item => {
+          let botaoHTML = "";
+          
+          if(usuarioAtual.email === EMAIL_DONO_VITRINE.toLowerCase()) {
+              botaoHTML = `<button class="btn" style="width:100%; background:#ccc; cursor:not-allowed;" disabled>Seu Item</button>`;
+          } else {
+              botaoHTML = `
+                <button class="btn primary" onclick="solicitarServico('${item.titulo}', '${item.acao}')">✨ ${item.acao}</button>
+                <button class="btn chat" onclick="abrirConversa('${item.titulo}', '${EMAIL_DONO_VITRINE}', 'Administrador', '${usuarioAtual.email}', '${usuarioAtual.nome}')">💬 Conversar</button>
+              `;
+          }
+
+          let cardHtml = `
+            <div class="card" data-nome="${item.titulo.toLowerCase()}">
+                <div>
+                    <div class="card-icon">${item.emoji}</div>
+                    <h3>${item.titulo}</h3>
+                    <p style="font-size:12px; color:#666; margin-top:4px;">Disponível por: Administrador</p>
                 </div>
-            `;
-            feed.insertAdjacentHTML('afterbegin', postHTML);
-            txt.value = '';
-        }
-
-        function ratePost(starEl, rating) {
-            let stars = starEl.parentElement.querySelectorAll('i');
-            stars.forEach((s, idx) => s.className = idx < rating ? "fa-solid fa-star" : "fa-regular fa-star");
-        }
-
-        function addComment(btn) {
-            let input = btn.parentElement.querySelector('.comment-input'); if(!input.value.trim()) return;
-            let div = document.createElement('div'); div.className = "comment-item";
-            div.innerHTML = `<b>Você:</b> ${input.value}`;
-            btn.parentElement.parentElement.insertBefore(div, btn.parentElement);
-            input.value = '';
-        }
-
-        function loadDefaultFeed() {
-            document.getElementById('mural-feed').innerHTML = `
-                <div class="feed-post">
-                    <div class="post-header">
-                        <div class="post-avatar">${generateAvatarSVG({gender:'masculino', skin:'#ffdbac', hairType:'casual', hairColor:'#4a3728', bg:'#06b6d4', flavor:'classico'})}</div>
-                        <div>Carlos Eduardo <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">• 2 horas atrás</span></div>
-                    </div>
-                    <div style="font-size:14px; color:#e2e8f0;">O módulo de IA tirou minhas principais dúvidas estruturais agora pouco! Ficou incrível.</div>
+                <div style="margin-top:15px;">
+                    <p class="price">Consulte Valores</p>
+                    ${botaoHTML}
                 </div>
-            `;
+            </div>`;
+
+          containers[item.tipo].insertAdjacentHTML('beforeend', cardHtml);
+      });
+  }
+
+  window.solicitarServico = function(tituloItem, acao) {
+      const solicitacoesRef = ref(db, 'solicitacoes_vitrine');
+      const novaSolRef = push(solicitacoesRef);
+
+      set(novaSolRef, {
+          item: tituloItem,
+          acao: acao,
+          clienteNome: usuarioAtual.nome,
+          clienteEmail: usuarioAtual.email,
+          timestamp: Date.now()
+      }).then(() => {
+          window.aviso(`Solicitação de ${acao} enviada com sucesso! O administrador foi notificado.`);
+      });
+  }
+
+  window.abrirConversa = function(item, emailVendedor, nomeVendedor, emailCliente, nomeCliente) {
+    if (salaChatAtual) {
+        off(ref(db, 'mensagens/' + salaChatAtual));
+    }
+
+    let idLimpo = (item + "_" + emailVendedor + "_" + emailCliente).replace(/[.#$\[\]]/g, "-");
+    salaChatAtual = idLimpo;
+
+    const chatMetaRef = ref(db, 'chats_ativos/' + salaChatAtual);
+    set(chatMetaRef, {
+        item: item,
+        vendedorEmail: emailVendedor,
+        vendedorNome: nomeVendedor,
+        clienteEmail: emailCliente,
+        clienteNome: nomeCliente
+    });
+
+    let interlocutor = (usuarioAtual.email === emailVendedor.toLowerCase()) ? nomeCliente : nomeVendedor;
+    
+    document.getElementById('chat-titulo-item').innerText = item + " c/ " + interlocutor;
+    document.getElementById('chat-mensagens').innerHTML = "";
+    document.getElementById('janela-chat').style.display = 'flex';
+
+    escutarMensagensDaSala(salaChatAtual);
+  }
+
+  window.enviarMensagem = function() {
+    let input = document.getElementById('chat-input-msg');
+    let texto = input.value.trim();
+    if(!texto || !salaChatAtual) return;
+
+    const msgsRef = ref(db, 'mensagens/' + salaChatAtual);
+    const novaMsgRef = push(msgsRef);
+
+    set(novaMsgRef, {
+        remetente: usuarioAtual.email,
+        nome: usuarioAtual.nome,
+        texto: texto,
+        timestamp: Date.now()
+    }).then(() => {
+        input.value = "";
+    });
+  }
+
+  function escutarMensagensDaSala(salaId) {
+    onChildAdded(ref(db, 'mensagens/' + salaId), (snapshot) => {
+        if (salaChatAtual !== salaId) return; 
+        const msg = snapshot.val();
+        let classeRemetente = (msg.remetente === usuarioAtual.email) ? 'enviada' : 'recebida';
+
+        let msgHtml = `<div class="msg ${classeRemetente}"><strong>${msg.nome}:</strong><br>${msg.texto}</div>`;
+        let container = document.getElementById('chat-mensagens');
+        container.insertAdjacentHTML('beforeend', msgHtml);
+        container.scrollTop = container.scrollHeight; 
+    });
+  }
+
+  window.fecharChat = function() {
+    if (salaChatAtual) {
+        off(ref(db, 'mensagens/' + salaChatAtual));
+    }
+    document.getElementById('janela-chat').style.display = 'none';
+    salaChatAtual = "";
+  }
+
+  function inicializarEscutasBanco() {
+    onChildAdded(ref(db, 'solicitacoes_vitrine'), (snapshot) => {
+        const dados = snapshot.val();
+        
+        if(usuarioAtual.email === EMAIL_DONO_VITRINE.toLowerCase()) {
+            contagemNotificacoes++;
+            const badge = document.getElementById('notif-badge');
+            badge.innerText = contagemNotificacoes;
+            badge.style.display = "inline-block";
+
+            let solHtml = `
+            <div class="solicitacao">
+                <h4>🔔 Nova Solicitação de: ${dados.acao}</h4>
+                <p style="margin-top:5px;"><strong>Item/Serviço:</strong> ${dados.item}</p>
+                <p><strong>Cliente:</strong> ${dados.clienteNome} (${dados.clienteEmail})</p>
+                <button class="btn chat" style="width:auto; padding:6px 12px; margin-top:10px;" onclick="abrirConversa('${dados.item}', '${EMAIL_DONO_VITRINE}', 'Administrador', '${dados.clienteEmail}', '${dados.clienteNome}')">💬 Abrir Chat com Cliente</button>
+            </div>`;
+
+            document.getElementById('lista-solicitacoes').insertAdjacentHTML('beforeend', solHtml);
         }
+    });
 
-        /* --- GERADOR DE AVATAR (SVG) --- */
-        function generateAvatarSVG(config) {
-            let hairSVG = '';
-            let flavorSVG = '';
-            let faceShape = config.gender === 'feminino' 
-                ? `<path d="M 32 50 C 32 68, 68 68, 68 50 C 68 36, 32 36, 32 50 Z" fill="${config.skin}"/>`
-                : `<path d="M 30 46 L 34 62 C 38 68, 62 68, 66 62 L 70 46 Z" fill="${config.skin}"/>`;
+    onChildAdded(ref(db, 'chats_ativos'), (snapshot) => {
+        const chat = snapshot.val();
+        
+        if(chat.vendedorEmail.toLowerCase() === usuarioAtual.email || chat.clienteEmail.toLowerCase() === usuarioAtual.email) {
+            let outroNome = (usuarioAtual.email === chat.vendedorEmail.toLowerCase()) ? chat.clienteNome : chat.vendedorNome;
+            let tipoTag = (usuarioAtual.email === chat.vendedorEmail.toLowerCase()) ? "Cliente" : "Atendente";
 
-            if (config.gender === 'feminino') {
-                if (config.hairType === 'longo') hairSVG = `<path d="M 26 36 Q 50 18 74 36 L 76 74 Q 66 78 50 72 Q 34 78 24 74 Z" fill="${config.hairColor}"/>`;
-                else if (config.hairType === 'cacheado') hairSVG = `<path d="M 22 34 Q 50 10 78 34 Q 84 54 74 68 Q 50 60 26 68 Z" fill="${config.hairColor}"/><circle cx="24" cy="40" r="8" fill="${config.hairColor}"/><circle cx="76" cy="40" r="8" fill="${config.hairColor}"/>`;
-                else if (config.hairType === 'curto') hairSVG = `<path d="M 28 36 Q 50 18 72 36 L 72 52 Q 50 44 28 52 Z" fill="${config.hairColor}"/>`;
-                else if (config.hairType === 'repicado') hairSVG = `<path d="M 26 34 Q 50 20 74 34 L 74 58 L 64 48 L 50 56 Z" fill="${config.hairColor}"/>`;
-            } else {
-                if (config.hairType === 'social') hairSVG = `<path d="M 28 44 Q 50 22 72 44 L 70 38 Z" fill="${config.hairColor}"/>`;
-                else if (config.hairType === 'degrade') hairSVG = `<path d="M 32 40 Q 50 18 68 40 L 68 32 Z" fill="${config.hairColor}"/>`;
-                else if (config.hairType === 'crespo-alto') hairSVG = `<rect x="30" y="24" width="40" height="20" rx="8" fill="${config.hairColor}"/>`;
-                else if (config.hairType === 'casual') hairSVG = `<path d="M 28 42 Q 45 16 72 38 L 66 32 Z" fill="${config.hairColor}"/>`;
-            }
+            let itemChatHtml = `
+            <div class="chat-item" onclick="abrirConversa('${chat.item}', '${chat.vendedorEmail}', '${chat.vendedorNome}', '${chat.clienteEmail}', '${chat.clienteNome}')">
+                <h4>🤝 Item: ${chat.item}</h4>
+                <p style="margin-top: 5px; font-size: 13px; color: #555;"><strong>${tipoTag}:</strong> ${outroNome}</p>
+            </div>`;
 
-            if (config.flavor === 'cyberpunk') {
-                flavorSVG = `
-                    <path d="M 25 45 L 42 45 L 38 52 L 22 48 Z" fill="#06b6d4" opacity="0.8"/>
-                    <circle cx="35" cy="47" r="2" fill="#fff"/>
-                    <path d="M 30 62 L 40 68 L 45 66" stroke="#ef4444" stroke-width="2" fill="none"/>
-                `;
-            } else if (config.flavor === 'gamer') {
-                flavorSVG = `
-                    <rect x="24" y="34" width="8" height="20" rx="3" fill="#111827"/>
-                    <rect x="68" y="34" width="8" height="20" rx="3" fill="#111827"/>
-                    <path d="M 32 36 Q 50 26 68 36" stroke="#111827" stroke-width="4" fill="none"/>
-                `;
-            } else if (config.flavor === 'classico') {
-                flavorSVG = `
-                    <rect x="38" y="44" width="10" height="8" rx="2" stroke="#f59e0b" stroke-width="1.5" fill="none"/>
-                    <rect x="52" y="44" width="10" height="8" rx="2" stroke="#f59e0b" stroke-width="1.5" fill="none"/>
-                    <line x1="48" y1="47" x2="52" y2="47" stroke="#f59e0b" stroke-width="1.5"/>
-                `;
-            } else if (config.flavor === 'aventureiro') {
-                flavorSVG = `
-                    <path d="M 25 32 Q 50 15 75 32 Z" fill="#b58110" opacity="0.9"/>
-                    <path d="M 15 32 L 85 32 L 80 35 L 20 35 Z" fill="#8d5524"/>
-                `;
-            }
-
-            return `<svg viewBox="0 0 100 100" width="100%" height="100%">
-                <circle cx="50" cy="50" r="46" fill="${config.bg}"/>
-                ${hairSVG} ${faceShape}
-                <circle cx="44" cy="48" r="2.5" fill="#111827"/><circle cx="56" cy="48" r="2.5" fill="#111827"/>
-                <path d="M 44 56 Q 50 61 56 56" stroke="#111827" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                ${flavorSVG}
-            </svg>`;
+            document.getElementById('lista-conversas').insertAdjacentHTML('beforeend', itemChatHtml);
         }
+    });
+  }
 
-        function renderAllAvatars() {
-            let svg = generateAvatarSVG(userState.avatar);
-            document.getElementById('header-avatar-container').innerHTML = svg;
-            document.getElementById('creator-avatar-preview').innerHTML = svg;
-        }
+  // FUNÇÕES AUXILIARES QUE ESTAVAM FALTANDO NO SEU SCRIPT ORIGINAL:
+  window.filtrarItens = function() {
+      let termo = document.getElementById('busca').value.toLowerCase();
+      let cards = document.querySelectorAll('.card');
+      
+      cards.forEach(card => {
+          let nomeItem = card.getAttribute('data-nome');
+          if(nomeItem.includes(termo)) {
+              card.style.display = "flex";
+          } else {
+              card.style.display = "none";
+          }
+      });
+  }
 
-        function setupAvatarOptions() {
-            let sBox = document.getElementById('palette-skin'); sBox.innerHTML = '';
-            SKIN_TONES.forEach(c => sBox.innerHTML += `<div class="color-dot ${userState.avatar.skin===c?'active':''}" style="background:${c}" onclick="setAv('skin','${c}',this)"></div>`);
-            let tBox = document.getElementById('row-hair-type'); tBox.innerHTML = '';
-            HAIR_STYLES[userState.avatar.gender].forEach(t => tBox.innerHTML += `<button class="selector-btn ${userState.avatar.hairType===t?'active':''}" onclick="setAv('hairType','${t}',this)">${t}</button>`);
-            let cBox = document.getElementById('palette-hair-color'); cBox.innerHTML = '';
-            HAIR_COLORS.forEach(c => cBox.innerHTML += `<div class="color-dot ${userState.avatar.hairColor===c?'active':''}" style="background:${c}" onclick="setAv('hairColor','${c}',this)"></div>`);
-            let bBox = document.getElementById('palette-bg'); bBox.innerHTML = '';
-            BG_COLORS.forEach(c => bBox.innerHTML += `<div class="color-dot ${userState.avatar.bg===c?'active':''}" style="background:${c}" onclick="setAv('bg','${c}',this)"></div>`);
-            
-            document.querySelectorAll('#row-flavor-type .selector-btn').forEach(btn => {
-                if (btn.getAttribute('onclick').includes(userState.avatar.flavor)) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-        }
+  window.aviso = function(texto) {
+      document.getElementById('texto').innerText = texto;
+      document.getElementById('modal').style.display = 'block';
+  }
 
-        function setFlavor(flavorName, el) {
-            userState.avatar.flavor = flavorName;
-            el.parentElement.querySelectorAll('.selector-btn').forEach(x => x.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('creator-avatar-preview').innerHTML = generateAvatarSVG(userState.avatar);
-        }
+  window.fechar = function() {
+      document.getElementById('modal').style.display = 'none';
+  }
 
-        function setGender(g, el) {
-            userState.avatar.gender = g;
-            userState.avatar.hairType = HAIR_STYLES[g][0]; 
-            el.parentElement.querySelectorAll('.selector-btn').forEach(x => x.classList.remove('active'));
-            el.classList.add('active'); setupAvatarOptions();
-            document.getElementById('creator-avatar-preview').innerHTML = generateAvatarSVG(userState.avatar);
-        }
+  window.verificarEnterChat = function(event) {
+      if(event.key === 'Enter') {
+          enviarMensagem();
+      }
+  }
+</script>
 
-        function setAv(p, v, el) {
-            userState.avatar[p] = v;
-            el.parentElement.querySelectorAll('.color-dot, .selector-btn').forEach(x => x.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('creator-avatar-preview').innerHTML = generateAvatarSVG(userState.avatar);
-        }
-
-        function saveAvatar() { 
-            localStorage.setItem('nexus_edu_state', JSON.stringify(userState)); 
-            renderAllAvatars(); 
-            alert("Perfil salvo com sucesso!"); 
-        }
-
-        function updateUI() {
-            document.getElementById('header-streak').innerText = userState.streak;
-            document.getElementById('header-coins').innerText = userState.coins;
-            document.getElementById('stat-quizzes').innerText = userState.quizzesDone;
-            document.getElementById('stat-accuracy').innerText = userState.quizzesDone > 0 ? Math.round((userState.correctAnswers / (userState.quizzesDone * 3)) * 100) + '%' : '0%';
-            
-            document.getElementById('header-level-text').innerText = `Nível ${userState.level}`;
-            document.getElementById('header-xp-text').innerText = `${userState.xp}/100 XP`;
-            document.getElementById('header-xp-bar').style.width = `${userState.xp}%`;
-        }
-
-        /* --- TESTE VOCACIONAL --- */
-        function selectVocOption(el, cat) {
-            el.parentElement.querySelectorAll('.quiz-opt').forEach(x => x.classList.remove('selected'));
-            el.classList.add('selected'); el.setAttribute('data-cat', cat);
-            document.getElementById('voc-next-btn').removeAttribute('disabled');
-        }
-
-        function nextVocQuestion() {
-            let sel = document.querySelector('.voc-q.active .quiz-opt.selected');
-            userState.vocationalScores[sel.getAttribute('data-cat')]++;
-            document.querySelectorAll('.voc-q')[currentVocIndex].classList.remove('active');
-            currentVocIndex++;
-            if(currentVocIndex < 3) {
-                document.querySelectorAll('.voc-q')[currentVocIndex].classList.add('active');
-                document.getElementById('voc-next-btn').setAttribute('disabled','true');
-            } else {
-                document.getElementById('voc-main-box').style.display = 'none';
-                document.getElementById('voc-res-box').style.display = 'block';
-                let t = userState.vocationalScores.tecnologico, a = userState.vocationalScores.artistico, h = userState.vocationalScores.humanas, sum = t+a+h;
-                let pTec = Math.round((t/sum)*100), pArt = Math.round((a/sum)*100), pHum = Math.round((h/sum)*100);
-                document.getElementById('pct-tec').innerText = pTec + '%'; document.getElementById('bar-tec').style.width = pTec + '%';
-                document.getElementById('pct-art').innerText = pArt + '%'; document.getElementById('bar-art').style.width = pArt + '%';
-                document.getElementById('pct-hum').innerText = pHum + '%'; document.getElementById('bar-hum').style.width = pHum + '%';
-                document.getElementById('voc-final-text').innerHTML = t>=a && t>=h ? "🎯 Predominante: <b>Tecnologia e Desenvolvimento</b>" : a>=t && a>=h ? "🎨 Predominante: <b>Artes Visuais & Estética Técnica</b>" : "📈 Predominante: <b>Gestão, Estratégia & Empreendedorismo</b>";
-            }
-        }
-        function resetVocationalTest() {
-            userState.vocationalScores = { tecnologico:0, artistico:0, humanas:0 }; currentVocIndex = 0;
-            document.getElementById('voc-res-box').style.display = 'none'; document.getElementById('voc-main-box').style.display = 'block';
-            document.querySelectorAll('.voc-q').forEach((q,i) => { q.classList.remove('active'); if(i===0) q.classList.add('active'); });
-            document.querySelectorAll('.voc-options-list .quiz-opt').forEach(o => o.classList.remove('selected'));
-        }
-    </script>
 </body>
 </html>
