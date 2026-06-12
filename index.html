@@ -121,6 +121,19 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
 .btn-logout { background: #dc2626; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; border: none; cursor: pointer; margin-top: 5px; }
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200}
 .modal-box{background:white;max-width:400px;margin:150px auto;padding:25px;border-radius:12px;text-align:center}
+
+/* Status do Plano */
+.status-badge { display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-top: 5px; }
+.status-badge.free { background: #e2e8f0; color: #475569; }
+.status-badge.premium { background: #d1fae5; color: #065f46; }
+
+/* Caixa de Gerenciamento do ADM */
+.adm-management-box { background: white; padding: 20px; border-radius: 14px; margin-top: 25px; border: 2px dashed #6366f1; }
+.adm-client-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14px; }
+.adm-client-row:last-child { border-bottom: none; }
+.btn-toggle-premium { padding: 5px 10px; border-radius: 6px; font-size: 12px; border: none; cursor: pointer; font-weight: bold; }
+.btn-toggle-premium.active { background: #dc2626; color: white; }
+.btn-toggle-premium.inactive { background: #10b981; color: white; }
 </style>
 </head>
 <body>
@@ -144,6 +157,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
             <a href="#habilidades">Habilidades</a>
             <a href="#objetos">Objetos</a>
             <a href="#perfil">Meu Painel <span id="notif-badge" class="badge" style="display:none;">0</span></a>
+            <a href="#" onclick="logout()" style="color: #ff6b6b; margin-left: 20px; text-decoration: none; font-weight: bold;">Sair</a>
         </nav>
     </header>
 
@@ -172,7 +186,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
             <div class="price-card premium">
                 <div class="badge-premium">MAIS VENDIDO</div>
                 <h3>Acesso Premium</h3>
-                <div class="cost">R$ 39,90<span style="font-size:14px; color:#666;">/mês</span></div>
+                <div class="cost">R$ 34,90<span style="font-size:14px; color:#666;">/mês</span></div>
                 <ul>
                     <li>✅ Todos os benefícios do Grátis</li>
                     <li>✅ Contratação de Serviços de Slides/Mídias</li>
@@ -180,7 +194,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
                     <li>✅ Locação de Objetos Físicos</li>
                     <li>✅ Suporte direto via Chat integrado</li>
                 </ul>
-                <button class="btn primary" onclick="aviso('Fale com o Administrador no chat para ativar sua assinatura mensal de R$ 39,90!')">Assinar Agora</button>
+                <button class="btn primary" onclick="aviso('Fale com o Administrador no chat para efetuar o pagamento. Ele liberará seu acesso na hora!')">Como Assinar</button>
             </div>
         </div>
     </section>
@@ -214,11 +228,20 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
                 <div>
                     <h3 id="perf-nome">Carregando...</h3>
                     <p id="perf-email">E-mail...</p>
+                    <div id="plano-status" class="status-badge free">Plano Gratuito</div>
                     <button class="btn-logout" onclick="logout()">Sair da Conta</button>
                 </div>
             </div>
 
-            <div id="area-notificacoes-vendedor" style="display: none; margin-top: 20px;">
+            <div id="area-gerenciamento-adm" class="adm-management-box" style="display: none;">
+                <h3>🛡️ Painel de Controle de Clientes (Premium)</h3>
+                <p style="font-size:12px; color:#666; margin-bottom:15px;">Ative ou desative o acesso Premium dos clientes cadastrados instantaneamente:</p>
+                <div id="lista-clientes-adm">
+                    <p style="font-size:13px; color:#999;">Aguardando carregamento de clientes...</p>
+                </div>
+            </div>
+
+            <div id="area-notificacoes-vendedor" style="display: none; margin-top: 25px;">
                 <h3 style="color: #312e81; margin-bottom: 15px;">🔔 Solicitações de Clientes Recebidas</h3>
                 <div id="lista-solicitacoes"></div>
             </div>
@@ -255,7 +278,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-  import { getDatabase, ref, push, set, onChildAdded, off } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
+  import { getDatabase, ref, push, set, onChildAdded, onValue, update, off } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyD3jp-N19gnDIzCClGQohx_5crwfopM3uM",
@@ -276,6 +299,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
   let usuarioAtual = { nome: "", email: "" };
   let salaChatAtual = ""; 
   let contagemNotificacoes = 0;
+  let meusDadosNoBanco = null;
 
   const itensFixos = [
     { tipo: "Aprender", titulo: "Dicionário Escolar Online", emoji: "📕", acao: "Acessar", cobranca: "Grátis" },
@@ -330,17 +354,92 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
     document.getElementById('tela-login').style.display = 'none';
     document.getElementById('conteudo-principal').style.display = 'block';
 
+    let idUsuarioRef = email.replace(/[.#$\[\]]/g, "-");
+    const userRef = ref(db, 'usuarios_vitrine/' + idUsuarioRef);
+    
+    // Registra ou atualiza o usuário no Banco
+    set(userRef, {
+        nome: nome,
+        email: email,
+        isAdmin: email === EMAIL_DONO_VITRINE.toLowerCase()
+    }).then(() => {
+        // Monitora os dados específicos do usuário atual em tempo real
+        onValue(userRef, (snapshot) => {
+            meusDadosNoBanco = snapshot.val();
+            atualizarStatusPlanoTela();
+            renderizarVitrineFixa();
+        });
+    });
+
     if(usuarioAtual.email === EMAIL_DONO_VITRINE.toLowerCase()) {
         document.getElementById('area-notificacoes-vendedor').style.display = 'block';
+        document.getElementById('area-gerenciamento-adm').style.display = 'block';
+        ouvirListaDeClientesParaADM();
     }
 
-    renderizarVitrineFixa();
     inicializarEscutasBanco();
   }
 
   window.logout = function() {
       localStorage.clear();
       window.location.reload();
+  }
+
+  function isPremiumAtivo() {
+      if (usuarioAtual.email === EMAIL_DONO_VITRINE.toLowerCase()) return true;
+      if (meusDadosNoBanco && meusDadosNoBanco.premiumAtivo === true) return true;
+      return false;
+  }
+
+  function atualizarStatusPlanoTela() {
+      const badge = document.getElementById('plano-status');
+      if (isPremiumAtivo()) {
+          badge.innerText = "Plano Premium Ativo";
+          badge.className = "status-badge premium";
+      } else {
+          badge.innerText = "Plano Gratuito";
+          badge.className = "status-badge free";
+      }
+  }
+
+  // Função para o Administrador alternar o plano do cliente
+  window.alternarPremiumCliente = function(idUsuarioLimpo, statusAtual) {
+      const alvoRef = ref(db, 'usuarios_vitrine/' + idUsuarioLimpo);
+      update(alvoRef, {
+          premiumAtivo: !statusAtual
+      });
+  }
+
+  function ouvirListaDeClientesParaADM() {
+      const usersListRef = ref(db, 'usuarios_vitrine');
+      onValue(usersListRef, (snapshot) => {
+          const listaHTML = document.getElementById('lista-clientes-adm');
+          listaHTML.innerHTML = "";
+          
+          let dados = snapshot.val();
+          if(!dados) return;
+
+          Object.keys(dados).forEach(key => {
+              let user = dados[key];
+              if(user.email === EMAIL_DONO_VITRINE.toLowerCase()) return; // Ignora o próprio ADM na lista
+
+              let statusPremium = user.premiumAtivo === true;
+              let labelBotao = statusPremium ? "🔴 Desativar Premium" : "🟢 Ativar Premium";
+              let classeBotao = statusPremium ? "active" : "inactive";
+              let textoPlano = statusPremium ? "<span style='color:#065f46; font-weight:bold;'>[PREMIUM]</span>" : "<span style='color:#666;'>[GRÁTIS]</span>";
+
+              let row = `
+                <div class="adm-client-row">
+                    <div><strong>${user.nome}</strong> (${user.email}) - ${textoPlano}</div>
+                    <button class="btn-toggle-premium ${classeBotao}" onclick="alternarPremiumCliente('${key}', ${statusPremium})">${labelBotao}</button>
+                </div>`;
+                            listaHTML.insertAdjacentHTML('beforeend', row);
+          });
+
+          if(listaHTML.innerHTML === "") {
+              listaHTML.innerHTML = `<p style="font-size:13px; color:#999;">Nenhum cliente cadastrado ainda.</p>`;
+          }
+      });
   }
 
   function renderizarVitrineFixa() {
@@ -354,6 +453,8 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
       containers.Habilidade.innerHTML = "";
       containers.Objeto.innerHTML = "";
 
+      const premiumAtivo = isPremiumAtivo();
+
       itensFixos.forEach(item => {
           let botaoHTML = "";
           let labelCobranca = "";
@@ -362,13 +463,18 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
               labelCobranca = `<p class="price free">Gratuito</p>`;
               botaoHTML = `<button class="btn secondary" onclick="abrirServicoGratuito('${item.titulo}')">🚀 Abrir Recurso</button>`;
           } else {
-              labelCobranca = `<p class="price premium-tag">Premium (R$ 39,90/mês)</p>`;
+              labelCobranca = `<p class="price premium-tag">Premium (R$ 34,90/mês)</p>`;
               if(usuarioAtual.email === EMAIL_DONO_VITRINE.toLowerCase()) {
                   botaoHTML = `<button class="btn" style="width:100%; background:#ccc; cursor:not-allowed;" disabled>Seu Item</button>`;
-              } else {
+              } else if (premiumAtivo) {
                   botaoHTML = `
                     <button class="btn primary" onclick="solicitarServico('${item.titulo.replace(/'/g, "\\'")}', '${item.acao}')">✨ ${item.acao}</button>
-                    <button class="btn chat" onclick="abrirConversa('${item.titulo.replace(/'/g, "\\'")}', '${EMAIL_DONO_VITRINE}', 'Administrador', '${usuarioAtual.email}', '${usuarioAtual.nome.replace(/'/g, "\\'")}')">💬 Conversar</button>
+                    <button class="btn chat" onclick="abrirConversa('${item.titulo.replace(/'/g, "\\'")}', '${EMAIL_DONO_VITRINE}', 'Administrador', '${usuarioAtual.email}', '${usuarioAtual.nome.replace(/'/g, "\\'")}')">💬 Conversar no Chat</button>
+                  `;
+              } else {
+                  botaoHTML = `
+                    <button class="btn" style="background:#ddd; color:#777; width:100%; cursor:not-allowed;" onclick="aviso('Bloqueado! Solicite o Plano Premium ao administrador no chat.')" type="button">🔒 Requer Premium</button>
+                    <button class="btn chat" onclick="abrirConversa('${item.titulo.replace(/'/g, "\\'")}', '${EMAIL_DONO_VITRINE}', 'Administrador', '${usuarioAtual.email}', '${usuarioAtual.nome.replace(/'/g, "\\'")}')">💬 Chamar no Chat para Ativar</button>
                   `;
               }
           }
@@ -411,7 +517,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
           clienteEmail: usuarioAtual.email,
           timestamp: Date.now()
       }).then(() => {
-          window.aviso(`Solicitação Premium de ${acao} enviada! Ative seu plano de R$ 39,90/mês conversando com o administrador.`);
+          window.aviso(`Sucesso! Sua solicitação de "${acao}" para o item "${tituloItem}" foi enviada ao administrador.`);
       });
   }
 
@@ -451,7 +557,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
 
     set(novaMsgRef, {
         remetente: usuarioAtual.email,
-                        nome: usuarioAtual.nome,
+        nome: usuarioAtual.nome,
         texto: texto,
         timestamp: Date.now()
     }).then(() => {
