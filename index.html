@@ -277,7 +277,6 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
   let salaChatAtual = ""; 
   let contagemNotificacoes = 0;
 
-  // Definição da matriz de itens dividida por gratuidade
   const itensFixos = [
     { tipo: "Aprender", titulo: "Dicionário Escolar Online", emoji: "📕", acao: "Acessar", cobranca: "Grátis" },
     { tipo: "Aprender", titulo: "Tradutor de Idiomas Instantâneo", emoji: "🌐", acao: "Acessar", cobranca: "Grátis" },
@@ -393,7 +392,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
 
   window.abrirServicoGratuito = function(servico) {
       if(servico.includes("Dicionário")) {
-          window.aviso("Funcionalidade Grátis: Redirecionando para consulta do Dicionário Integrado da Vitrine (Conectado via API Pública).");
+          window.aviso("Funcionalidade Grátis: Redirecionando para consulta do Dicionário Integrado da Vitrine.");
           window.open("https://www.dicio.com.br/", "_blank");
       } else if(servico.includes("Tradutor")) {
           window.aviso("Funcionalidade Grátis: Redirecionando para o Tradutor de Idiomas Multilíngue.");
@@ -447,10 +446,12 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
     let texto = input.value.trim();
     if(!texto || !salaChatAtual) return;
 
-    const msgsRef =  ref(db, 'mensagens/' + salaChatAtual);
-    const novaMsgRef = push(msgsRef)    set(novaMsgRef, {
+    const msgsRef = ref(db, 'mensagens/' + salaChatAtual);
+    const novaMsgRef = push(msgsRef);
+
+    set(novaMsgRef, {
         remetente: usuarioAtual.email,
-        nome: usuarioAtual.nome,
+                        nome: usuarioAtual.nome,
         texto: texto,
         timestamp: Date.now()
     }).then(() => {
