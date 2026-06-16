@@ -630,5 +630,44 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
 
       // Lista canais ativos de mensagens no Painel inferior do usuário
       const listaRef = ref(db, 'usuarios_vitrine');
-      onValue(listaRef, (
+      onValue(listaRef, (      onValue(listaRef, (snapshot) => {
+          const boxConversas = document.getElementById('lista-conversas');
+          boxConversas.innerHTML = "";
+          let dados = snapshot.val();
+          if(!dados) return;
+
+          Object.keys(dados).forEach(k => {
+              let u = dados[k];
+              if(u.email === usuarioAtual.email) return;
+
+              // Gera a combinação de hash para ver se a conversa existe
+              let listaEmails = [usuarioAtual.email, u.email].sort();
+              let hash = btoa(listaEmails[0] + "_" + listaEmails[1]);
+
+              boxConversas.insertAdjacentHTML('beforeend', `
+                <div class="chat-item" onclick="abrirConversaPainelAdmin('${hash}', '${u.nome}')">
+                    💬 Canal de Conversa com <strong>${u.nome}</strong> (${u.email})
+                </div>`);
+          });
+      });
+  }
+
+  window.abrirConversaPainelAdmin = function(hashSala, nomeDestino) {
+      salaChatAtual = hashSala;
+      document.getElementById('chat-titulo-item').innerText = "Conversa com: " + nomeDestino;
+      document.getElementById('janela-chat').style.display = 'flex';
+      ouvirMensagensDaSala(hashSala);
+  }
+
+  window.aviso = function(txt) {
+      document.getElementById('texto').innerText = txt;
+      document.getElementById('modal').style.display = 'block';
+  }
+  window.fechar = function() {
+      document.getElementById('modal').style.display = 'none';
+  }
+</script>
+</body>
+</html>
+
     
