@@ -345,7 +345,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
       ouvirMensagensDaSala(hash);
   }
 
-    window.fecharChat = function() { document.getElementById('janela-chat').style.display = 'none'; salaChatAtual = ""; }
+      window.fecharChat = function() { document.getElementById('janela-chat').style.display = 'none'; salaChatAtual = ""; }
 
   function ouvirMensagensDaSala(salaId) {
       onValue(ref(db, 'chats_vitrine/' + salaId), (snapshot) => {
