@@ -21,6 +21,9 @@ nav a{color:white;text-decoration:none;margin-left:20px;font-weight:500}
 .hero h1{font-size:36px;margin-bottom:10px}
 .search-container{max-width:500px;margin:20px auto 0 auto;display:flex;gap:10px}
 .search-input{padding:12px;border:none;border-radius:8px;width:100%;font-size:16px}
+.filter-tabs{display:flex;justify-content:center;gap:10px;margin-top:15px;flex-wrap:wrap}
+.filter-btn{background:rgba(255,255,255,0.2);color:white;border:1px solid rgba(255,255,255,0.4);padding:8px 16px;border-radius:20px;cursor:pointer;font-weight:bold;transition:all 0.2s}
+.filter-btn.active,.filter-btn:hover{background:white;color:#312e81}
 section{padding:30px 25px;max-width:1200px;margin:0 auto}
 h2 {color:#312e81;display:flex;align-items:center;gap:10px;font-size:22px}
 .pricing-container {display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:20px}
@@ -35,10 +38,12 @@ h2 {color:#312e81;display:flex;align-items:center;gap:10px;font-size:22px}
 .card,.perfil-card,.solicitacao{background:white;padding:20px;border-radius:14px;box-shadow:0 4px 6px rgba(0,0,0,.05);transition:transform 0.2s;display:flex;flex-direction:column;justify-content:space-between}
 .card:hover{transform:translateY(-5px)}
 .card-icon{font-size:36px;margin-bottom:10px}
+.card-img{width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:10px}
 .price{font-weight:bold;font-size:16px;margin:8px 0}
 .price.free {color:#2563eb}
 .price.premium-tag {color:#b45309}
 .anunciante-tag {font-size:12px;color:#666;font-style:italic;margin-top:4px}
+.stars{color:#f59e0b;font-size:14px;margin-top:4px;cursor:pointer}
 .btn{padding:10px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;transition:opacity 0.2s}
 .btn:hover{opacity:0.9}
 .primary{background:#10b981;color:white;width:100%;margin-top:10px}
@@ -51,6 +56,7 @@ h2 {color:#312e81;display:flex;align-items:center;gap:10px;font-size:22px}
 input, select, textarea{width:100%;padding:12px;margin-top:10px;border:1px solid #ccc;border-radius:8px;font-size:14px}
 footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:14px}
 .solicitacao{margin-bottom:15px;border-left:5px solid #10b981}
+.history-item{background:white;padding:12px;border-radius:8px;margin-bottom:8px;box-shadow:0 2px 4px rgba(0,0,0,0.02);display:flex;justify-content:space-between;align-items:center;font-size:14px}
 .box-anuncio-criacao {background:white;padding:25px;border-radius:14px;box-shadow:0 4px 6px rgba(0,0,0,0.05);margin-top:25px;border:1px solid #e2e8f0}
 .chat-window {display:none;position:fixed;bottom:20px;right:20px;width:350px;height:450px;background:white;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.25);z-index:500;flex-direction:column}
 .chat-header {background:#312e81;color:white;padding:15px;border-radius:12px 12px 0 0;display:flex;justify-content:space-between;align-items:center}
@@ -60,10 +66,11 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
 .msg.recebida {background:#e2e2e0;color:#333;align-self:flex-start;border-bottom-left-radius:2px}
 .chat-input-area {padding:10px;display:flex;gap:8px;border-top:1px solid #e2e8f0}
 .chat-input-area input {margin-top:0;padding:8px}
-.chat-item-container {display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.chat-item {cursor:pointer;padding:12px;background:#f8fafc;border-radius:8px;border-left:5px solid #312e81;flex:1}
+.chat-item-container {display:flex;align-items:center;gap:10px;margin-bottom:10px;background:#f8fafc;border-radius:8px;padding-right:10px;border-left:5px solid #312e81}
+.chat-item {cursor:pointer;padding:12px;flex:1;position:relative;display:flex;justify-content:space-between;align-items:center}
 .chat-item:hover {background:#eef2ff}
-.btn-del-chat {background:#dc2626;color:white;border:none;border-radius:6px;padding:12px;cursor:pointer;font-weight:bold}
+.unread-badge {background:#dc2626;color:white;border-radius:50%;width:18px;height:18px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:bold}
+.btn-del-chat {background:#dc2626;color:white;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:bold;font-size:14px}
 .btn-logout {background:#dc2626;color:white;padding:6px 12px;border-radius:6px;font-size:12px;border:none;cursor:pointer;margin-top:5px}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1200}
 .modal-box{background:white;max-width:450px;margin:120px auto;padding:25px;border-radius:12px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.3)}
@@ -109,6 +116,12 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
         <p>Encontre soluções educacionais, loque objetos ou publique suas próprias propagandas!</p>
         <div class="search-container">
             <input type="text" id="busca" class="search-input" placeholder="🔍 O que você procura hoje?" oninput="filtrarItens()">
+        </div>
+        <div class="filter-tabs">
+            <button class="filter-btn active" onclick="filtrarCategoriaRapido('Todos', this)">✨ Todos</button>
+            <button class="filter-btn" onclick="filtrarCategoriaRapido('Aprender', this)">📚 Aprender</button>
+            <button class="filter-btn" onclick="filtrarCategoriaRapido('Habilidade', this)">🛠️ Habilidades</button>
+            <button class="filter-btn" onclick="filtrarCategoriaRapido('Objeto', this)">📦 Objetos</button>
         </div>
     </div>
 
@@ -170,6 +183,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
                     <option value="Objeto">📦 Objetos</option>
                 </select>
                 <input type="text" id="anuncio-emoji" placeholder="Emoji (Ex: 🧪, 🔊)" maxlength="2">
+                <input type="url" id="anuncio-foto" placeholder="Link de uma imagem/foto real (Opcional)">
                 <textarea id="anuncio-desc" placeholder="Descrição do serviço/objeto e valores..." rows="3"></textarea>
                 <button class="btn primary" onclick="criarAnuncioComunidade()">Lançar Anúncio na Vitrine</button>
             </div>
@@ -183,6 +197,9 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
                 <h3 style="color:#312e81;margin-bottom:15px;">🔔 Solicitações de Clientes Recebidas</h3>
                 <div id="lista-solicitacoes"></div>
             </div>
+
+            <br><br><h3>📅 Meu Histórico de Contratações</h3><br>
+            <div id="historico-usuario"></div>
 
             <br><br><h3>💬 Meus Chats em Andamento</h3><br>
             <div id="lista-conversas"></div>
@@ -227,6 +244,8 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
   let salaChatAtual = ""; 
   let meusDadosNoBanco = null;
   let todosAnunciosDinamicos = [];
+  let categoriaFiltroAtual = "Todos";
+  let chatsHistoricoContagem = {};
 
   const itensFixos = [
     { tipo: "Aprender", titulo: "Dicionário Escolar Online", emoji: "📕", acao: "Acessar", cobranca: "Grátis", donoEmail: "sistema" },
@@ -290,17 +309,19 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
       let t = document.getElementById('anuncio-titulo').value.trim();
       let cat = document.getElementById('anuncio-categoria').value;
       let emo = document.getElementById('anuncio-emoji').value.trim() || "📢";
+      let img = document.getElementById('anuncio-foto').value.trim();
       let d = document.getElementById('anuncio-desc').value.trim();
       if(!t || !d) { window.aviso("Preencha o título e a descrição."); return; }
 
       push(ref(db, 'anuncios_comunidade'), {
-          titulo: t, tipo: cat, emoji: emo, descricao: d,
-          donoNome: usuarioAtual.nome, donoEmail: usuarioAtual.email, cobranca: "Premium"
+          titulo: t, tipo: cat, emoji: emo, foto: img, descricao: d,
+          donoNome: usuarioAtual.nome, donoEmail: usuarioAtual.email, cobranca: "Premium", notaSoma: 5, notaQtd: 1
       }).then(() => {
-          window.aviso("Anúncio lançado com sucesso!");
+          window.aviso("Anuncio lancado com sucesso!");
           document.getElementById('anuncio-titulo').value = "";
           document.getElementById('anuncio-desc').value = "";
           document.getElementById('anuncio-emoji').value = "";
+          document.getElementById('anuncio-foto').value = "";
       });
   }
 
@@ -309,8 +330,7 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
           todosAnunciosDinamicos = [];
           let dados = snapshot.val();
           if(dados) {
-              Object.keys(dados).forEach(k => {
-                  let itemComId = dados[k];
+              Object.keys(dados).forEach(k => {                  let itemComId = dados[k];
                   itemComId.idDoAnuncio = k;
                   todosAnunciosDinamicos.push(itemComId);
               });
@@ -320,9 +340,28 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
   }
 
   window.removerAnuncioPeloAdmin = function(idAnuncio) {
-      if(confirm("Tem certeza que deseja remover este anúncio definitivamente da vitrine?")) {
+      if(confirm("Tem certeza que deseja remover este anuncio definitivamente da vitrine?")) {
           remove(ref(db, 'anuncios_comunidade/' + idAnuncio)).then(() => {
-              window.aviso("Anúncio removido com sucesso pelo Admin!");
+              window.aviso("Anuncio removido com sucesso pelo Admin!");
+          });
+      }
+  }
+
+  window.filtrarCategoriaRapido = function(categoria, elemento) {
+      categoriaFiltroAtual = categoria;
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      elemento.classList.add('active');
+      renderizarVitrineFinal(document.getElementById('busca').value);
+  }
+
+  window.avaliarItem = function(idAnuncio, nota) {
+      if(!idAnuncio) return;
+      const anuncio = todosAnunciosDinamicos.find(a => a.idDoAnuncio === idAnuncio);
+      if(anuncio) {
+          let novaSoma = (anuncio.notaSoma || 0) + nota;
+          let novaQtd = (anuncio.notaQtd || 0) + 1;
+          update(ref(db, 'anuncios_comunidade/' + idAnuncio), { notaSoma: novaSoma, notaQtd: novaQtd }).then(() => {
+              window.aviso("Obrigado por avaliar!");
           });
       }
   }
@@ -337,12 +376,19 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
 
       [...itensFixos, ...todosAnunciosDinamicos].forEach(item => {
           if (filtro && !item.titulo.toLowerCase().includes(filtro.toLowerCase())) return;
+          if (categoriaFiltroAtual !== "Todos" && item.tipo !== categoriaFiltroAtual) return;
+
           let tp = item.cobranca === "Grátis" ? "<span class='price free'>Grátis</span>" : "<span class='price premium-tag'>Premium 💎</span>";
           let ta = (item.donoEmail === "sistema" || item.donoEmail === EMAIL_DONO_VITRINE) ? "" : `<div class='anunciante-tag'>Por: ${item.donoNome}</div>`;
           
+          let tagImagem = item.foto ? `<img src="${item.foto}" class="card-img" onerror="this.style.display='none'">` : "";
+          
+          let media = item.notaQtd ? Math.round(item.notaSoma / item.notaQtd) : 5;
+          let estrelasHtml = item.idDoAnuncio ? `<div class="stars" onclick="window.avaliarItem('${item.idDoAnuncio}', 5)">⭐ ${media}/5 (Avaliar)</div>` : "⭐ 5/5";
+
           let botaoAdminRemover = (ehAdmin && item.idDoAnuncio) ? `<button class="danger-btn" onclick="removerAnuncioPeloAdmin('${item.idDoAnuncio}')">❌ Remover Produto</button>` : "";
 
-          let h = `<div class="card"><div><div class="card-icon">${item.emoji}</div><h3>${item.titulo}</h3>${tp}${ta}</div><button class="btn chat" onclick="acionarContatoItem('${item.titulo}','${item.cobranca}','${item.donoEmail}','${item.donoNome}')">${item.acao || 'Contratar'}</button>${botaoAdminRemover}</div>`;
+          let h = `<div class="card"><div>${tagImagem}<div class="card-icon">${item.emoji}</div><h3>${item.titulo}</h3>${tp}${ta}${estrelasHtml}</div><button class="btn chat" onclick="acionarContatoItem('${item.titulo}','${item.cobranca}','${item.donoEmail}','${item.donoNome}')">${item.acao || 'Contratar'}</button>${botaoAdminRemover}</div>`;
           
           if (item.tipo === "Aprender") cA.insertAdjacentHTML('beforeend', h);
           if (item.tipo === "Habilidade") cH.insertAdjacentHTML('beforeend', h);
@@ -354,6 +400,12 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
 
   window.acionarContatoItem = function(tItem, cobranca, dEmail, dNome) {
       if(cobranca === "Premium" && !isPremiumAtivo()) { window.aviso("Este item exige acesso Premium!"); return; }
+      
+      push(ref(db, 'solicitacoes_vitrine'), {
+          clienteNome: usuarioAtual.nome, clienteEmail: usuarioAtual.email,
+          itemInteresse: tItem, destinoEmail: dEmail, data: new Date().toLocaleDateString('pt-BR')
+      });
+
       if(tItem === "Dicionário Escolar Online") { window.open('https://www.dicio.com.br', '_blank'); return; }
       if(tItem === "Tradutor de Idiomas Instantâneo") { window.open('https://translate.google.com', '_blank'); return; }
       
@@ -377,11 +429,6 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
       salaChatAtual = hash;
       document.getElementById('chat-titulo-item').innerText = "Negociando: " + tItem + " (" + (dNome || "Suporte") + ")";
       document.getElementById('janela-chat').style.display = 'flex';
-
-      push(ref(db, 'solicitacoes_vitrine'), {
-          clienteNome: usuarioAtual.nome, clienteEmail: usuarioAtual.email,
-          itemInteresse: tItem, destinoEmail: dEmail, data: new Date().toLocaleDateString('pt-BR')
-      });
       ouvirMensagensDaSala(hash);
   }
 
@@ -419,6 +466,15 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
       }
   }
 
+  window.excluirCanalDeChatInteiro = function(salaId) {
+      if(confirm("ATENÇÃO: Você deseja apagar este CANAL por completo? O botão sumirá e todo o histórico com este usuário será deletado permanentemente.")) {
+          remove(ref(db, 'chats_vitrine/' + salaId)).then(() => {
+              window.aviso("Canal deletado com sucesso!");
+              if(salaChatAtual === salaId) fecharChat();
+          });
+      }
+  }
+
   function ouvirListaDeClientesParaADM() {
       onValue(ref(db, 'usuarios_vitrine'), (snapshot) => {
           const l = document.getElementById('lista-clientes-adm'); l.innerHTML = "";
@@ -435,15 +491,23 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
   function inicializarEscutasBanco() {
       onValue(ref(db, 'solicitacoes_vitrine'), (snapshot) => {
           const c = document.getElementById('lista-solicitacoes'); if(!c) return;
-          c.innerHTML = ""; let dados = snapshot.val(); let achou = false;
+          const hBox = document.getElementById('historico-usuario');
+          c.innerHTML = ""; hBox.innerHTML = "";
+          let dados = snapshot.val(); let achouSolicitacao = false; let achouHistorico = false;
+          
           if(dados) Object.keys(dados).forEach(k => {
               let s = dados[k];
               if(usuarioAtual.email === EMAIL_DONO_VITRINE.toLowerCase() || s.destinoEmail === usuarioAtual.email) {
-                  achou = true;
+                  achouSolicitacao = true;
                   c.insertAdjacentHTML('afterbegin', `<div class="solicitacao"><p><strong>🚨 Interessado:</strong> ${s.clienteNome}</p><p><strong>🎯 Item:</strong> ${s.itemInteresse}</p></div>`);
               }
+              if(s.clienteEmail === usuarioAtual.email) {
+                  achouHistorico = true;
+                  hBox.insertAdjacentHTML('beforeend', `<div class="history-item"><span>📌 Você demonstrou interesse em: <strong>${s.itemInteresse}</strong></span> <small style="color:#666;">${s.data || ''}</small></div>`);
+              }
           });
-          if(!achou) c.innerHTML = "<p style='font-size:13px;color:#666;'>Nenhuma proposta.</p>";
+          if(!achouSolicitacao) c.innerHTML = "<p style='font-size:13px;color:#666;'>Nenhuma proposta.</p>";
+          if(!achouHistorico) hBox.innerHTML = "<p style='font-size:13px;color:#666;'>Você ainda não contratou nenhum serviço.</p>";
       });
 
       onValue(ref(db, 'usuarios_vitrine'), (snapshot) => {
@@ -455,15 +519,34 @@ footer{background:#312e81;color:white;text-align:center;padding:20px;font-size:1
               let u = dados[k]; if(u.email === usuarioAtual.email) return;
               let hash = btoa([usuarioAtual.email, u.email].sort().join("_"));
               
-              let btnApagarMensagens = ehAdmin ? `<button class="btn-del-chat" onclick="apagarCaixaDeMensagemPeloAdmin('${hash}')" title="Apagar caixa de mensagens">🗑️</button>` : "";
+              onValue(ref(db, 'chats_vitrine/' + hash), (snapChat) => {
+                  let containerId = "container-" + hash;
+                  let containerExistente = document.getElementById(containerId);
+                  if(containerExistente) containerExistente.remove();
 
-              let elementoChat = `
-                <div class="chat-item-container">
-                    <div class="chat-item" onclick="abrirConversaPainelAdmin('${hash}','${u.nome}')">💬 Canal com <strong>${u.nome}</strong></div>
-                    ${btnApagarMensagens}
-                </div>
-              `;
-              b.insertAdjacentHTML('beforeend', elementoChat);
+                  let msgDados = snapChat.val();
+                  let totalMsg = msgDados ? Object.keys(msgDados).length : 0;
+                  
+                  let badgeNaoLidas = "";
+                  if(totalMsg > 0 && salaChatAtual !== hash) {
+                      badgeNaoLidas = `<span class="unread-badge">!</span>`;
+                  }
+
+                  let btnApagarMensagens = ehAdmin ? `<button class="btn-del-chat" onclick="window.apagarCaixaDeMensagemPeloAdmin('${hash}')" title="Apagar conteúdo das mensagens">🧹 Limpar</button>` : "";
+                  let btnExcluirCanal = ehAdmin ? `<button class="btn-del-chat" style="background:#b91c1c;margin-left:5px;" onclick="window.excluirCanalDeChatInteiro('${hash}')" title="Excluir canal permanentemente">🗑️ Deletar Canal</button>` : "";
+
+                  let elementoChat = `
+                    <div class="chat-item-container" id="${containerId}">
+                        <div class="chat-item" onclick="window.abrirConversaPainelAdmin('${hash}','${u.nome}')">
+                            <span>💬 Canal com <strong>${u.nome}</strong></span>
+                            ${badgeNaoLidas}
+                        </div>
+                        ${btnApagarMensagens}
+                        ${btnExcluirCanal}
+                    </div>
+                  `;
+                  b.insertAdjacentHTML('beforeend', elementoChat);
+              });
           });
       });
   }
